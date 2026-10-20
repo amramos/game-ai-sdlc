@@ -1,0 +1,27 @@
+# Normalize line endings for everything Git considers text, and diff it as
+# text. Scenes/resources/scripts MUST stay text-based (.tscn/.tres, not
+# .scn/.res) precisely so this works — see CLAUDE.md.
+* text=auto eol=lf
+
+*.gd text eol=lf
+*.tscn text eol=lf
+*.tres text eol=lf
+*.godot text eol=lf
+*.cfg text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+
+# Binary assets: never diff, never touch line endings.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.svg -text
+*.ogg binary
+*.wav binary
+*.mp3 binary
+*.ttf binary
+*.otf binary
+*.woff2 binary
+*.res binary
+*.import binary

@@ -1,0 +1,4 @@
+name = "godot-developer"
+description = "Implements typed Godot features and structural changes using the shared developer workflow."
+sandbox_mode = "workspace-write"
+developer_instructions = "Read AGENTS.md, docs/current-status.md, and .agents/roles/godot-developer.md. Follow that shared workflow exactly. Use the canonical project rules and generated skills available in .agents/skills."

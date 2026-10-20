@@ -1,0 +1,28 @@
+{
+  "name": "game-ai-sdlc",
+  "owner": {
+    "name": "amramos"
+  },
+  "metadata": {
+    "description": "An AI-assisted development lifecycle for games: from a design interview to a released build, with the owner's judgment as the gate.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "game-sdlc",
+      "source": "./plugins/game-sdlc",
+      "description": "The engine-agnostic process: GDD interview, prototypes, art direction, feature planning, tracking, agent teams, playtests, releases, bug intake and keeping docs true.",
+      "version": "0.1.0",
+      "category": "development",
+      "keywords": ["gamedev", "sdlc", "planning", "agents", "playtesting"]
+    },
+    {
+      "name": "game-sdlc-godot",
+      "source": "./plugins/game-sdlc-godot",
+      "description": "The Godot 4 engine pack: sets up a repo agents can work in safely (contract, ADRs, hooks, CI, itch release), plus Godot workflow skills and agents.",
+      "version": "0.1.0",
+      "category": "development",
+      "keywords": ["gamedev", "godot", "gdscript", "gut", "ci"]
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+name: Set up the engine (Godot)
+description: >-
+  Installs the Godot version named in .godot-version (and its export templates when asked), puts it
+  on PATH as `godot`, and imports the project. Engine-agnostic workflows (bug intake) call this
+  action by its generic name, so a project on another engine provides its own.
+inputs:
+  export-templates:
+    description: Also install the export templates (needed to export builds).
+    default: "false"
+runs:
+  using: composite
+  steps:
+    - id: version
+      shell: bash
+      run: echo "godot=$(tr -d '[:space:]' < .godot-version)" >> "$GITHUB_OUTPUT"
+
+    - uses: actions/cache@v4
+      with:
+        path: ~/.cache/godot-ci
+        key: godot-${{ steps.version.outputs.godot }}-templates-${{ inputs.export-templates }}
+
+    - name: Install Godot
+      shell: bash
+      env:
+        V: ${{ steps.version.outputs.godot }}
+        TEMPLATES: ${{ inputs.export-templates }}
+      run: |
+        set -euo pipefail
+        cache="$HOME/.cache/godot-ci"
+        mkdir -p "$cache" "$HOME/.local/bin"
+        base="https://github.com/godotengine/godot-builds/releases/download/${V}-stable"
+        bin="Godot_v${V}-stable_linux.x86_64"
+        if [ ! -f "$cache/$bin" ]; then
+          curl -fsSL -o "$cache/godot.zip" "$base/${bin}.zip"
+          unzip -q -o "$cache/godot.zip" -d "$cache"
+          rm "$cache/godot.zip"
+        fi
+        ln -sf "$cache/$bin" "$HOME/.local/bin/godot"
+        echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+        if [ "$TEMPLATES" = "true" ]; then
+          if [ ! -f "$cache/templates.tpz" ]; then
+            curl -fsSL -o "$cache/templates.tpz" "$base/Godot_v${V}-stable_export_templates.tpz"
+          fi
+          target="$HOME/.local/share/godot/export_templates/${V}.stable"
+          mkdir -p "$target"
+          unzip -q -o "$cache/templates.tpz" -d "$cache/tpz"
+          cp -r "$cache/tpz/templates/." "$target/"
+        fi
+
+    - name: Import the project
+      shell: bash
+      run: '"$HOME/.local/bin/godot" --headless --import'

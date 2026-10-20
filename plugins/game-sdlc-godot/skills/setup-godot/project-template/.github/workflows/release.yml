@@ -1,0 +1,53 @@
+# On a tag: export every preset in export_presets.cfg, boot the exported Linux build as a smoke test,
+# and upload each platform to itch.io with butler.
+#   v*          -> the public page   (vars.ITCH_GAME)
+#   playtest-*  -> the restricted playtest page (vars.ITCH_PLAYTEST_GAME)
+# Needs: secret BUTLER_API_KEY; variables ITCH_USER, ITCH_GAME, ITCH_PLAYTEST_GAME.
+name: Release
+
+on:
+  push:
+    tags: ["v*", "playtest-*"]
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: ./.github/actions/setup-engine
+        with:
+          export-templates: "true"
+
+      - name: Export every preset
+        run: python tools/ci/export_all.py --out build
+
+      - name: Smoke-test the exported build
+        run: bash tools/ci/export_smoke_test.sh build/linux
+
+      - name: Upload to itch.io
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+          ITCH_USER: ${{ vars.ITCH_USER }}
+          GAME: ${{ startsWith(github.ref_name, 'playtest-') && vars.ITCH_PLAYTEST_GAME || vars.ITCH_GAME }}
+          VERSION: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          : "${BUTLER_API_KEY:?Add the BUTLER_API_KEY repository secret}"
+          : "${ITCH_USER:?Set the ITCH_USER repository variable}"
+          : "${GAME:?Set the ITCH_GAME and ITCH_PLAYTEST_GAME repository variables}"
+          curl -fsSL -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default
+          unzip -q butler.zip -d butler
+          chmod +x butler/butler
+          for dir in build/*/; do
+            channel="$(basename "$dir")"
+            ./butler/butler push "$dir" "$ITCH_USER/$GAME:$channel" --userversion "$VERSION"
+          done

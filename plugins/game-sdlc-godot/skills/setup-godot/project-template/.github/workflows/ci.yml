@@ -1,0 +1,41 @@
+# Runs on every pull request and on main: the agent hooks' own tests, lint and format, and GUT.
+# Branch protection should require this workflow's `test` job before anything merges to main.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Agent hooks and skill mirrors
+        run: |
+          python -m unittest discover -s .agents/tests -v
+          python .agents/scripts/sync_skills.py --check
+
+      - name: GDScript lint and format
+        run: |
+          pip install "gdtoolkit==4.*"
+          files="$(git ls-files '*.gd' ':(exclude)addons/**')"
+          if [ -n "$files" ]; then
+            gdformat --check $files
+            gdlint $files
+          fi
+
+      - uses: ./.github/actions/setup-engine
+
+      - name: GUT
+        run: godot --headless -s addons/gut/gut_cmdln.gd -gexit

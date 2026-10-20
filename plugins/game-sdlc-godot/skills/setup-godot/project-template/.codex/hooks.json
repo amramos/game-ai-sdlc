@@ -1,0 +1,52 @@
+{
+  "description": "Shared project safeguards and validation for Codex.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/protect_paths.py\"",
+            "commandWindows": "python3 \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/protect_paths.py\"",
+            "timeout": 10,
+            "statusMessage": "Checking protected paths"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/guard_bash.py\"",
+            "commandWindows": "python3 \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/guard_bash.py\"",
+            "timeout": 10,
+            "statusMessage": "Checking shell safety"
+          },
+          {
+            "type": "command",
+            "command": "python3 \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/pre_commit_lint.py\"",
+            "commandWindows": "python3 \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/pre_commit_lint.py\"",
+            "timeout": 30,
+            "statusMessage": "Checking pre-commit requirements"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/validate_gdscript.py\"",
+            "commandWindows": "python3 \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/validate_gdscript.py\"",
+            "timeout": 30,
+            "statusMessage": "Validating touched GDScript"
+          }
+        ]
+      }
+    ]
+  }
+}

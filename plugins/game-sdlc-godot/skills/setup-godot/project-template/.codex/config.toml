@@ -1,0 +1,6 @@
+[features]
+hooks = true
+
+[mcp_servers.godot]
+command = "npx"
+args = ["-y", "@coding-solo/godot-mcp"]

@@ -1,0 +1,24 @@
+# Checks the package itself on every pull request: manifests and skills, the scripts' tests, and a
+# fresh instantiation of the Godot project template with its hook tests.
+name: Check package
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python scripts/check_package.py
+      - run: python -m unittest discover -s scripts/tests -v
+      - run: python scripts/test_template.py

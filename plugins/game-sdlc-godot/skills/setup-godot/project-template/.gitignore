@@ -1,0 +1,42 @@
+# ---------------------------------------------------------------------------
+# Godot 4+
+# ---------------------------------------------------------------------------
+.godot/
+*.import
+
+# Compiled Translation resources generated from a source .csv by Godot's
+# CSV Translation importer (binary RSRC format — same rule as ADR-0004:
+# only the .csv source is committed; regenerate via `godot --headless --import`).
+*.translation
+
+# Mono-specific (only relevant if C# is ever introduced)
+.mono/
+data_*/
+mono_crash.*.json
+
+# Export artifacts. export_presets.cfg IS committed: CI exports from it, and since
+# Godot 4.1 signing passwords and keystores live in .godot/export_credentials.cfg,
+# which the .godot/ line above already ignores. Keep local absolute paths out of it.
+/build/
+/export/
+
+# ---------------------------------------------------------------------------
+# Claude Code
+# ---------------------------------------------------------------------------
+# Personal, machine-local overrides — never shared or committed.
+.claude/settings.local.json
+# Local hook/agent scratch output, if any hook writes logs to disk.
+.claude/*.log
+
+# ---------------------------------------------------------------------------
+# OS / editor cruft
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+*.swp
+*~
+# Python tooling caches
+__pycache__/
+*.py[cod]
