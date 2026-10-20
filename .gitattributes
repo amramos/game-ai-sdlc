@@ -1,0 +1,4 @@
+# LF everywhere: shell scripts, workflows and the project template must behave the same on any OS.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
