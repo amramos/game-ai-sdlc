@@ -9,7 +9,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/.agents/hooks/validate_gdscript.py\"",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.agents/hooks/run.sh\" validate_gdscript.py",
             "shell": "bash",
             "timeout": 30,
             "statusMessage": "Validating GDScript (gdformat/gdlint/godot --check-only)..."
@@ -23,7 +23,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/.agents/hooks/protect_paths.py\"",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.agents/hooks/run.sh\" protect_paths.py",
             "shell": "bash",
             "timeout": 10,
             "statusMessage": "Checking for protected path..."
@@ -35,14 +35,14 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/.agents/hooks/guard_bash.py\"",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.agents/hooks/run.sh\" guard_bash.py",
             "shell": "bash",
             "timeout": 10,
             "statusMessage": "Checking for dangerous command..."
           },
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/.agents/hooks/pre_commit_lint.py\"",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.agents/hooks/run.sh\" pre_commit_lint.py",
             "shell": "bash",
             "timeout": 30,
             "statusMessage": "Linting before commit (gdformat/gdlint)..."

@@ -8,7 +8,7 @@ import sys
 
 sys.dont_write_bytecode = True
 
-from hook_common import emit_posttool_block, executable_available, payload_cwd, read_payload, relative_posix, repo_root, run, touched_path_strings, warn
+from hook_common import emit_posttool_block, gdtoolkit_command, godot_command, payload_cwd, read_payload, relative_posix, repo_root, run, touched_path_strings, warn
 
 
 def gdscript_paths(payload: dict, root: Path) -> list[Path]:
@@ -38,20 +38,22 @@ def validate(paths: list[Path], root: Path) -> list[str]:
     if not paths:
         return failures
 
-    if executable_available("gdformat"):
-        result = run(["gdformat", "--check", *[str(path) for path in paths]], root)
+    gdformat = gdtoolkit_command("gdformat")
+    if gdformat:
+        result = run([*gdformat, "--check", *[str(path) for path in paths]], root)
         _record_failure("gdformat", result, failures)
     else:
         warn("validate_gdscript: gdformat is unavailable; skipping format validation.")
 
-    if executable_available("gdlint"):
-        result = run(["gdlint", *[str(path) for path in paths]], root)
+    gdlint = gdtoolkit_command("gdlint")
+    if gdlint:
+        result = run([*gdlint, *[str(path) for path in paths]], root)
         _record_failure("gdlint", result, failures)
     else:
         warn("validate_gdscript: gdlint is unavailable; skipping lint validation.")
 
-    godot = os.environ.get("GODOT_BIN", "godot")
-    if executable_available(godot):
+    godot = godot_command(root)
+    if godot:
         for path in paths:
             result = run(
                 [godot, "--headless", "--path", str(root), "--check-only", "--script", str(path)],
@@ -59,7 +61,7 @@ def validate(paths: list[Path], root: Path) -> list[str]:
             )
             _record_failure(f"Godot parse check ({path.relative_to(root).as_posix()})", result, failures)
     else:
-        warn(f"validate_gdscript: {godot!r} is unavailable; skipping Godot parse validation.")
+        warn("validate_gdscript: Godot is unavailable (GODOT_BIN, .agents/local/godot, PATH); skipping parse validation.")
     return failures
 
 

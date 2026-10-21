@@ -13,7 +13,7 @@ These four stdlib-only Python entry points implement the same policies for Claud
 
 ## Root resolution
 
-Registrations resolve this directory from Git's top level. The scripts independently verify the repository through, in order, `CLAUDE_PROJECT_DIR`, payload `cwd`, and their process cwd. Subprocesses always run with the repository root as cwd. This is necessary because a session may remain inside a subdirectory after `cd`.
+Every registration runs a hook through `run.sh`, which finds a working Python 3.9+ (trying `$PYTHON`, `python3`, `python`, then `py -3`, and skipping the Windows Store stub by actually running each one) and caches it in the git-ignored `.agents/local/python`. Registrations resolve this directory from Git's top level. The scripts independently verify the repository through, in order, `CLAUDE_PROJECT_DIR`, payload `cwd`, and their process cwd. Subprocesses always run with the repository root as cwd. This is necessary because a session may remain inside a subdirectory after `cd`.
 
 If a registration path is broken, Claude can block matching tool calls as a hook execution failure. Recover outside that client: open a fresh shell at the repository root, repair the registration or script, then open `/hooks` or restart. Codex may also require a new session after hook/config changes.
 
@@ -44,4 +44,4 @@ python3 -m unittest discover -s .agents/tests -v
 python3 .agents/scripts/sync_skills.py --check
 ```
 
-When `GODOT_BIN` is set, it may be a command name or an absolute executable. Parse checks use `--headless --path <repository-root> --check-only --script <absolute-file>` for every touched script.
+Godot is found through `GODOT_BIN`, then the path in `.agents/local/godot` (written by setup, so no restart is needed), then `godot` on `PATH`; `GODOT_BIN` may be a command name or an absolute executable. gdformat and gdlint fall back to `python -m gdtoolkit.formatter` / `.linter` when they aren't on `PATH`. Parse checks use `--headless --path <repository-root> --check-only --script <absolute-file>` for every touched script.

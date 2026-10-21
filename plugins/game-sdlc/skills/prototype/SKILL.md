@@ -78,4 +78,5 @@ Then:
 
 ## 5. Next
 
-Offer `setup-godot` (or the setup for the chosen engine) to create the real project.
+Offer `setup-godot` (or the setup for the chosen engine) to create the real project — with its
+"use every recommendation" fast path when this came from `gdd-handsoff`.

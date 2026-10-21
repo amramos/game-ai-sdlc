@@ -7,8 +7,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/protect_paths.py\"",
-            "commandWindows": "python3 \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/protect_paths.py\"",
+            "command": "bash \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/run.sh\" protect_paths.py",
+            "commandWindows": "bash \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/run.sh\" protect_paths.py",
             "timeout": 10,
             "statusMessage": "Checking protected paths"
           }
@@ -19,15 +19,15 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/guard_bash.py\"",
-            "commandWindows": "python3 \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/guard_bash.py\"",
+            "command": "bash \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/run.sh\" guard_bash.py",
+            "commandWindows": "bash \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/run.sh\" guard_bash.py",
             "timeout": 10,
             "statusMessage": "Checking shell safety"
           },
           {
             "type": "command",
-            "command": "python3 \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/pre_commit_lint.py\"",
-            "commandWindows": "python3 \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/pre_commit_lint.py\"",
+            "command": "bash \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/run.sh\" pre_commit_lint.py",
+            "commandWindows": "bash \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/run.sh\" pre_commit_lint.py",
             "timeout": 30,
             "statusMessage": "Checking pre-commit requirements"
           }
@@ -40,8 +40,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/validate_gdscript.py\"",
-            "commandWindows": "python3 \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/validate_gdscript.py\"",
+            "command": "bash \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/run.sh\" validate_gdscript.py",
+            "commandWindows": "bash \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/run.sh\" validate_gdscript.py",
             "timeout": 30,
             "statusMessage": "Validating touched GDScript"
           }

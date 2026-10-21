@@ -103,6 +103,10 @@ Use [gdd-template.md](gdd-template.md). Put it at `docs/GDD.md` if a repository 
 - **`setup-godot`** — create the repository, tools and agent rules for a Godot game. (Only Godot has
   a setup skill so far; for another engine, say so.)
 
+**Carry the mode forward.** After `gdd-handsoff`, recommend `setup-godot`'s "use every
+recommendation" fast path and say the project will be set to work hands-off, so every later skill
+offers its hands-off variant first. After `gdd`, recommend the normal round.
+
 ## Later ideas don't come back here
 
 Once the GDD exists, new ideas enter through `feature-planning`, or `design-change` when they reverse

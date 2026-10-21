@@ -153,7 +153,7 @@ Then hand off, in this order:
 1. record the rulings where they live (the GDD for mechanics, an ADR for a new rule or reversal);
 2. turn the plan into an **epic** with the `issue-tracking` skill: one feature per work package, the
    approval record as the epic's description, the ledger as its first comment;
-3. build it with `team-lead` (or `team-lead-handsoff`).
+3. build it with `team-lead` (or `team-lead-handsoff`). Offer it **in the working style**: the `Working style` line in the project's `AGENTS.md`, or, before a project exists, the mode of the skill that just ran (`gdd-handsoff` means hands-off). Hands-off: offer the `-handsoff` variant first. Interactive: offer the interactive skill, and mention the hands-off variant once.
 
 Save both documents in the repository, e.g. `docs/plans/<feature>-ledger.md` and
 `docs/plans/<feature>-plan.md`.

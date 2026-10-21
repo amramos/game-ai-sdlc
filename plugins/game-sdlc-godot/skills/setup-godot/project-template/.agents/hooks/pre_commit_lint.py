@@ -7,7 +7,7 @@ import sys
 
 sys.dont_write_bytecode = True
 
-from hook_common import emit_pretool_deny, executable_available, git_invocations, read_payload, repo_root, run, tool_input, warn
+from hook_common import emit_pretool_deny, gdtoolkit_command, git_invocations, read_payload, repo_root, run, tool_input, warn
 
 
 def is_git_commit(command: str) -> bool:
@@ -39,11 +39,13 @@ def check_staged_gdscript(root: Path) -> str | None:
     paths = staged_gdscript_paths(root)
     if not paths:
         return None
-    if not executable_available("gdformat") or not executable_available("gdlint"):
+    gdformat = gdtoolkit_command("gdformat")
+    gdlint = gdtoolkit_command("gdlint")
+    if not gdformat or not gdlint:
         warn("pre_commit_lint: gdformat/gdlint unavailable; skipping staged GDScript lint.")
         return None
-    format_result = run(["gdformat", "--check", *paths], root)
-    lint_result = run(["gdlint", *paths], root)
+    format_result = run([*gdformat, "--check", *paths], root)
+    lint_result = run([*gdlint, *paths], root)
     failures: list[str] = []
     if format_result.returncode != 0:
         failures.append((format_result.stdout + format_result.stderr).strip())

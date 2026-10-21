@@ -36,4 +36,5 @@ What this mode adds to the core:
 ## After approval
 
 Offer the hand-off from the core skill's last step: record rulings, create the epic with
-`issue-tracking`, and build it with `team-lead`.
+`issue-tracking`, and build it with `team-lead` — or `team-lead-handsoff` if the project's working
+style is hands-off and the owner wants reviewed work merged without them.

@@ -273,6 +273,45 @@ def executable_available(command: str) -> bool:
     return which(command) is not None
 
 
+def local_setting(root: Path, name: str) -> str | None:
+    """One line from .agents/local/<name>: a machine-specific, git-ignored setting written by setup."""
+    try:
+        value = (root / ".agents" / "local" / name).read_text(encoding="utf-8").strip()
+    except OSError:
+        return None
+    return value or None
+
+
+_GDTOOLKIT_MODULES = {"gdformat": "gdtoolkit.formatter", "gdlint": "gdtoolkit.linter"}
+
+
+def gdtoolkit_command(tool: str) -> list[str] | None:
+    """`gdformat`/`gdlint` from PATH, else the same tool as `python -m gdtoolkit.…`.
+
+    pip often installs gdtoolkit's scripts into a folder that isn't on PATH; the module still works
+    through the interpreter running this hook.
+    """
+    if executable_available(tool):
+        return [tool]
+    from importlib.util import find_spec
+
+    module = _GDTOOLKIT_MODULES[tool]
+    try:
+        found = find_spec(module) is not None
+    except (ImportError, ValueError):
+        found = False
+    return [sys.executable, "-m", module] if found else None
+
+
+def godot_command(root: Path) -> str | None:
+    """Godot from GODOT_BIN, then .agents/local/godot (written by setup, so no restart is needed),
+    then `godot` on PATH."""
+    for candidate in (os.environ.get("GODOT_BIN"), local_setting(root, "godot"), "godot"):
+        if candidate and executable_available(candidate):
+            return candidate
+    return None
+
+
 def run(command: list[str], root: Path) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         command,

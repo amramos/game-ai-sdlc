@@ -22,7 +22,10 @@ them.
 | `pre_commit_lint.py` | before `git commit` | checks skill mirrors and staged GDScript |
 | `validate_gdscript.py` | after an edit | runs gdformat, gdlint and a Godot parse check on touched scripts |
 
-They fail open when a tool is missing (and say so), and fail closed on ambiguous dangerous commands.
+Each runs through `.agents/hooks/run.sh`, which finds a working Python on its own (skipping the Windows
+Store stub) and caches it in `.agents/local/python`. They find gdtoolkit through `python -m` when its
+commands aren't on `PATH`, and Godot through `GODOT_BIN` or `.agents/local/godot`. They fail open when a
+tool is missing (and say so), and fail closed on ambiguous dangerous commands.
 Their tests: `python3 -m unittest discover -s .agents/tests -v`.
 
 ## Reload and recovery

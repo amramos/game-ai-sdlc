@@ -105,4 +105,5 @@ Write the winning variation's lessons into the GDD; throw the prototypes away.
 
 Show the summary in the conversation as well. Any assumption the user overturns is edited straight
 into the GDD — it's still provisional, so no `design-change` is needed yet. Then offer
-`setup-godot` (gdd-core §6).
+`setup-godot` with its "use every recommendation" fast path (gdd-core §6); setup records the
+hands-off working style, so the first feature will be offered as `feature-planning-handsoff`.

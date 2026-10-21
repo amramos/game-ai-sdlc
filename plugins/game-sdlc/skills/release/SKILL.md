@@ -16,19 +16,25 @@ Two kinds of release, both through CI:
 The build and upload happen in **GitHub Actions on a tag** (the engine pack's setup creates the
 workflows). This skill decides what to tag, prepares the notes, pushes the tag, and checks the result.
 
-## 0. One-time setup — the owner's part
+## 0. First release only: the itch.io setup
 
-Agents never handle store accounts or API keys. Once per project, the owner:
+`setup-godot` deliberately leaves this for now, the first time it's needed. Check what already
+exists (`gh variable list`, and `gh secret list` for the secret's *name* — its value is never
+visible), and do only what's missing.
 
-1. creates the itch.io game page (public, possibly still in draft) and a second, **restricted** page
-   for playtests (itch.io: *Visibility → Restricted*, with the testers' accounts or a password);
-2. creates a butler API key (itch.io → Settings → API keys) and stores it as the repository secret
-   `BUTLER_API_KEY`;
-3. sets repository variables `ITCH_USER`, `ITCH_GAME` (public page slug) and `ITCH_PLAYTEST_GAME`
-   (restricted page slug).
+**The owner's part** — agents never handle store accounts or API keys, so give these as two short
+steps with links:
 
-Check that the variables exist (`gh variable list`) and that the secret's name appears in
-`gh secret list` (its value is never visible). If something is missing, list exactly what and stop.
+1. create the itch.io game page (public, can stay in draft) and a second, **restricted** page for
+   playtests (*Visibility → Restricted*, with testers' accounts or a password), and tell you the two
+   page slugs;
+2. create a butler API key (itch.io → Settings → API keys) and store it themselves by running
+   `gh secret set BUTLER_API_KEY` in the project folder — it prompts for the value, so the key never
+   passes through the agent.
+
+**The agent's part**, once the owner gives the slugs: set the repository variables
+`gh variable set ITCH_USER --body <user>`, `ITCH_GAME` (public slug) and `ITCH_PLAYTEST_GAME`
+(restricted slug), then confirm all four names are listed.
 
 ## 1. Pick the version and write the notes
 

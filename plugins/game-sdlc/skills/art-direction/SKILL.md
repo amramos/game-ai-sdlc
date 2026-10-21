@@ -74,3 +74,7 @@ Any skill or agent generating art for this game starts from `docs/art/art-direct
 
 Generated art can ship unless the project's own rules say otherwise; that's the project's call, not
 this skill's.
+
+## 7. Next
+
+Offer the first feature — usually the GDD's core loop as a playable slice — with `feature-planning-handsoff` or `feature-planning`. Offer it **in the working style**: the `Working style` line in the project's `AGENTS.md`, or, before a project exists, the mode of the skill that just ran (`gdd-handsoff` means hands-off). Hands-off: offer the `-handsoff` variant first. Interactive: offer the interactive skill, and mention the hands-off variant once.

@@ -24,6 +24,10 @@ design: branch discipline (never commit to `main`), strict typing, text-format s
 and no global EventBus. Changing one is its own deliberate task with its own ADR, never a side effect
 of a design conversation.
 
+### Working style
+
+{{WORKING_STYLE}}
+
 ## Sources of truth
 
 - The code wins when documentation disagrees about what exists; fix the documentation in the same commit.
@@ -118,6 +122,9 @@ gdformat --check <files> && gdlint <files>                 # style and lint
 python3 -m unittest discover -s .agents/tests -v           # the hooks' own tests
 python3 .agents/scripts/sync_skills.py --check             # Codex skill mirrors in sync
 ```
+
+`python3` stands for whichever Python works here (`python3`, `python` or `py -3`);
+`.agents/local/python` names the one the hooks found. The Godot path is in `.agents/local/godot`.
 
 The current baseline (test count, known failures) is in `docs/current-status.md`.
 

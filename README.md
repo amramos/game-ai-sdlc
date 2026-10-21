@@ -97,15 +97,23 @@ You pick one, the GDD is updated, and the rest are thrown away.
 
 **3. Set up the repository — `/game-sdlc-godot:setup-godot`**
 
-One round of questions (folder, Godot version, renderer, resolution, input). Then it shows one list of
-what it will install and asks once. It creates a Godot project with:
+One round of questions (folder, Godot version, renderer, resolution, input, working style), which you
+can answer with "use every recommendation". Then one list of everything it will do, and one yes. It:
 
-- `AGENTS.md`, the rules every agent follows, with your GDD's terms as its glossary;
-- day-one decision records (ADRs) for the foundations, so they're never argued again;
-- safety hooks for Claude and Codex: no commits to `main`, protected files, every script checked
-  on edit;
-- GUT tests, CI on every pull request, and an itch.io release workflow;
-- a checklist of what only you can do (export presets, branch protection, store keys).
+- installs what's missing, including the export templates;
+- creates a Godot project with `AGENTS.md` (the rules every agent follows, with your GDD's terms as
+  its glossary), day-one decision records (ADRs), safety hooks for Claude and Codex, GUT tests, CI on
+  every pull request, and an itch.io release workflow;
+- proves the export presets with a real export, and boots the build;
+- merges the scaffold into `main`, creates the private GitHub repository and pushes it.
+
+It doesn't hand you a chore list. The hooks find Python, gdtoolkit and Godot on their own (no `PATH`
+edits, no restarts), and itch.io setup waits for the first `release`. What's left for you is approving
+the Godot MCP server the first time Claude Code opens the project.
+
+Your **working style** (hands-off or interactive) is written into `AGENTS.md`, so every later skill
+offers its next step in that style: after `gdd-handsoff`, the next feature is offered as
+`feature-planning-handsoff`.
 
 **4. Set the look — `/game-sdlc:art-direction`** *(optional)*
 

@@ -87,6 +87,8 @@ Say in the report which reviewer actually ran, and why if it was the fallback.
    - Move features to `In Review`. **Don't merge** — the owner does (`team-lead-handsoff` is the
      variant that merges).
 10. **Report** in two parts: the short chat report (template in templates.md) and the story page (§5).
+11. **Offer the next step**: playing it (`playtest`), then the next feature from the GDD with
+    `feature-planning-handsoff` or `feature-planning`. Offer it **in the working style**: the `Working style` line in the project's `AGENTS.md`, or, before a project exists, the mode of the skill that just ran (`gdd-handsoff` means hands-off). Hands-off: offer the `-handsoff` variant first. Interactive: offer the interactive skill, and mention the hands-off variant once.
 
 Between phases, keep the user posted in one or two sentences: who's doing what, and what you're
 waiting for.

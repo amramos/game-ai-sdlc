@@ -38,6 +38,8 @@ SAMPLE_VALUES = {
     "NEXT_STEP": "art-direction, then feature-planning for the core loop",
     "GUT_BASELINE": "1/1 across 1 script",
     "GUT_VERSION": "9.x",
+    "PROJECT_SLUG": "sample_game",
+    "WORKING_STYLE": "The owner works **hands-off**.",
 }
 
 

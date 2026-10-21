@@ -7,6 +7,7 @@ import io
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -350,13 +351,85 @@ class ValidationTests(unittest.TestCase):
             payload = {"tool_response": {"filePaths": ["b.gd", "missing.gd", "a.gd", "a.gd", "note.md"]}}
             self.assertEqual(validate_gdscript.gdscript_paths(payload, root), [root / "a.gd", root / "b.gd"])
 
-    @mock.patch.object(validate_gdscript, "executable_available", return_value=False)
-    def test_missing_optional_tools_fail_open(self, _available: mock.Mock) -> None:
+    @mock.patch.object(validate_gdscript, "godot_command", return_value=None)
+    @mock.patch.object(validate_gdscript, "gdtoolkit_command", return_value=None)
+    def test_missing_optional_tools_fail_open(self, _gdtoolkit: mock.Mock, _godot: mock.Mock) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             script = root / "a.gd"
             script.write_text("extends Node\n", encoding="utf-8")
             self.assertEqual(validate_gdscript.validate([script], root), [])
+
+
+class ToolDiscoveryTests(unittest.TestCase):
+    def test_local_setting_is_one_trimmed_line_or_none(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.assertIsNone(hook_common.local_setting(root, "godot"))
+            (root / ".agents" / "local").mkdir(parents=True)
+            (root / ".agents" / "local" / "godot").write_text("  /opt/godot \n", encoding="utf-8")
+            self.assertEqual(hook_common.local_setting(root, "godot"), "/opt/godot")
+
+    def test_godot_comes_from_env_then_the_local_file(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            local_godot = root / "local-godot"
+            env_godot = root / "env-godot"
+            local_godot.write_text("", encoding="utf-8")
+            env_godot.write_text("", encoding="utf-8")
+            (root / ".agents" / "local").mkdir(parents=True)
+            (root / ".agents" / "local" / "godot").write_text(str(local_godot), encoding="utf-8")
+            with mock.patch.dict(os.environ, {"GODOT_BIN": ""}):
+                self.assertEqual(hook_common.godot_command(root), str(local_godot))
+            with mock.patch.dict(os.environ, {"GODOT_BIN": str(env_godot)}):
+                self.assertEqual(hook_common.godot_command(root), str(env_godot))
+
+    @mock.patch.object(hook_common, "executable_available", return_value=False)
+    def test_gdtoolkit_falls_back_to_the_python_module(self, _available: mock.Mock) -> None:
+        with mock.patch("importlib.util.find_spec", return_value=object()):
+            self.assertEqual(
+                hook_common.gdtoolkit_command("gdlint"), [sys.executable, "-m", "gdtoolkit.linter"]
+            )
+        with mock.patch("importlib.util.find_spec", return_value=None):
+            self.assertIsNone(hook_common.gdtoolkit_command("gdformat"))
+
+
+@unittest.skipIf(shutil.which("bash") is None, "bash is not available")
+class RunnerTests(unittest.TestCase):
+    """run.sh picks a working Python, caches it, and passes the hook's stdin through."""
+
+    def _project(self, directory: str) -> Path:
+        hooks = Path(directory) / ".agents" / "hooks"
+        hooks.mkdir(parents=True)
+        shutil.copy(HOOKS / "run.sh", hooks / "run.sh")
+        (hooks / "echo_hook.py").write_text(
+            "import sys\nsys.stdout.write('ran:' + sys.stdin.read())\n", encoding="utf-8"
+        )
+        return hooks
+
+    def _run(self, hooks: Path, env: dict[str, str]) -> subprocess.CompletedProcess[str]:
+        return subprocess.run(
+            # The resolved path: on Windows, a bare "bash" from Python starts WSL's bash in System32.
+            [str(shutil.which("bash")), (hooks / "run.sh").as_posix(), "echo_hook.py"],
+            input="payload", capture_output=True, text=True, env={**os.environ, **env},
+        )
+
+    def test_runs_the_hook_with_stdin_and_caches_the_interpreter(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            hooks = self._project(directory)
+            result = self._run(hooks, {"PYTHON": Path(sys.executable).as_posix()})
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(result.stdout, "ran:payload")
+            self.assertTrue((hooks.parent / "local" / "python").read_text(encoding="utf-8").strip())
+
+    def test_a_cached_interpreter_is_used_first(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            hooks = self._project(directory)
+            (hooks.parent / "local").mkdir()
+            (hooks.parent / "local" / "python").write_text(Path(sys.executable).as_posix() + "\n", encoding="utf-8")
+            result = self._run(hooks, {"PYTHON": "definitely-not-a-python"})
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(result.stdout, "ran:payload")
 
 
 class PreCommitTests(unittest.TestCase):
@@ -443,7 +516,7 @@ class RegistrationTests(unittest.TestCase):
             for group in groups
             for hook in group["hooks"]
         ]
-        entrypoints = [Path(command.rsplit("/", 1)[-1].rstrip('"')).name for command in commands]
+        entrypoints = [command.split()[-1] for command in commands]
         self.assertCountEqual(entrypoints, [
             "protect_paths.py",
             "guard_bash.py",
@@ -452,6 +525,7 @@ class RegistrationTests(unittest.TestCase):
         ])
         for command in commands:
             self.assertIn("safe.directory=*", command)
+            self.assertIn("/.agents/hooks/run.sh", command)
 
     def test_claude_registration_has_exact_shared_entrypoints(self) -> None:
         settings_path = REPO_ROOT / ".claude" / "settings.json"
@@ -463,7 +537,7 @@ class RegistrationTests(unittest.TestCase):
             for hook in group["hooks"]
         ]
         commands = [hook["command"] for hook in hooks]
-        entrypoints = [Path(command.rsplit("/", 1)[-1].rstrip('"')).name for command in commands]
+        entrypoints = [command.split()[-1] for command in commands]
         self.assertCountEqual(entrypoints, [
             "protect_paths.py",
             "guard_bash.py",
@@ -472,7 +546,7 @@ class RegistrationTests(unittest.TestCase):
         ])
         for hook in hooks:
             self.assertEqual(hook["shell"], "bash")
-            self.assertIn('$CLAUDE_PROJECT_DIR/.agents/hooks/', hook["command"])
+            self.assertIn('$CLAUDE_PROJECT_DIR/.agents/hooks/run.sh', hook["command"])
 
     def test_legacy_claude_hook_scripts_are_removed(self) -> None:
         legacy_root = REPO_ROOT / ".claude" / "hooks"

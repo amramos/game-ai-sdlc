@@ -25,6 +25,8 @@ mono_crash.*.json
 # ---------------------------------------------------------------------------
 # Personal, machine-local overrides — never shared or committed.
 .claude/settings.local.json
+# Machine-specific tool paths the hooks read (python, godot), written by setup-godot.
+.agents/local/
 # Local hook/agent scratch output, if any hook writes logs to disk.
 .claude/*.log
 
