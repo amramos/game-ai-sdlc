@@ -56,6 +56,11 @@ rather than by imagining them, before any repository exists to be wasted.
 Generated art drifts one asset at a time. A fixed reference that every generation starts from, chosen
 once by you, is what keeps fifty assets looking like one game.
 
+The first test of the hands-off route produced three directions that were all pixel art: the panel had
+assumed the medium from the GDD's main reference, and art direction only varied the palette. Now
+directions must differ in medium when the style was assumed, so the first time you see the game's
+look, you also see what else it could have been.
+
 ## 5. Plan — `feature-planning`
 
 **Produces:** a decisions ledger (yours) and a plan (the agents').

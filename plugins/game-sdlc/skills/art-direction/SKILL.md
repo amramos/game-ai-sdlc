@@ -1,6 +1,6 @@
 ---
 name: art-direction
-description: Set a game's visual style once — generate two or three style directions as style frames from the GDD's art references, let the user pick one (or, in a hands-off project, have a critic agent pick and record the choice as assumed, with the runners-up kept for a one-word swap), and save the chosen frames, palette, size rules and prompt core in the repository so every later asset is generated against the same reference. Use after setup when a game has no style guide yet, or when the user asks for concept art, a style guide, art direction or a look for the game.
+description: Set a game's visual style once — generate two or three style directions as style frames from the GDD's art references (differing in medium, such as pixel art, vector or low-poly 3D, when the GDD's style was only assumed), let the user pick one (or, in a hands-off project, have a critic agent pick and record the choice as assumed, with the runners-up kept for a one-word swap), and save the chosen frames, palette, size rules and prompt core in the repository so every later asset is generated against the same reference. Use after setup when a game has no style guide yet, or when the user asks for concept art, a style guide, art direction or a look for the game.
 argument-hint: "Optional: a style direction to start from"
 ---
 
@@ -30,9 +30,15 @@ each contributes), palette mood and tone. If the references are thin, run one ro
 In hands-off mode the critic answers that round from the GDD instead, and each answer is recorded as
 assumed.
 
+Note **whose decision the style is**. It is **assumed** when the GDD lists it in its "Assumed by the
+panel" appendix (as `gdd-handsoff` does) or leaves it `[OPEN]`; it is **the owner's** when the owner
+chose it, as in the interactive `gdd`. That decides how far apart the directions go (§3).
+
 ## 2. Pick the generator
 
-Use the first one available, and say which:
+A style frame is a still image whatever the medium — a low-poly 3D direction needs a rendered-looking
+image, not real models, at this stage. Choose per direction, using the first one available that
+renders that medium well, and say which:
 
 1. **Local ComfyUI** through the `comfyui-art` skill — free, private, best for pixel art.
 2. **Codex image generation**, when the Codex CLI is installed — good for painted concepts. Run it in
@@ -44,8 +50,18 @@ If none is available, stop and tell the user what each needs.
 
 ## 3. Generate two or three directions
 
-Each direction is one interpretation of the GDD's references — e.g. "muted ink and parchment" versus
-"saturated arcade". For each, generate the same four **style frames**:
+Each direction is one interpretation of the GDD's references, and **directions must differ in medium
+or rendering, never only in colour.** A palette swap is a variant of a direction, not a new one.
+
+- **The style was assumed (or is `[OPEN]`):** one direction keeps the GDD's style; the others use
+  different **media** that suit the game, its camera and its platforms — for example pixel art, 2D
+  vector or flat, low-poly 3D, painterly or hand-drawn, ink or woodcut. For each, add one line on
+  why it suits this game and one on what it costs to produce (3D needs a model for every asset;
+  hand-drawn needs a consistent hand).
+- **The owner chose the style:** every direction stays in that medium but differs in **rendering**
+  — outlines or none, flat or shaded, perspective, line weight, texture, level of detail.
+
+For each direction, generate the same four **style frames**:
 
 - **a key scene** — the game's main screen as a player would see it;
 - **a character** — the protagonist or a typical character, at game scale;
@@ -71,6 +87,30 @@ Before saving the guide, take the chosen direction one step further: one more as
 game needs most (a second character, a tile set row), placed into the key scene at game scale. If it
 doesn't sit right, adjust now. Fixing a guide costs one round; fixing fifty assets costs fifty.
 In hands-off mode the critic judges the fit, with at most one adjustment round.
+
+### If the winning medium isn't the GDD's
+
+State the cost once, in one paragraph — which GDD lines, project settings and tools change — then make
+the switch part of this run, so the project never disagrees with its own style guide:
+
+- **The GDD:** rewrite its art section (style, camera and resolution) to the chosen direction, add a
+  dated line to its amendments header ("<date> — art style changed from <old> to <new> by
+  art-direction"), and update the matching row of "Assumed by the panel" if it has one.
+- **Project settings** (for Godot, `project.godot`):
+  - *away from pixel art:* stretch mode `canvas_items`, no integer scaling, linear filtering (remove
+    `textures/canvas_textures/default_texture_filter=0`), and a base resolution the art is drawn
+    for (e.g. 1920×1080);
+  - *to pixel art:* a small base (e.g. 640×360), stretch mode `viewport`, integer scaling, nearest
+    filtering;
+  - *to 3D:* check the renderer — Compatibility for web builds, Forward+ for desktop only — and say
+    whether it changes.
+- **Tooling:** the pixel palette linter (`pixelforge`) applies to pixel art only; add or remove its
+  configuration, and say which.
+- **Validate** as setup does: import, the test suite, and a headless boot with no errors.
+
+Commit the GDD amendment and the settings change together, on a branch, following the project's
+rules. In hands-off mode the switch is made and recorded as assumed; a swap back (§7) reverts it the
+same way.
 
 ## 5. Save the style guide
 
@@ -111,7 +151,8 @@ End a hands-off run by showing, in the conversation (and as images where the cli
 - one line: *"This is assumed. Reply with another direction's name to swap; otherwise nothing to do."*
 
 If the user names another direction, **swap**: promote its folder from `runners-up/`, redo §4 (one
-extra asset at game scale) and §5 with it, and record it as the user's choice. If they confirm, or
+extra asset at game scale, and the medium switch if the medium changes) and §5 with it, and record it
+as the user's choice. If they confirm, or
 the next skill starts without a swap, mark the choice confirmed and delete `runners-up/`.
 
 ## 8. Next

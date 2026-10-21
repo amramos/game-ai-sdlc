@@ -118,7 +118,10 @@ offers its next step in that style: after `gdd-handsoff`, the next feature is of
 **4. Set the look — `/game-sdlc:art-direction`** *(optional)*
 
 It generates two or three style directions as style frames (a scene, a character, a prop, a UI panel)
-and you pick one. The frames, palette, sizes and the exact prompt are saved in `docs/art/`, and every
+and you pick one. Directions differ in more than colour: if the GDD's style was only assumed (as
+`gdd-handsoff` does), they're in different media — say pixel art, vector and low-poly 3D, with one
+keeping the GDD's style. If you chose the style yourself, they stay in it and differ in rendering. If
+a different medium wins, the GDD and the project's display settings are updated to match. The frames, palette, sizes and the exact prompt are saved in `docs/art/`, and every
 later asset is generated against them. It uses local ComfyUI (`comfyui-art`) first, then Codex image
 generation, then Meshy.
 
