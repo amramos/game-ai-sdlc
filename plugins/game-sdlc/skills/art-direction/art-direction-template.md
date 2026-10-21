@@ -1,6 +1,7 @@
 # <Game title> — art direction
 
 **Chosen:** <date>, direction "<name>". **Frames:** `frames/`. **Palette:** `palette.gpl`.
+**Chosen by:** the owner | the critic agent — *assumed*; runners-up in `runners-up/` until the owner confirms.
 
 ## The style in one paragraph
 

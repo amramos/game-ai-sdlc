@@ -122,6 +122,9 @@ and you pick one. The frames, palette, sizes and the exact prompt are saved in `
 later asset is generated against them. It uses local ComfyUI (`comfyui-art`) first, then Codex image
 generation, then Meshy.
 
+In a hands-off project, a critic agent picks the direction instead. The pick is marked *assumed*, and
+you're shown the chosen direction next to the runners-up: reply with another direction's name to swap.
+
 **5. Plan a feature — `/game-sdlc:feature-planning <feature>`**
 
 Rounds of questions about what the player will see and do, a walkthrough that includes a failure path,
