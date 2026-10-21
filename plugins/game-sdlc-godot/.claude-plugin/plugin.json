@@ -5,5 +5,13 @@
   "author": {
     "name": "amramos"
   },
-  "keywords": ["gamedev", "godot", "gdscript", "gut", "ci"]
+  "repository": "https://github.com/amramos/game-ai-sdlc",
+  "license": "MIT",
+  "keywords": [
+    "gamedev",
+    "godot",
+    "gdscript",
+    "gut",
+    "ci"
+  ]
 }

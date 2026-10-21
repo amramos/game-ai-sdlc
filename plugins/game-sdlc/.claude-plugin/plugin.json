@@ -5,5 +5,13 @@
   "author": {
     "name": "amramos"
   },
-  "keywords": ["gamedev", "sdlc", "planning", "agents", "playtesting"]
+  "repository": "https://github.com/amramos/game-ai-sdlc",
+  "license": "MIT",
+  "keywords": [
+    "gamedev",
+    "sdlc",
+    "planning",
+    "agents",
+    "playtesting"
+  ]
 }

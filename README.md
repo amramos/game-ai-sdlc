@@ -238,3 +238,7 @@ python scripts/test_template.py
 - **Steam isn't automated.** `release` covers itch.io; Steam is described as a later step.
 - **It grew out of one solo project** with one owner deciding. A team would need its own answer to
   "who is the owner".
+
+## License
+
+[MIT](LICENSE). Use it, change it, share it.
