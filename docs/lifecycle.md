@@ -7,10 +7,17 @@ what each one produces, and the failure that taught it.
 
 ---
 
-## 1. Design — `gdd`
+## 1. Design — `gdd` or `gdd-handsoff`
 
 **Produces:** a GDD with a pitch, comparables, a governing rule, the core loop, mechanics, a glossary,
 a scope boundary and open questions.
+
+The original GDD came out of a long conversation with an AI. `gdd` turns that into an interview with
+research agents on the side. `gdd-handsoff` is for people who won't sit through an interview. Its
+design starts from a weakness: a design nobody steered tends to be the *average* game. So it collects
+the few inputs that carry taste (games you love, one you find boring, a pick between three concepts),
+and checks the rest with gates and blind playtesters instead of opinions. Everything it assumes is
+listed for the owner on one page.
 
 - **Design before code.** The GDD was the second commit, before any game code. Agents build from
   documents; without one, each session invents its own version of the game.

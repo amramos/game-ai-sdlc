@@ -14,7 +14,7 @@ saved in the repository, that every later generation starts from.
 
 From the GDD's art section: the style, camera and resolution, reference games and images (with what
 each contributes), palette mood and tone. If the references are thin, run one round of questions
-(rounds over the frontier, with a recommendation each, as in `gdd`) before generating anything.
+(rounds over the frontier, with a recommendation each, as in `gdd-core`) before generating anything.
 
 ## 2. Pick the generator
 

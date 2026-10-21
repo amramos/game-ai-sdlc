@@ -13,6 +13,10 @@ by playing instead of imagining. Everything here is throwaway.
 This runs between `gdd` and `setup-godot`: a prototype can change the design or kill the idea, and
 a repository set up first would be wasted work.
 
+**Hands-off form** (when `gdd-handsoff` runs it): the panel settles §1 instead of the user, the
+variations are played by blind AI playtesters only, and the pick in §4 is made from their reports
+against the bar `gdd-handsoff` sets. Everything else is the same.
+
 ## 1. Settle the question and the variations
 
 Read the GDD's pitch, governing rule and core loop. Then agree with the user, in one short round:

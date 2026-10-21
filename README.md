@@ -13,7 +13,7 @@ It covers the whole path, from a one-line idea to a build on itch.io:
 
 ```mermaid
 flowchart LR
-    idea([idea]) --> gdd[gdd<br/>design interview]
+    idea([idea]) --> gdd[gdd / gdd-handsoff<br/>design interview]
     gdd --> proto[prototype<br/>2–3 web versions]:::optional
     proto --> setup[setup-godot<br/>repo, rules, CI]
     gdd --> setup
@@ -50,7 +50,7 @@ From a local copy instead of GitHub: `/plugin marketplace add /path/to/game-ai-s
 
 | Plugin | What's in it |
 |---|---|
-| **`game-sdlc`** | The process, engine-agnostic: 15 skills and 2 agents |
+| **`game-sdlc`** | The process, engine-agnostic: 17 skills and 2 agents |
 | **`game-sdlc-godot`** | The Godot 4 engine pack: `setup-godot` and seven Godot workflow skills |
 
 Skills are called as `/game-sdlc:<skill>` and `/game-sdlc-godot:<skill>`.
@@ -79,6 +79,15 @@ games, pitch, the rule that decides every cut, core loop, mechanics, art style, 
 question comes with a recommendation, so you can answer a round with "yes to all except 2". While you
 answer, research agents look up comparable games and the market. You make every call. Anything you
 leave undecided becomes an `[OPEN]` question instead of a quiet guess. Out comes `GDD.md`.
+
+Don't want an interview? `/game-sdlc:gdd-handsoff` needs about 30 seconds of input: an idea (or
+"surprise me"), a few games you love and one you find boring, and a scope. It drafts three different
+concepts and you pick one; then an agent panel (a designer, a player advocate, a market analyst and a
+skeptic from another model vendor) writes the GDD. Quality gates check that every mechanic serves the
+governing rule, that the scope fits, and that the hook isn't a reskin. Blind AI playtesters then play
+a quick prototype of the core loop, and the panel revises it if they don't get it or don't want
+another round. You get a one-page summary: the pitch, the five decisions the panel assumed for you
+(each with its runner-up), the playtesters' verdict, and the three likeliest ways the game fails.
 
 **2. Try the core first — `/game-sdlc:prototype`** *(optional)*
 
@@ -152,6 +161,8 @@ a fix agent opens a pull request that starts from a failing test.
 | Skill | Plugin | Called by | What you get |
 |---|---|---|---|
 | `gdd` | game-sdlc | you | A GDD from a design interview with research |
+| `gdd-handsoff` | game-sdlc | you | A provisional GDD from a 30-second intake, a concept pick and an agent panel |
+| `gdd-core` | game-sdlc | the two above | The shared method (hidden from the menu) |
 | `prototype` | game-sdlc | you | 2–3 web prototypes, played and compared |
 | `setup-godot` | game-sdlc-godot | you | A Godot repo with rules, ADRs, hooks, GUT, CI, release |
 | `art-direction` | game-sdlc | you | A style guide every asset is generated against |
