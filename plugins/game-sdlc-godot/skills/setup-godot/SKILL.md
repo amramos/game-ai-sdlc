@@ -42,6 +42,10 @@ recommendation"** as the first answer. Recommend that fast path when the GDD is 
 6. **Clients:** Claude Code and Codex (recommended), or Claude only.
 7. **Working style:** hands-off (recommended when the GDD came from `gdd-handsoff`) or interactive.
    It's written into `AGENTS.md`, and every later skill offers its next step in that style.
+8. **Agent merges:** may agents merge reviewed pull requests into `main` on their own
+   (`team-lead-handsoff`)? Recommend **yes** with a hands-off working style, **no** otherwise. A yes
+   is recorded on day one as ADR-0006, so a hands-off build never stops to ask; agents still never
+   commit or push to `main` directly.
 
 If the folder already holds a Godot project, say so: setup **adds what's missing** and lists every
 file it would replace instead of replacing it.
@@ -61,6 +65,7 @@ Show **one list** and ask once. It has two parts.
   Windows, `~/.local/share/godot/export_templates/…` on Linux,
   `~/Library/Application Support/Godot/export_templates/…` on macOS);
 - create the project, validate it, and **prove the export presets with a real export** (§4);
+- if agent merges were chosen: record them (ADR-0006 and `.agents/merge-policy.json`, §3);
 - if every check passes: **merge the scaffold into `main`**, **create the private GitHub repository**
   and push, turn on *automatically delete head branches*, and protect `main` (require pull requests
   and the CI `test` job) — when the account's plan allows it;
@@ -89,6 +94,13 @@ folder, commit the GDD alone (`docs: add the GDD`), then `git checkout -b setup/
      alone can decide."
    - Interactive: "The owner works **interactively**. Offer the interactive skill first and mention
      the `-handsoff` variant once."
+
+   `AGENT_MERGES_RULE`, from §1's question 8:
+   - Yes: "Agents may merge a reviewed pull request into `main` only through `team-lead-handsoff`'s
+     merge checklist (ADR-0006). The merge guard (`.agents/hooks/merge_guard.py`) refuses any other
+     agent merge."
+   - No: "Only the owner merges into `main`. The merge guard (`.agents/hooks/merge_guard.py`)
+     refuses an agent's `gh pr merge` into `main`."
 2. Run `python <skill>/scripts/instantiate.py --target <folder> --values <values.json>`.
 3. Move the GDD to `docs/GDD.md`.
 4. Add the display settings from §1 to `project.godot` (`[display]` window size and stretch; for pixel
@@ -102,8 +114,13 @@ folder, commit the GDD alone (`docs: add the GDD`), then `git checkout -b setup/
    are needed. They find Python on their own (`.agents/hooks/run.sh` skips the Windows Store stub and
    caches the interpreter in `.agents/local/python`), and run gdtoolkit through `python -m` when its
    commands aren't on `PATH`.
-8. If Claude only: delete `.codex/` and the Codex parts of `docs/agent-tooling.md`.
-9. Run `python .agents/scripts/sync_skills.py --write` once so the Codex mirrors exist.
+8. **If agent merges were chosen**: fill [agent-merges/agent-merges-adr-template.md](agent-merges/agent-merges-adr-template.md)
+   into `docs/adr/0006-agents-merge-reviewed-prs.md` (`NUMBER` 0006, `DATE`, and `CONTEXT`: "Chosen
+   at setup, with the owner working hands-off."), copy
+   [agent-merges/merge-policy.json](agent-merges/merge-policy.json) to `.agents/merge-policy.json`
+   (`ADR_FILE`: that file name), and add the ADR's row to `docs/adr/README.md`.
+9. If Claude only: delete `.codex/` and the Codex parts of `docs/agent-tooling.md`.
+10. Run `python .agents/scripts/sync_skills.py --write` once so the Codex mirrors exist.
 
 ## 4. Validate, including a real export
 
@@ -137,8 +154,8 @@ problem — say which. Delete `build/` afterwards. Write the real GUT count into
    `gh repo edit --delete-branch-on-merge`. Protect `main` with
    `gh api -X PUT repos/<owner>/<repo>/branches/main/protection` (required status check `test`, pull
    requests required with zero approvals, admins not enforced). GitHub allows branch protection on
-   private repositories only on paid plans: if the call is refused for that reason, say so in one
-   line and move on.
+   private repositories only on paid plans: if the call is refused for that reason, say in one line
+   that the project's merge guard covers agents' merges instead, and move on.
 4. **Codex**: run `scripts/install_codex.py` from the package if the user kept that line.
 
 Skip any line the user excluded, and say which were skipped.

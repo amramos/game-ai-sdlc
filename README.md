@@ -172,7 +172,14 @@ You merge. The run ends with a short story page: who did what, pushback, disagre
 and how to try it yourself.
 
 `/game-sdlc:team-lead-handsoff` merges reviewed work to `main` itself, behind a checklist (CI green,
-reviewer approval, the exported build boots, a tag before every merge so it can be reverted).
+reviewer approval, the exported build boots, a tag before every merge so it can be reverted). It
+doesn't stop to ask about setup:
+- if the project hasn't allowed agent merges yet, it records that with an ADR first (`setup-godot`
+  can do this on day one);
+- the reviewer's verdict goes on the PR as a comment, so no second GitHub account is needed;
+- where your GitHub plan has no branch protection, the project's **merge guard** hook refuses an
+  agent's merge into `main` unless CI passed and the latest verdict approves the exact commit being
+  merged.
 
 **7. Play it — `/game-sdlc:playtest`**
 

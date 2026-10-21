@@ -1,0 +1,4 @@
+{
+  "agent_merges_to_main": true,
+  "adr": "docs/adr/{{ADR_FILE}}"
+}

@@ -18,7 +18,8 @@ A reviewer trained by a different vendor misses different things from the model 
    `node <script> task "<the review prompt, verbatim>"`
    Add `--model <id>` or `--effort <level>` only if your prompt names them. Write its output to a
    file in the scratchpad named in your prompt, then read the findings from the end of that file.
-3. Return the findings verbatim (file:line, scenario, severity), headed **Reviewed by <model> (Codex)**.
+3. Return the findings verbatim (file:line, scenario, severity), headed **Reviewed by <model> (Codex)**,
+   and end with the verdict line below.
 
 ## Fallback: review it yourself
 
@@ -31,5 +32,12 @@ result), say why in one line, then review it yourself:
 - **Report** only concrete defects, each with file:line, a concrete failure scenario and a severity.
   No style nits. Mark a finding PLAUSIBLE instead of CONFIRMED when you couldn't trace it end to end.
 - **Heading:** **Reviewed by <your model> (fallback: <reason>)**.
+
+## The verdict line
+
+End every review with exactly one line: `VERDICT: approve` when no finding is blocking, or
+`VERDICT: request-changes` otherwise. With an other-vendor review, take it from that review's own
+conclusion, never from your opinion of it. Under `team-lead-handsoff` the lead posts this verdict on
+the pull request, and the project's merge guard reads it.
 
 Keep the output concise; the lead triages it.

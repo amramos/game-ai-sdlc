@@ -11,6 +11,7 @@ import sys
 sys.dont_write_bytecode = True
 
 from hook_common import emit_pretool_deny, git_invocations, payload_cwd, read_payload, repo_root, run, tool_input
+from merge_guard import merge_reason
 
 
 _SHELL_META = re.compile(r"(?:&&|\|\||[;|`]|\$\()")
@@ -252,7 +253,7 @@ def delete_reason(command: str, root: Path, base: Path | None = None) -> str | N
 
 
 def reason_for(command: str, root: Path, base: Path | None = None) -> str | None:
-    return git_reason(command, base or root) or delete_reason(command, root, base)
+    return git_reason(command, base or root) or merge_reason(command, root, base) or delete_reason(command, root, base)
 
 
 def main() -> int:

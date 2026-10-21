@@ -109,6 +109,12 @@ Two refinements came later:
   agents on one capped model died mid-run.
 - **Whole epics overnight.** Several epics were built unattended, each piece reviewed. Every gate
   stayed provisional until the owner played the result.
+- **Hands-off means no setup questions mid-run.** The first hands-off test stopped on three questions:
+  an ADR to allow agent merges, no branch protection on a free private repo, and no second account for
+  the reviewer. Each is now settled ahead of time or by default:
+  - setup records agent merges on day one;
+  - the reviewer's verdict is a PR comment carrying the commit it approved;
+  - a merge guard hook stands in for branch protection.
 
 ## 8. Play — `playtest`
 

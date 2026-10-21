@@ -140,6 +140,11 @@ def _shell_segments(command: str) -> list[list[str]]:
     return segments
 
 
+def shell_segments(command: str) -> list[list[str]]:
+    """Public name for the segment tokenizer, for policies outside this module."""
+    return _shell_segments(command)
+
+
 def _git_command_index(segment: list[str]) -> int | None:
     """Find git when it is the command word, allowing environment prefixes."""
     index = 0
@@ -313,10 +318,14 @@ def godot_command(root: Path) -> str | None:
 
 
 def run(command: list[str], root: Path) -> subprocess.CompletedProcess[str]:
+    # Explicit UTF-8: on Windows the default would be the ANSI code page, and output with any
+    # non-ASCII text (a PR comment, a file name) would fail to decode.
     return subprocess.run(
         command,
         cwd=root,
         capture_output=True,
         text=True,
+        encoding="utf-8",
+        errors="replace",
         check=False,
     )

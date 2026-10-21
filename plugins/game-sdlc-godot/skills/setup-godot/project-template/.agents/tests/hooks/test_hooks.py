@@ -23,6 +23,7 @@ sys.path.insert(0, str(SCRIPTS))
 
 import guard_bash
 import hook_common
+import merge_guard
 import pre_commit_lint
 import protect_paths
 import sync_skills
@@ -430,6 +431,99 @@ class RunnerTests(unittest.TestCase):
             result = self._run(hooks, {"PYTHON": "definitely-not-a-python"})
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertEqual(result.stdout, "ran:payload")
+
+
+HEAD = "a" * 40
+GREEN = [{"__typename": "CheckRun", "name": "test", "status": "COMPLETED", "conclusion": "SUCCESS"}]
+
+
+def _verdict(verdict: str = "approve", sha: str = HEAD, when: str = "2026-01-01T00:00:00Z") -> dict:
+    return {"createdAt": when, "body": f"Review notes.\n<!-- game-sdlc-review: {verdict} sha={sha} -->"}
+
+
+class MergeGuardTests(unittest.TestCase):
+    """`gh pr merge` into main needs the policy, green CI and an approving verdict on the head."""
+
+    def _root(self, directory: str, allowed: bool | None) -> Path:
+        root = Path(directory)
+        if allowed is not None:
+            (root / ".agents").mkdir()
+            (root / ".agents" / "merge-policy.json").write_text(
+                json.dumps({"agent_merges_to_main": allowed}), encoding="utf-8"
+            )
+        return root
+
+    def _reason(self, command: str, allowed: bool | None, pr: dict | None) -> str | None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = self._root(directory, allowed)
+            result = mock.Mock(returncode=1 if pr is None else 0, stdout=json.dumps(pr or {}), stderr="")
+            with mock.patch.object(merge_guard, "run", return_value=result) as run_mock:
+                reason = merge_guard.merge_reason(command, root)
+                self.last_command = run_mock.call_args[0][0] if run_mock.call_args else None
+                return reason
+
+    def _pr(self, **changes: object) -> dict:
+        pr = {"baseRefName": "main", "headRefOid": HEAD, "statusCheckRollup": GREEN,
+              "comments": [_verdict()], "reviews": []}
+        pr.update(changes)
+        return pr
+
+    def test_finds_gh_pr_merge_with_env_prefixes_and_chains(self) -> None:
+        self.assertEqual(merge_guard.gh_pr_merges("GH_TOKEN=x gh pr merge 12 --merge && echo ok"), [["12", "--merge"]])
+        self.assertEqual(merge_guard.gh_pr_merges("gh pr view 12; git status"), [])
+        self.assertEqual(merge_guard.gh_pr_merges("echo 'gh pr merge 3'"), [])
+
+    def test_target_skips_option_values(self) -> None:
+        self.assertEqual(merge_guard.merge_target(["--body", "x", "-R", "o/r", "42", "--merge"]), ("42", "o/r"))
+        self.assertEqual(merge_guard.merge_target(["--repo=o/r", "--squash"]), (None, "o/r"))
+
+    def test_allows_a_green_approved_merge_under_the_policy(self) -> None:
+        self.assertIsNone(self._reason("gh pr merge 7 --merge --delete-branch", True, self._pr()))
+        self.assertEqual(self.last_command[:4], ["gh", "pr", "view", "7"])
+
+    def test_refuses_merges_to_main_without_the_policy(self) -> None:
+        for allowed in (None, False):
+            with self.subTest(allowed=allowed):
+                self.assertIn("owner's job", self._reason("gh pr merge 7", allowed, self._pr()))
+
+    def test_allows_merges_into_another_branch_without_the_policy(self) -> None:
+        self.assertIsNone(self._reason("gh pr merge 7", None, self._pr(baseRefName="feature/x")))
+
+    def test_refuses_failing_pending_or_missing_checks(self) -> None:
+        cases = {
+            "failure": [{"__typename": "CheckRun", "name": "test", "status": "COMPLETED", "conclusion": "FAILURE"}],
+            "running": [{"__typename": "CheckRun", "name": "test", "status": "IN_PROGRESS", "conclusion": ""}],
+            "pending status": [{"__typename": "StatusContext", "context": "ci", "state": "PENDING"}],
+            "none": [],
+        }
+        for label, rollup in cases.items():
+            with self.subTest(label):
+                self.assertIn("CI", self._reason("gh pr merge 7", True, self._pr(statusCheckRollup=rollup)))
+
+    def test_refuses_a_missing_stale_or_negative_verdict(self) -> None:
+        cases = {
+            "missing": [],
+            "stale": [_verdict(sha="b" * 40)],
+            "changes": [_verdict(), _verdict("request-changes", when="2026-01-02T00:00:00Z")],
+        }
+        for label, comments in cases.items():
+            with self.subTest(label):
+                self.assertIsNotNone(self._reason("gh pr merge 7", True, self._pr(comments=comments)))
+
+    def test_a_later_approval_in_a_review_counts(self) -> None:
+        pr = self._pr(
+            comments=[_verdict("request-changes")],
+            reviews=[{"submittedAt": "2026-01-03T00:00:00Z", "body": _verdict()["body"]}],
+        )
+        self.assertIsNone(self._reason("gh pr merge 7", True, pr))
+
+    def test_admin_and_unreadable_pull_requests_are_refused(self) -> None:
+        self.assertIn("--admin", self._reason("gh pr merge 7 --admin", True, self._pr()))
+        self.assertIn("couldn't read", self._reason("gh pr merge 7", True, None))
+
+    def test_commands_without_a_merge_never_call_gh(self) -> None:
+        self.assertIsNone(self._reason("git status && gh pr list", True, self._pr()))
+        self.assertIsNone(self.last_command)
 
 
 class PreCommitTests(unittest.TestCase):

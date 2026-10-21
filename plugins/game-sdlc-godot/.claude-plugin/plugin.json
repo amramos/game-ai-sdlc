@@ -1,6 +1,6 @@
 {
   "name": "game-sdlc-godot",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Godot 4 engine pack for game-sdlc: repo setup (contract, ADRs, hooks for Claude and Codex, CI, itch release) and Godot workflow skills.",
   "author": {
     "name": "amramos"

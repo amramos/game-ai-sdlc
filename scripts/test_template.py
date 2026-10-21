@@ -40,6 +40,7 @@ SAMPLE_VALUES = {
     "GUT_VERSION": "9.x",
     "PROJECT_SLUG": "sample_game",
     "WORKING_STYLE": "The owner works **hands-off**.",
+    "AGENT_MERGES_RULE": "Only the owner merges into `main`.",
 }
 
 

@@ -3,6 +3,25 @@
 What changed in each version of the `game-sdlc` and `game-sdlc-godot` plugins, newest first. Both
 plugins are released together under one version.
 
+## 0.3.0 — 2026-10-21
+
+Hands-off builds no longer stop for setup questions.
+
+- **setup-godot:** asks once whether agents may merge reviewed pull requests into `main`
+  (recommended in hands-off projects) and, if so, records it on day one: ADR-0006,
+  `.agents/merge-policy.json`, and a line in `AGENTS.md`.
+- **team-lead-handsoff:** adopts agent merges itself (ADR, policy file, its own pull request merged
+  first) when a project hasn't yet; your invoking it is the decision. Branch protection is used where
+  the GitHub plan allows it; otherwise the merge guard covers it. The reviewer's verdict is a PR
+  comment by default; a bot account is optional.
+- **New merge guard** in the project's hooks (`merge_guard.py`, called by `guard_bash.py`): an
+  agent's `gh pr merge` into `main` is refused unless the merge policy allows it, every CI check
+  passed, and the latest verdict approves the pull request's current head commit. `--admin` is
+  always refused.
+- **adversarial-reviewer** ends every review with `VERDICT: approve` or `VERDICT: request-changes`.
+- **Fix:** the hooks now decode command output as UTF-8. On Windows, output containing any non-ASCII
+  character (a PR comment, a file name) used to fail to decode.
+
 ## 0.2.2 — 2026-10-21
 
 - **art-direction:** directions must differ in medium or rendering, never only in colour. When the

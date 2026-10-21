@@ -96,7 +96,7 @@ def main() -> int:
                 problems.append(f"{rel}: leftover from the source project: {match.group(0)!r}")
         mentions_placeholders = "{{" in text.replace("{{PLACEHOLDERS}}", "")
         if TEMPLATE_MARK not in path.parts and mentions_placeholders and path.suffix in {".md", ".json"}:
-            if "gdd-template" not in rel and "ledger-template" not in rel:
+            if "template" not in path.name and "agent-merges/" not in rel:
                 problems.append(f"{rel}: unfilled {{{{placeholder}}}} outside the project template")
         if path.suffix == ".md" and TEMPLATE_MARK not in path.parts:
             for target in LINK.findall(text):
@@ -104,6 +104,15 @@ def main() -> int:
                     continue
                 if not (path.parent / target).exists():
                     problems.append(f"{rel}: broken link {target}")
+
+    # The agent-merges ADR ships in two plugins (setup-godot writes it on day one, team-lead-handsoff
+    # when it's missing); the two copies must stay identical.
+    copies = [
+        PACKAGE / "plugins/game-sdlc/skills/team-lead-handsoff/agent-merges-adr-template.md",
+        PACKAGE / "plugins/game-sdlc-godot/skills/setup-godot/agent-merges/agent-merges-adr-template.md",
+    ]
+    if len({copy.read_bytes() for copy in copies if copy.is_file()}) != 1 or not all(c.is_file() for c in copies):
+        problems.append("the two agent-merges ADR templates are missing or differ; keep them identical")
 
     for line in problems:
         print(line)

@@ -21,7 +21,7 @@
             "type": "command",
             "command": "bash \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/run.sh\" guard_bash.py",
             "commandWindows": "bash \"$(git -c 'safe.directory=*' rev-parse --show-toplevel)/.agents/hooks/run.sh\" guard_bash.py",
-            "timeout": 10,
+            "timeout": 30,
             "statusMessage": "Checking shell safety"
           },
           {

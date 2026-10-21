@@ -138,6 +138,7 @@ The current baseline (test count, known failures) is in `docs/current-status.md`
 - Never leave GDScript untyped.
 - Never commit, push, rebase or rewrite history unless asked; force-push and hard reset always need
   specific approval. **Never commit to `main`**; branch, then open a pull request.
+- {{AGENT_MERGES_RULE}}
 - Never install a dependency without reading `docs/plugins.md` and recording a new choice in an ADR.
 - Never create a global EventBus or a convenience autoload.
 

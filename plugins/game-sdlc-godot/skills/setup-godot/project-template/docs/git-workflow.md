@@ -4,11 +4,17 @@ Solo or small-team, AI-assisted development. No Git Flow, no long-lived branches
 
 ## Branches
 
-- `main` is the only long-lived branch and always opens in Godot without a parse error. It is
-  protected: pull requests only, CI required.
+- `main` is the only long-lived branch and always opens in Godot without a parse error. Where the
+  GitHub plan allows it, `main` is protected (pull requests only, CI required); where it doesn't, the
+  merge guard below covers agents' merges.
 - **Agents never commit to `main`.** Every agent change goes on a branch and lands through a pull
   request — including one-line doc fixes. `.agents/hooks/guard_bash.py` refuses commits while `main`
   is checked out and any push to `main`, for both Claude and Codex.
+- **Merging into `main`** goes through the merge guard (`.agents/hooks/merge_guard.py`): an agent's
+  `gh pr merge` into `main` is refused unless `.agents/merge-policy.json` allows agent merges (an
+  ADR records that choice), every CI check passed, and the reviewer's latest verdict comment approves
+  the current head commit. `--admin` is always refused. It stands in for branch protection where the
+  GitHub plan doesn't offer it; it is a safety net, not a security boundary.
 - **Branch at the start of an epic** from a freshly pulled `main`:
   `git pull --ff-only origin main && git checkout -b feature/<slug>`.
 - **Confirm the current branch right before each commit.** A session can be moved onto `main` by a

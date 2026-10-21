@@ -37,7 +37,7 @@
             "type": "command",
             "command": "bash \"$CLAUDE_PROJECT_DIR/.agents/hooks/run.sh\" guard_bash.py",
             "shell": "bash",
-            "timeout": 10,
+            "timeout": 30,
             "statusMessage": "Checking for dangerous command..."
           },
           {
