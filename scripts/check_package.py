@@ -52,8 +52,14 @@ def main() -> int:
         data = json.loads(manifest.read_text(encoding="utf-8"))
         if data.get("name") != plugin["name"]:
             problems.append(f"{plugin['name']}: plugin.json name is {data.get('name')!r}")
-        if data.get("version") != plugin.get("version"):
-            problems.append(f"{plugin['name']}: version differs between marketplace and plugin.json")
+        # The version lives in plugin.json only: if the marketplace entry also sets one, plugin.json
+        # wins silently, and the two drift.
+        if "version" in plugin:
+            problems.append(f"{plugin['name']}: set version in plugin.json only, not in the marketplace entry")
+        if not data.get("version"):
+            problems.append(f"{plugin['name']}: plugin.json has no version, so users only update by commit")
+        elif data["version"] != marketplace.get("metadata", {}).get("version"):
+            problems.append(f"{plugin['name']}: plugin.json version differs from the marketplace's metadata.version")
 
     names: set[str] = set()
     for skill_md in sorted(PACKAGE.glob("plugins/*/skills/*/SKILL.md")):

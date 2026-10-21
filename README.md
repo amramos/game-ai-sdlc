@@ -46,6 +46,10 @@ stale rules don't block new ideas.
 /plugin install game-sdlc-godot@game-ai-sdlc
 ```
 
+Then **turn on auto-update**, once: `/plugin` → **Marketplaces** → `game-ai-sdlc` → **Enable
+auto-update**. Claude Code doesn't do this by default for marketplaces outside Anthropic's own, and
+without it you won't receive new versions (see [Updating](#updating)).
+
 From a local copy instead of GitHub: `/plugin marketplace add /path/to/game-ai-sdlc`.
 
 | Plugin | What's in it |
@@ -67,6 +71,24 @@ python scripts/install_codex.py --remove # uninstall (only what this script inst
 
 The projects `setup-godot` creates work with both clients: one shared `AGENTS.md`, the same hooks
 registered for each, and the same three agent roles.
+
+### Updating
+
+**With auto-update on**, Claude Code checks this marketplace in the background a few minutes into a
+session, installs any new version, and shows *"Plugin updated … Run /reload-plugins to apply"*. The
+new version loads after `/reload-plugins` or in your next session.
+
+**Without it**, nothing tells you a new version exists. Update by hand:
+
+```bash
+claude plugin marketplace update game-ai-sdlc
+claude plugin update game-sdlc@game-ai-sdlc
+claude plugin update game-sdlc-godot@game-ai-sdlc
+```
+
+**To hear about new versions**, watch this repository on GitHub (*Watch → Custom → Releases*): every
+version gets a release, with what changed in [CHANGELOG.md](CHANGELOG.md). Codex users re-run
+`python scripts/install_codex.py` after updating their copy of the repository.
 
 ---
 
@@ -252,6 +274,12 @@ python scripts/check_package.py
 python -m unittest discover -s scripts/tests
 python scripts/test_template.py
 ```
+
+To release: bump `version` in both `plugin.json` files and `metadata.version` in
+`.claude-plugin/marketplace.json` (the checker keeps them equal; plugin entries carry no version of
+their own), add a [CHANGELOG.md](CHANGELOG.md) entry, push to `main`, then
+`gh release create v<version> --title <version> --notes "<the changelog entry>"`. Without a version
+bump, users with auto-update don't receive the change.
 
 ## Limits, honestly
 
