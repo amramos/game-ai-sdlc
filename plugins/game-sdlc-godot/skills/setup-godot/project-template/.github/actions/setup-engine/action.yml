@@ -14,7 +14,7 @@ runs:
       shell: bash
       run: echo "godot=$(tr -d '[:space:]' < .godot-version)" >> "$GITHUB_OUTPUT"
 
-    - uses: actions/cache@v4
+    - uses: actions/cache@v6
       with:
         path: ~/.cache/godot-ci
         key: godot-${{ steps.version.outputs.godot }}-templates-${{ inputs.export-templates }}

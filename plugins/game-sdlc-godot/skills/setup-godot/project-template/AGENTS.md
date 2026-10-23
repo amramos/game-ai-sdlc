@@ -59,7 +59,7 @@ Use these words exactly, in code, docs and conversation. One meaning each.
 .agents/    shared hooks, role workflows, generated Codex skill mirrors, hook tests
 .claude/    Claude Code adapters, project skills, settings
 .codex/     Codex hooks, config, agent definitions
-.github/    CI, release and (optionally) bug-intake workflows
+.github/    CI, release and (optionally) bug-intake workflows; Dependabot for action versions
 addons/     third-party Godot plugins, vendored and never edited
 core/       pure logic independent of the scene tree
 docs/       GDD, architecture, ADRs, plans, status, history

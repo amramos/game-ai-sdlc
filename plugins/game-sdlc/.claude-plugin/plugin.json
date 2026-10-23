@@ -1,6 +1,6 @@
 {
   "name": "game-sdlc",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "An AI-assisted development lifecycle for games, engine-agnostic: GDD interview, prototypes, art direction, feature planning, tracking, agent teams, playtests, releases, bug intake and keeping docs true.",
   "author": {
     "name": "amramos"

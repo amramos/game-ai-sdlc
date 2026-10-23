@@ -3,6 +3,17 @@
 What changed in each version of the `game-sdlc` and `game-sdlc-godot` plugins, newest first. Both
 plugins are released together under one version.
 
+## 0.3.1 — 2026-10-23
+
+- **setup-godot and bug-intake:** the workflow templates use current GitHub Actions versions
+  (`actions/checkout` v7, `actions/setup-python` v7, `actions/cache` v6). New projects no longer start
+  behind.
+- **setup-godot:** new projects get a `dependabot.yml` that keeps their workflows' action versions
+  current, including the `setup-engine` composite action.
+
+Projects created with an earlier version keep their old workflow files; copy the new ones in, or bump
+the versions by hand, to catch up.
+
 ## 0.3.0 — 2026-10-21
 
 Hands-off builds no longer stop for setup questions.
