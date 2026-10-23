@@ -299,6 +299,11 @@ bump, users with auto-update don't receive the change.
 - **It grew out of one solo project** with one owner deciding. A team would need its own answer to
   "who is the owner".
 
+## Contributing
+
+Issues and pull requests are welcome: see [CONTRIBUTING.md](CONTRIBUTING.md). Security problems go
+through private reporting instead: see [SECURITY.md](SECURITY.md).
+
 ## License
 
 [MIT](LICENSE). Use it, change it, share it.

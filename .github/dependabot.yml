@@ -1,0 +1,8 @@
+# Keeps the GitHub Actions used by this repository's workflows up to date. The package itself has
+# no other dependencies.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

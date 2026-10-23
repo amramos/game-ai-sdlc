@@ -14,11 +14,18 @@ import sys
 
 PACKAGE = Path(__file__).resolve().parents[1]
 TEMPLATE_MARK = "project-template"
-# Words that only made sense in the project this package was extracted from.
-LEFTOVERS = re.compile(
-    r"Skeleton Crew|skeleton-crew|Old Finn|\bSK-\d|voyage|Voyage|Shanty|ADR-00(?:[6-9]\d)|gpt-6|gpt-5|"
-    r"murph|opencode",
-)
+# What must never ship in a public package: personal email addresses and absolute paths into a
+# user's folders. Private words (names from the project this was extracted from, for example) go in
+# scripts/leftovers.local.txt, one regex per line; that file is git-ignored, so the list stays private.
+LEFTOVERS = [
+    re.compile(
+        # Not GitHub's no-reply addresses, the commit trailers' address, or the reserved example domains.
+        r"[A-Za-z0-9._%+-]+@(?!users\.noreply\.github\.com\b|anthropic\.com\b|example\.(?:com|org|net)\b)"
+        r"[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}"
+    ),
+    re.compile(r"\b[A-Za-z]:[\\/]+Users[\\/]+[^\\/\s]+|/(?:c/Users|home|Users)/[A-Za-z0-9._-]+/"),
+]
+LOCAL_LEFTOVERS = PACKAGE / "scripts" / "leftovers.local.txt"
 LINK = re.compile(r"\]\(([^)#\s]+)\)")
 KNOWN_KEYS = {"name", "description", "argument-hint", "disable-model-invocation", "user-invocable",
               "allowed-tools", "model", "tools", "effort"}
@@ -41,6 +48,11 @@ def frontmatter(text: str) -> dict[str, str] | None:
 
 def main() -> int:
     problems: list[str] = []
+    leftovers = list(LEFTOVERS)
+    if LOCAL_LEFTOVERS.is_file():
+        for line in LOCAL_LEFTOVERS.read_text(encoding="utf-8").splitlines():
+            if line.strip() and not line.startswith("#"):
+                leftovers.append(re.compile(line.strip()))
 
     marketplace = json.loads((PACKAGE / ".claude-plugin" / "marketplace.json").read_text(encoding="utf-8"))
     for plugin in marketplace["plugins"]:
@@ -91,9 +103,10 @@ def main() -> int:
             continue
         rel = path.relative_to(PACKAGE).as_posix()
         text = path.read_text(encoding="utf-8")
-        if path.name != "check_package.py":
-            for match in LEFTOVERS.finditer(text):
-                problems.append(f"{rel}: leftover from the source project: {match.group(0)!r}")
+        if path.name != "check_package.py" and path.name != LOCAL_LEFTOVERS.name:
+            for pattern in leftovers:
+                for match in pattern.finditer(text):
+                    problems.append(f"{rel}: must not be published: {match.group(0)!r}")
         mentions_placeholders = "{{" in text.replace("{{PLACEHOLDERS}}", "")
         if TEMPLATE_MARK not in path.parts and mentions_placeholders and path.suffix in {".md", ".json"}:
             if "template" not in path.name and "agent-merges/" not in rel:
