@@ -14,6 +14,8 @@ track Godot. Read this before proposing one.
 - **Godot MCP** (`@coding-solo/godot-mcp`, through `npx`) — lets agents run the game and read its
   output (ADR-0002).
 - **butler** — itch.io uploads, used only in CI.
+- **Dependabot** (`.github/dependabot.yml`) — opens a pull request each month when a GitHub Action used
+  by the workflows has a new version. Review and merge them like any other change.
 
 ## Proposing a new one
 

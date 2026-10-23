@@ -1,0 +1,10 @@
+# Keeps the GitHub Actions in this project's workflows (and the setup-engine composite action they
+# call) up to date. Dependabot opens one pull request per update; CI runs on it like any other.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directories:
+      - /
+      - /.github/actions/setup-engine
+    schedule:
+      interval: monthly
