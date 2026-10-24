@@ -216,6 +216,7 @@ a fix agent opens a pull request that starts from a failing test.
 | `issue-tracking` | game-sdlc | agents | Epic → Feature on Linear or GitHub, statuses kept current |
 | `team-lead` | game-sdlc | you | An epic built by an agent team, as PRs for you to merge |
 | `team-lead-handsoff` | game-sdlc | you | The same, merged to `main` behind a checklist |
+| `game-ui` | game-sdlc | agents, or you | The ten commandments for game interfaces; a screen spec; a ranked UI review of a screen |
 | `playtest` | game-sdlc | you or agents | Blind AI playtest reports; your findings mapped to fixes |
 | `release` | game-sdlc | you | A playtest or public build on itch.io |
 | `bug-intake` | game-sdlc | you, once | Bugs triaged and fixed as PRs, automatically |
