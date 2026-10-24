@@ -250,9 +250,8 @@ one menu); GD2 04:13; LEC 57:22; VAL.
 
 ## Where the commandments are used
 
-None of this is built yet. Each row is a change from the open proposal
-([2026-10-24-game-ui-and-run-efficiency.md](../../docs/proposals/2026-10-24-game-ui-and-run-efficiency.md)),
-named in its last column.
+None of this is built yet. Each row is a change from the owner's open proposal for the skills
+(numbered P1 to P25, not yet in the repository), named in its last column.
 
 | Where | When it runs | Commandments | What happens there | Proposal |
 |---|---|---|---|---|
