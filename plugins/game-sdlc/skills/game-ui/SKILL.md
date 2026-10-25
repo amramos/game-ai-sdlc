@@ -18,7 +18,9 @@ Where they're silent, these apply.
 
 **Find the pillars first.** Commandment 1 judges elements against the game's pillars: read them from
 the GDD or `AGENTS.md`. If the game has none, say so, recommend settling them (the first round of
-`feature-planning` does), and meanwhile judge each element by the player decision it supports.
+`feature-planning` does), and meanwhile judge each element by the player decision it supports. This
+skill only reads pillars: never write or reword them here, and never put interface rules in them;
+interface rules belong in the project's interface style sheet.
 
 ## The ten commandments
 
@@ -29,12 +31,21 @@ pillar it serves, or the player decision it supports. A default is not a decisio
 "other games have one".
 - Where relevant, an element that can't be strongly linked to a pillar isn't shown. The exception is
   the functional floor every game needs: settings, pause, saving, accessibility, input help.
-- Hiding information is a decision too: withhold on purpose, never by accident. Before removing
-  friction someone designed, find out why it's there.
+- Information is given on purpose, not by default. The game knows more than the player should see:
+  show what the player needs to decide and to feel, and choose what to withhold. Summaries, endings
+  and results are where this slips most: whether they judge the player's choices, nudge, or only show
+  consequences is a call for the pillars. A tutorial may well show verdicts; an in-world nudge (a
+  character remarking on what the player missed) usually teaches better than a verdict. Before
+  removing friction someone designed, find out why it's there.
+- Unknown words are on purpose too. A name dropped to intrigue is fine if the game pays it off later;
+  a term the player needs for a decision is taught by play before that decision, not explained in a
+  caption.
 - Break a rule only knowingly, for a pillar, and never at the player's expense.
 
 *Check:* every element in the screen spec has its pillar or decision, and the spec lists what is
-deliberately absent.
+deliberately absent. No text tells the player what they should have done unless a pillar wants it.
+Every word the player doesn't know yet is either intrigue the game pays off or taught before it's
+needed.
 
 ### 2. Built from the moment
 
@@ -42,11 +53,12 @@ Each screen comes from what the player is doing right now, and shows what that m
 precision it needs.
 - Start from the activity, not from the previous screen or a template. Keep style and interaction
   patterns consistent across screens; let layout differ.
-- When the mode changes, the previous mode's UI goes. What matters only sometimes appears only then.
+- When the mode changes, the previous mode's live data and controls go; a dimmed, inert backdrop may
+  stay for a sense of place. What matters only sometimes appears only then.
 - Exact numbers where the player compares or calculates; meters or words where they should feel.
 
-*Check:* the spec names the activity; each number names the comparison it serves; no panel survives
-from a previous mode.
+*Check:* the spec names the activity; each number names the comparison it serves; no live data or
+control survives from a previous mode.
 
 ### 3. Designed with the mechanic
 
@@ -61,14 +73,16 @@ How the player perceives a mechanic is part of the mechanic, decided with it, no
 
 - Rank everything in three reads: the objects in play, the rules that matter now, minor context.
   Push the low ranks back on purpose: darker, washed out, lower contrast.
-- Ration emphasis: the brightest, hottest colour only for what matters or can be acted on; frames,
-  borders and titles mid-tone. Emphasis on everything is emphasis on nothing.
+- Ration emphasis: importance shows through brightness, size and weight, and the accent colour keeps
+  the one job commandment 7 gives it. Frames, borders and titles sit mid-tone. Emphasis on everything
+  is emphasis on nothing.
 - About seven kinds of thing per screen at most, three to five being safer (a list counts once); no
   more than three menu levels.
 - Centre for what matters, edges for what's glanced at; controls near what they act on.
 - Shape before colour: roles differ in silhouette, neighbouring colours differ in brightness, and
   colour never carries meaning alone.
-- Critical state uses at least two channels: a meter plus motion, sound or an in-world reaction.
+- Live critical state (health, a timer, a threat) uses at least two channels: a meter plus motion,
+  sound or an in-world reaction. Static summaries don't need it.
 
 *Check:* a greyscale and a blurred capture still show the key objects and their roles; a border is
 never the highest-contrast thing on screen.
@@ -105,7 +119,9 @@ device.
   an action game shouldn't be.
 - Neither more nor less decoration is the fix: toneless and flashy both fail; plain works when it's
   chosen and unmistakably the game's.
-- UI colours stand apart from the world's; one accent colour has one job, with a variant per state.
+- UI colours stand apart from the world's. One accent colour has one job, named in the interface
+  style sheet ("the one action", or "a consequence"), with a variant per state. When two things want
+  the accent, one of them gets a shape or a weight instead.
 - In-world wording for flavour actions; plain verbs where a mistake costs the player.
 
 *Check:* beside a reference game of the same genre, does it read as a game or an app? Every accent
@@ -117,8 +133,8 @@ colour's job is listed.
   numbers.
 - Put information in the world when it lives there and stays readable; tag each element diegetic,
   non-diegetic, spatial or meta, with the reason for this game's tone.
-- Never restate what the screen shows. A label names; it doesn't explain. Highlight the words that
-  matter.
+- Never restate what the screen already shows elsewhere (a comparison row may repeat its terms). A
+  label names; it doesn't explain. Highlight the words that matter.
 - Text-heavy play is right only when a pillar asks for it: a game about drowning in bureaucracy can
   bury the player in paperwork; an action game can't. When text belongs, give it the voice the pillars
   choose (an oracle's riddles, a song, a ledger), not a form.
@@ -134,6 +150,8 @@ shows.
   a one-frame jump). Actions feel like what they represent.
 - Repeated feedback stays short and out of the way. Nothing blocks input except the game's one
   signature moment, and that one briefly.
+- No UI sounds yet? Synthesise them in code or use CC0 sounds, recording the source, or record them as
+  owed.
 
 *Check:* every press answered within about 0.3 s; every input block listed with its reason. Motion and
 feel are judged in play or from frame sequences, never from stills.
@@ -148,6 +166,14 @@ feel are judged in play or from frame sequences, never from stills.
 - Legible at the smallest size it ships at: confusable glyphs tested, spacing tight enough to read
   fast, an edge or shadow on pixel text over art, columns rather than very wide lines.
 - Text stays live, never baked into images, so it can be localised.
+- When the fonts on hand aren't enough: with one font, the display role is a size and treatment of
+  it. If a role still needs another face, search licence-safe sources: Google Fonts (all under the SIL
+  Open Font License) first, other free font sites only for fonts whose licence explicitly allows
+  commercial use and embedding, since many are free for personal use only. The font must cover every
+  character the game's languages use and, for pixel art, have a grid at the native size. Record its
+  source and licence in the credits and follow the project's rules for new assets (a hands-off run
+  records the choice as assumed). If nothing fits, tell the owner what to look for: the role, the
+  style, the characters, the size grid and the licence.
 
 *Check:* text comes from the project's type roles (a theme), never a font or size set per scene; a
 capture of confusable glyphs at the smallest size.
@@ -156,13 +182,19 @@ capture of confusable glyphs at the smallest size.
 
 Before building a screen, write its spec from [screen-spec-template.md](screen-spec-template.md): the
 player's activity, every element with its pillar or decision and its read, what's deliberately absent,
-the word budget, the input devices and full content size, and how the screen pushes things back and
-brings things forward.
+the word budget, the input devices and full content size, how the screen pushes things back and brings
+things forward, and its motion.
 
+- **Redesigning an existing screen? List the earlier rulings it overturns** (decisions ledgers, ADRs,
+  the GDD) and settle them in the working style: ask the owner, or record each as assumed in a
+  hands-off run.
 - **A material layout choice gets sketches**: two or three options drawn over a real capture, side by
   side, before anyone picks (as in `feature-planning`).
 - **A styled game gets a style frame first** for any new kind of screen: generated with the project's
-  image tools, cleaned onto its palette, judged at 1:1. The build matches the frame.
+  image tools from the worst-case content (the longest text, the most items), cleaned onto its
+  palette, judged at 1:1. The build matches the frame; where the frame and the fit disagree, the fit
+  wins.
+- **Run the greyscale and blur checks early**, on the frame and the first build, not only at review.
 - **Judge at the native resolution.** Zoomed captures are for reading detail, never for approval.
 
 ## Reviewing a screen
@@ -183,6 +215,7 @@ The procedure when asked to review a screen, scene or capture, and the one the l
 ## Traps agent-built UI falls into
 
 - A panel of system text for every piece of information, all at the same weight.
+- A summary that tells the player what they should have done, because the data was there.
 - Numbered lists, "Next" and "Skip" cards, and caption bars that restate the screen.
 - Labels that explain how to use the thing they label.
 - A new line of text where a visible change would do.
