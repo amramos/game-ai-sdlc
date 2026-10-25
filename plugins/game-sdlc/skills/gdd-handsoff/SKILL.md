@@ -59,6 +59,9 @@ tree independently:
 | **Market analyst** | comparables, prices, what sells in this niche; backed by research agents (gdd-core §3) | any |
 | **Skeptic** | what fails, what's too big, what's a copy | a model from another vendor when available (e.g. Codex through its Claude Code plugin); otherwise another model |
 
+Every panelist's model is set explicitly, and none is more expensive than the session's: "a
+different model" means a cheaper one here.
+
 Resolve each question: **unanimous** → take it; **split** → you decide, with one line naming the
 dissent. Decisions that shape the game's identity — the pillars, tone, art style, the interface
 choices (gdd-core's interface branch), the hook, anything left open by the intake — are recorded as

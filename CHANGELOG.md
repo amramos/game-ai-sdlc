@@ -5,8 +5,33 @@ plugins are released together under one version.
 
 ## Unreleased (planned 0.5.0)
 
-Game interfaces designed from the start, not defaulted to web-page layouts. Built and awaiting a test
-on a held-out game before release.
+Game interfaces designed from the start, not defaulted to web-page layouts; and agent teams that run
+leaner and faster. Built, and awaiting one test on a held-out game before release.
+
+**Leaner runs:**
+- **Hands-off skills can be started by agents:** `feature-planning-handsoff` and `team-lead-handsoff`
+  run when the owner chose them, including from an up-front question, instead of only from a typed
+  command.
+- **Models on purpose, never above the session's:** every agent's model is set explicitly, the
+  session's model is the ceiling, and narrow work runs a tier down. Panels' "different model" means a
+  cheaper one.
+- **A small lead context:** agents report in about 200 words with paths to the detail, screenshots go
+  to a critic agent, the lead writes `STATE.md` at each package boundary, and at a usage-limit
+  warning it launches nothing new.
+- **Build cards** quote each package's ledger rows, so agents don't each read the whole ledger and
+  plan; **scene hooks** agreed up front replace the integrator stage; a shared scene has one owner
+  who builds its placeholders first.
+- **Fixes inline or in a fresh small agent,** never inside an agent resumed at a large context; the
+  full test suite runs once per package, at the gate.
+- **Capped loops:** code review at most two cycles, biased to one, the second only checking the
+  fixes; the visual critic one scoring round plus one confirmation, with motion judged in play and
+  layout or taste calls sent to the owner.
+- **One pull request per owner checkpoint,** one commit per feature; a PR may close several features.
+- **A lighter log,** with PR bodies and reports drafted by a cheap agent; and lessons for the lead
+  (background waits, Glob and Grep instead of recursive listings, Windows heredocs, Codex prompts on
+  stdin).
+
+**Designed interfaces:**
 
 - **New skill, `game-ui`:** ten commandments for game interfaces, each with a check, plus a screen
   spec template and a review procedure (`/game-sdlc:game-ui` on a screen or capture). Agents load it

@@ -167,7 +167,8 @@ really yours get marked *assumed*, so when you're back you read only those.
 The approved plan becomes an epic, with one feature per work package (`issue-tracking`, Linear or
 GitHub Issues). A lead agent writes a brief, agrees the interfaces, and runs developer agents in
 parallel. Each piece is reviewed adversarially by a model from another vendor as it lands, then the
-lead playtests the result, runs every check, cleans the docs, and opens one pull request per feature.
+lead playtests the result, runs every check, cleans the docs, and opens a pull request for each
+checkpoint you'll actually look at (usually the playable slice, then the rest).
 You merge. The run ends with a short story page: who did what, pushback, disagreements, the results,
 and how to try it yourself.
 

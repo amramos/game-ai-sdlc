@@ -166,7 +166,8 @@ component exists" or "the signal fires". Interface criteria come from the `game-
 
 A plan is **big** when it adds a new system, reverses a past decision, has more than three work
 packages, or the owner says so. Before approval, a reviewer — a model from another vendor when one
-is available (for example Codex through its Claude Code plugin), otherwise a different model from
+is available (for example Codex through its Claude Code plugin), otherwise a different model (no
+more expensive than the session's) from
 the one that wrote the plan — checks both directions:
 
 1. **Every decision in the ledger appears in the plan**, with the same meaning.

@@ -76,7 +76,8 @@ resembles.
 
 - **Interactive:** **the user picks one** — or asks for another round that changes one thing.
 - **Hands-off:** **the critic picks.** It's a separate agent — a model from another vendor when
-  available (e.g. Codex), otherwise a different model from the one that generated the frames — and
+  available (e.g. Codex), otherwise a different model from the one that generated the frames and
+  no more expensive than the session's — and
   it gets only the GDD's art and interface sections, its references and pillars, and a review sheet
   of the frames. It scores each direction on: fit with the references and the pillars; readability
   at game scale, judged at 1:1 (the text-heavy screen included); consistency across the four frames;

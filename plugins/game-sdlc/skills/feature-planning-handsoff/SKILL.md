@@ -1,8 +1,7 @@
 ---
 name: feature-planning-handsoff
-description: Plan a feature without the owner in the loop — a panel of agents (a designer, a player advocate and a skeptic from another model vendor) answers every round of questions, decisions that belong to the owner are marked as assumed, and the plan comes out provisionally approved, optionally going straight on to be built. Use when the owner wants a feature planned (and possibly built) while they are away.
+description: Plan a feature without the owner in the loop — a panel of agents (a designer, a player advocate and a skeptic from another model vendor) answers every round of questions, decisions that belong to the owner are marked as assumed, and the plan comes out provisionally approved, optionally going straight on to be built. Use when the owner wants a feature planned (and possibly built) while they are away: when they invoke it, ask for hands-off planning in their own words, or accept it as the next step offered in the project's hands-off working style. Never pick it on your own initiative.
 argument-hint: "The feature or change to plan"
-disable-model-invocation: true
 ---
 
 # Feature planning (hands-off)
@@ -29,6 +28,9 @@ Three panelists, each a separate agent with its own brief, so their views stay i
 | **Designer** | the GDD, its pillars (every answer tested against them), and consistency with the rest of the game | the session's model |
 | **Player advocate** | a player meeting this for the first time: clarity, fun, frustration | a different model from the designer's |
 | **Skeptic** | what fails, what's missing, what's expensive, what contradicts a past decision | a model from another vendor when available (e.g. Codex through its Claude Code plugin); otherwise a third model |
+
+Every panelist's model is set explicitly, and none is more expensive than the session's: "a
+different model" means a cheaper one here.
 
 Each panelist gets the same round (the frontier, with your recommendation per question), the
 relevant GDD sections and docs, and answers every question with a choice and one line of reason.

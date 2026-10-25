@@ -105,15 +105,22 @@ Two refinements came later:
 
 ## 7. Build — `team-lead`
 
-**Produces:** stacked pull requests, a short report and a story page.
+**Produces:** a pull request per owner checkpoint, a short report and a story page.
 
 - **The lead decides, developers build.** Architecture is settled in the brief, interfaces are agreed
   before anyone starts, and each developer owns its files.
 - **Review from another vendor.** A model reviewing code written by its own kind tends to share its
   blind spots. Reviews by a different vendor's model found real bugs that same-model review missed.
 - **Fix with a failing test first, or decline with a reason.** Both are recorded.
-- **Explicit models on every agent.** An agent inherits the session's model and its usage cap; three
-  agents on one capped model died mid-run.
+- **Explicit models on every agent, never above the session's.** An agent inherits the session's
+  model and its usage cap; three agents on one capped model died mid-run. Narrow work runs a tier
+  down.
+- **Most of a run's cost is context, not output.** The Valhalla UI overhaul (15 hours, 6 of them
+  stopped at usage limits) showed where it went: a lead re-reading about 500k tokens on every call,
+  small fixes made inside agents resumed at 200k tokens, an integrator stage every package waited
+  on, critic loops that couldn't converge on stills, five PRs for an owner who merged them at once.
+  Hence build cards, brief reports, fresh small agents for fixes, scene hooks instead of an
+  integrator, capped review and critic rounds, and a PR per checkpoint.
 - **Whole epics overnight.** Several epics were built unattended, each piece reviewed. Every gate
   stayed provisional until the owner played the result.
 - **Hands-off means no setup questions mid-run.** The first hands-off test stopped on three questions:
