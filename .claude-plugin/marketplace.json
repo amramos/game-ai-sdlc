@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "An AI-assisted development lifecycle for games: from a design interview to a released build, with the owner's judgment as the gate.",
-    "version": "0.5.0"
+    "version": "0.5.1"
   },
   "plugins": [
     {

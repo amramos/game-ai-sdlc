@@ -25,7 +25,9 @@ Read the GDD's pitch, pillars and core loop. Then agree with the user, in one sh
   unhandled feel tense rather than unfair?"
 - **The variations.** Two or three, each a **different approach to the core mechanic** — e.g.
   real-time versus turn-based triage, or hidden versus visible odds. Not the same loop at different
-  tuning, and not different art. Recommend a set and say what each one tests.
+  tuning, and not different art. When the GDD leaves the camera or space open (first-person 3D
+  against a top-down grid, say), the same mechanic in two cameras is a fair pair: otherwise the
+  prototype quietly decides the camera. Recommend a set and say what each one tests.
 - **Done means.** How long a session lasts (aim for 3–5 minutes) and what "fun" would look like.
 
 ## 2. Build each variation as one HTML file
@@ -47,6 +49,10 @@ Each prototype is a **single self-contained `.html` file** that opens in a brows
   or later, for playtesters and solvers without a browser:
   `node <this skill>/scripts/proto_cli.mjs prototypes/<variation>.html` starts a session (`describe`,
   `actions`, `act <name>`, `quit`); commands given after the file run in order and exit.
+- a **3D variation** stays one file too: load three.js from a CDN at an exact version (for example
+  `https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js`) in the drawing block, with
+  flat-coloured boxes for the world. The rules block stays the same as a 2D variation's, so the
+  headless runner and solvers work on either.
 
 Put the files in a `prototypes/` folder outside any game repository (or the scratchpad), named
 `<variation>.html`. If an artifact or page publishing tool is available, publish each one as a

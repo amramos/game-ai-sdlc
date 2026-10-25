@@ -3,6 +3,26 @@
 What changed in each version of the `game-sdlc` and `game-sdlc-godot` plugins, newest first. Both
 plugins are released together under one version.
 
+## 0.5.1 — 2026-10-25
+
+The camera and the medium follow the owner's taste, not the toolchain. A test game whose references
+were mostly first-person 3D came out as top-down pixel art, decided before art direction ran.
+
+- **gdd-handsoff:** each concept states its camera and medium. When most of the games the owner loves
+  share one, at least one concept uses it, and a departure is shown in the summary with its reason
+  and the alternative's cost.
+- **gdd-core:** camera and medium are their own early question, with options taken from the
+  references; a scope argument states the actual cost instead of a rule of thumb. "Each mechanic
+  earns its place" adds: never change the game to make it easier to check.
+- **art-direction:** generators are listed by what each renders well, and the generator never
+  chooses the medium. When most references share a medium the GDD didn't choose, one direction uses
+  it. The critic no longer scores how easily a generator repeats a style: production cost is a
+  separate, unscored line.
+- **prototype:** when the camera is open, the same mechanic in two cameras is a fair pair, and a 3D
+  variation stays one file with three.js from a CDN.
+- **setup-godot:** renderer and display recommendations come from the GDD's medium, with 3D and
+  painted examples beside the pixel-art one.
+
 ## 0.5.0 — 2026-10-25
 
 Game interfaces designed from the start, not defaulted to web-page layouts; and agent teams that run

@@ -35,12 +35,18 @@ Draft **three deliberately different concepts**, each built from the intake. Eac
 - three pillars, each a name, one line and a test question, written by gdd-core's pillar rules
   (plain, for the whole game, no interface rules, no plot);
 - the core loop in three lines;
+- a camera and medium (for example first-person low-poly 3D, top-down pixel art, side-view painted);
 - three comparables, each with the one thing borrowed;
 - one line on how it reflects the games they love and avoids the one they find boring.
 
 "Different" means a different core verb or structure (e.g. one about routing, one about
 deck-building, one about real-time juggling), not three tunings of one idea. Run a quick market search
 first so no concept is a known game in disguise.
+
+**Read the loved games' camera and medium too, not only their mechanics.** They carry the user's
+taste. When most of them share one (three first-person 3D games out of four, say), at least one
+concept uses it; another may depart, saying why and what that saves or costs. Never take the camera
+from the nearest mechanical comparable alone.
 
 Ask the user to **pick one**, or to say "you pick". Picking a concept picks its pillars too. If they
 pick, record both as `owner`. If they don't, the panel (§3) votes, and the concept and its pillars
@@ -110,6 +116,8 @@ the prototypes away.
    - the pitch;
    - **the three pillars**, each with its test question, first, since every later skill judges work
      against them;
+   - **the camera and medium**, and, when they depart from what most of the loved games share, why,
+     and what the alternative would cost, so a one-word swap is still possible;
    - **the five other assumed decisions that shape the game most**, each with its runner-up
      alternative;
    - the playtesters' verdict in two lines (including any failed bar);

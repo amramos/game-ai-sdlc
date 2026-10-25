@@ -52,7 +52,11 @@ Roughly in this order, though the frontier decides. Skip what doesn't apply.
 8. **Content** — what is authored and roughly how much (levels, events, cards, characters).
 9. **Story and tone** — if any; how it is delivered. Plot lives here, never in the pillars.
 10. **Art and audio direction** — style, camera and resolution, 2–5 reference games or images with
-    what each contributes, palette mood, audio mood. This feeds `art-direction` later.
+    what each contributes, palette mood, audio mood. This feeds `art-direction` later. **Camera and
+    medium are their own question,** asked early, since everything downstream inherits them: offer
+    the options the user's references suggest (count their cameras and media; if most share one,
+    start there), and when scope argues against an option, state its actual cost (the assets, tools
+    and time a first-person 3D version adds, say), not a rule of thumb.
 11. **Interface** — how information reaches the player: density (minimal unless the genre or a pillar
     asks for more); where words live (in the world or on a HUD); how much reading the game asks,
     which pillar wants it and in whose voice; what the player is never told, including how summaries
@@ -101,7 +105,9 @@ resource nobody needs), so check it with the cheapest evidence the genre allows:
 - **blind playtesters** otherwise (real-time and action games): they use it, and miss it when it's
   gone.
 
-A mechanic that fails is reworked, given a partner that makes it matter, or cut.
+A mechanic that fails is reworked, given a partner that makes it matter, or cut. **Never change the
+game to make it easier to check**: a grid is easy to search, but that's no reason to choose one; when
+the game can't be searched, use the bot or the playtesters.
 
 ## 3. Research agents
 
