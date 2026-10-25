@@ -272,6 +272,7 @@ scripts/check_package.py          lint the package: manifests, frontmatter, link
 scripts/test_template.py          instantiate the Godot template and run its hook tests
 scripts/tests/                    unit tests for the scripts
 docs/lifecycle.md                 the phases, and why each practice exists
+research/                         the literature behind the rules, with sources (not shipped)
 ```
 
 Before publishing a change:
