@@ -319,9 +319,9 @@ and the commandments came partly from this same game, so a game they haven't see
 
 ## Where the commandments are used
 
-Built on 2026-10-25, for release in 0.5.0 after a test on a game the commandments haven't seen. Each
-row is a change from the owner's proposal for the skills (numbered P1 to P25, not in the
-repository), named in its last column.
+Built on 2026-10-25 and shipped in 0.5.0, after a test on a game the commandments hadn't seen (a
+puzzle game, from GDD to playable slice). Each row is a change from the owner's proposal for the
+skills (numbered P1 to P25, not in the repository), named in its last column.
 
 | Where | When it runs | Commandments | What happens there | Proposal |
 |---|---|---|---|---|

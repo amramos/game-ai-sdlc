@@ -3,10 +3,10 @@
 What changed in each version of the `game-sdlc` and `game-sdlc-godot` plugins, newest first. Both
 plugins are released together under one version.
 
-## Unreleased (planned 0.5.0)
+## 0.5.0 — 2026-10-25
 
 Game interfaces designed from the start, not defaulted to web-page layouts; and agent teams that run
-leaner and faster. Built, and awaiting one test on a held-out game before release.
+leaner and faster. Tested before release on a new game, from GDD to a playable slice.
 
 **Leaner runs:**
 - **Hands-off skills can be started by agents:** `feature-planning-handsoff` and `team-lead-handsoff`
