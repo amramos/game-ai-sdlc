@@ -19,7 +19,7 @@ against the bar `gdd-handsoff` sets. Everything else is the same.
 
 ## 1. Settle the question and the variations
 
-Read the GDD's pitch, governing rule and core loop. Then agree with the user, in one short round:
+Read the GDD's pitch, pillars and core loop. Then agree with the user, in one short round:
 
 - **The question.** One sentence the prototypes must answer, e.g. "Does choosing what to leave
   unhandled feel tense rather than unfair?"
@@ -68,12 +68,17 @@ away disagreement.
 ## 4. Pick, record, discard
 
 Show a short comparison: for each variation, the user's verdict, the playtesters' verdicts in one
-line each, and your read of what the question's answer is. The **user picks one**, or a merge of two.
+line each, **which pillars the playtesters felt without being told** (compare their reports with the
+GDD's pillars; never show the pillars to them), and your read of what the question's answer is. The
+**user picks one**, or a merge of two.
 
 Then:
 - update the GDD's core loop and mechanics to the chosen approach, and add a dated line to its
   amendments header ("<date> — core loop chosen by prototype: <one line>");
 - move any new uncertainty into the GDD's open questions;
+- **take only the mechanic's lessons into the GDD.** The prototype's page layout is a web page by
+  necessity; it never becomes the game's interface, which the GDD's interface section and
+  `art-direction` decide;
 - **throw the other variations away.** Don't keep them, don't record them as rejected directions.
 
 ## 5. Next

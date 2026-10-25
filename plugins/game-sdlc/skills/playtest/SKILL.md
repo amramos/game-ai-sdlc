@@ -46,10 +46,22 @@ Run two to four in parallel. Each reports:
 - the most and least interesting decision;
 - where they got stuck or confused, with the screenshot or state at that moment;
 - bugs (anything that looked broken);
+- what they skipped reading;
+- what they understood without reading;
+- which words they didn't understand, and whether they wanted to find out what they meant;
 - how much they'd want another session (1–10), with one line of why.
 
+The three reading questions catch walls of text and restated information, show what the screens
+carry on their own, and separate intrigue that works (they wanted to find out) from confusion that
+blocks (they needed the word and didn't have it).
+
 Then write a short panel report: what several playtesters agree on first, single-player findings
-after, quotes kept verbatim, and disagreement left visible rather than averaged.
+after, quotes kept verbatim, and disagreement left visible rather than averaged. End it with
+**Pillars, felt or not**: for each of the GDD's pillars, where playtesters described that feeling
+without being told, or that nobody did. The playtesters never see the pillars.
+
+If the interface is still placeholder (grey boxes, unstyled text), say so at the top of the report:
+players judge whatever they see as final, so their reading findings mean less.
 
 An informed playtester (one that has read the GDD) is useful for one different question — "does
 this match the design?" — and must be labelled as informed in the report.

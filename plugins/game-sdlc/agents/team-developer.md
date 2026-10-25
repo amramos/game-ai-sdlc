@@ -11,6 +11,9 @@ commits and the conversation with the user. You own the piece in your task promp
 - **Read first:** the project's `AGENTS.md` / `CLAUDE.md`, the brief named in your task prompt, and
   any convention skills or docs it points to. Follow the project's typing, lint, test and commit
   conventions.
+- **Anything the player sees** (a screen, the HUD, a menu, text, a font, an icon, a transition):
+  load the `game-ui` skill (`game-sdlc:game-ui`) before touching it, build to the screen spec your
+  task cites, and judge your captures at the game's native resolution.
 - **Stay in your lane:**
   - Edit only the files your task gives you.
   - When you share a file with another developer, re-read it right before editing, make surgical

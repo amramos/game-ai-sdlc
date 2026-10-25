@@ -33,7 +33,8 @@ Ask for all of it at once, in one message or one multiple-choice call, with defa
 Draft **three deliberately different concepts**, each built from the intake. Each has:
 
 - a pitch (two sentences) and the hook;
-- a governing rule;
+- three pillars, each a name, one line and a test question, written by gdd-core's pillar rules
+  (plain, for the whole game, no interface rules, no plot);
 - the core loop in three lines;
 - three comparables, each with the one thing borrowed;
 - one line on how it reflects the games they love and avoids the one they find boring.
@@ -42,8 +43,9 @@ Draft **three deliberately different concepts**, each built from the intake. Eac
 deck-building, one about real-time juggling), not three tunings of one idea. Run a quick market search
 first so no concept is a known game in disguise.
 
-Ask the user to **pick one**, or to say "you pick". If they pick, record it as `owner`. If they
-don't, the panel (§3) votes, and the choice is recorded as `panel — assumed`.
+Ask the user to **pick one**, or to say "you pick". Picking a concept picks its pillars too. If they
+pick, record both as `owner`. If they don't, the panel (§3) votes, and the concept and its pillars
+are recorded as `panel — assumed`.
 
 ## 3. The panel works the tree
 
@@ -52,14 +54,15 @@ tree independently:
 
 | Panelist | Point of view | Model |
 |---|---|---|
-| **Designer** | the chosen concept and its governing rule; consistency | the session's model |
+| **Designer** | the chosen concept and its pillars; consistency | the session's model |
 | **Player advocate** | a first-time player: clarity, fun, frustration | a different model from the designer's |
 | **Market analyst** | comparables, prices, what sells in this niche; backed by research agents (gdd-core §3) | any |
 | **Skeptic** | what fails, what's too big, what's a copy | a model from another vendor when available (e.g. Codex through its Claude Code plugin); otherwise another model |
 
 Resolve each question: **unanimous** → take it; **split** → you decide, with one line naming the
-dissent. Decisions that shape the game's identity — the governing rule, tone, art style, the hook,
-anything left open by the intake — are recorded as `panel — assumed` even when unanimous. Keep a
+dissent. Decisions that shape the game's identity — the pillars, tone, art style, the interface
+choices (gdd-core's interface branch), the hook, anything left open by the intake — are recorded as
+`panel — assumed` even when unanimous. Keep a
 running list of every decision with who made it; the summary (§6) draws on it.
 
 ## 4. Quality gates
@@ -67,7 +70,7 @@ running list of every decision with who made it; the summary (§6) draws on it.
 These stand in for the missing owner. Apply each before writing the final GDD, and fix or cut what
 fails:
 
-- **The governing rule.** Every mechanic serves it, or it's cut.
+- **The pillars.** Every mechanic serves at least one pillar, or it's cut.
 - **Grounded in research.** Each mechanic names a shipped game that does something similar. A
   mechanic with none is flagged as a novelty risk — possibly the good kind — and becomes the first
   thing the prototype tests.
@@ -89,7 +92,8 @@ least 6/10. If neither variation clears it, the panel revises the core loop usin
 tries again — **at most twice**. If it still fails, say so plainly in the summary and recommend the
 user try the prototype themselves before going further; don't paper over it.
 
-Write the winning variation's lessons into the GDD; throw the prototypes away.
+Write the winning variation's lessons about the mechanic into the GDD (never its web layout); throw
+the prototypes away.
 
 ## 6. Output
 
@@ -97,8 +101,11 @@ Write the winning variation's lessons into the GDD; throw the prototypes away.
    panel from a short intake; the decisions marked *assumed* in the appendix are the owner's to
    confirm." Add an appendix, **Assumed by the panel**, listing every `panel — assumed` decision.
 2. **A one-page summary**, `GDD-summary.md` next to the GDD, for a user who won't read the GDD:
-   - the pitch and the governing rule;
-   - **the five assumed decisions that shape the game most**, each with its runner-up alternative;
+   - the pitch;
+   - **the three pillars**, each with its test question, first, since every later skill judges work
+     against them;
+   - **the five other assumed decisions that shape the game most**, each with its runner-up
+     alternative;
    - the playtesters' verdict in two lines (including any failed bar);
    - the skeptic's kill list, one line each;
    - one closing question: *change any of these, or continue to setup?*

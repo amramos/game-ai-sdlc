@@ -15,15 +15,16 @@ and **the user makes every design decision**. Your job is to make each decision 
 - If a multiple-choice question tool is available (such as `AskUserQuestion`), use it for rounds of
   up to four questions, your recommendation first and labelled "(Recommended)". Otherwise write the
   round as numbered markdown, so the user can answer "yes to all except 3".
-- Ask the **governing rule** explicitly ("what decides every cut?"), and push for concrete art
-  references; vague answers here cost the most later.
+- Settle the **pillars** with the user's own words (gdd-core §2, "Pillars"): offer six to eight
+  candidates, let them pick three or write their own, and keep their meaning when you tidy the
+  wording. Push for concrete art references too; vague answers here cost the most later.
 - When the user has no answer, offer suggestions (gdd-core §4). If they still don't decide, it
   becomes `[OPEN]`, not a guess.
 
 ## Finish
 
-Write the GDD (gdd-core §5), then show a short summary: the pitch, the governing rule, the core loop
-in three lines, and the `[OPEN]` items. Ask the user to confirm it reads right, fix what doesn't, and
+Write the GDD (gdd-core §5), then show a short summary: the pitch, the three pillars with their test
+questions, the core loop in three lines, and the `[OPEN]` items. Ask the user to confirm it reads right, fix what doesn't, and
 offer the next steps (gdd-core §6).
 
 If the user would rather not answer rounds at all, offer `gdd-handsoff` instead.

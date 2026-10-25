@@ -111,8 +111,14 @@ is choosing, not auditing. Change one or two things per round and say which.
 
 ## 7. Done means
 
+- never raw generator output: every asset is cleaned onto the palette and canvas, and each batch is
+  checked for the generator's habits (lifelike skin where it doesn't belong, glossy highlights, a
+  variant that changed colour but not shape);
 - palette tool clean (lint passes), with the dry-run remap read before writing;
-- colours checked by **meaning**, not just membership (`references/process.md` §5);
+- colours checked by **meaning**, not just membership (`references/process.md` §5). For pixel art,
+  reserve each signal colour to the asset paths that may use it, and lint that too;
+- for pixel art, transformed only by whole numbers (scale ×2, ×3; mirror; shear or redraw instead of
+  rotating), since anything else smears the pixels;
 - judged at true size **and** composited on real game art at game scale;
 - the user has seen it (guided) or received the unattended report (`references/critic.md`);
 - honest limits stated — what a human artist would still touch up.

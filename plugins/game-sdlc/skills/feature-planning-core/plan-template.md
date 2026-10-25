@@ -23,6 +23,8 @@ that isn't in the ledger doesn't belong here.
 |---|---|---|
 
 - **Data and content migration:** <…>
+- **Screen specs** (one per new or changed screen, from `game-ui`'s template): <links>
+- **How the player sees each mechanic:** <mechanic> — <what shows it> (D<n>)
 
 ## 4. Work packages
 
@@ -36,6 +38,8 @@ that isn't in the ledger doesn't belong here.
 - **Scenes and content:** <checks>
 - **Regressions:** <suites>
 - **Played:** <what the owner, or a blind AI playtester, plays and what they should notice>
+- **Interface:** the `game-ui` checks on each screen spec; visual acceptance by one critic round plus
+  one confirmation pass; motion from harness timings or the owner's play
 
 ## 6. Traceability
 

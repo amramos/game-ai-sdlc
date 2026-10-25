@@ -42,21 +42,49 @@ Roughly in this order, though the frontier decides. Skip what doesn't apply.
    commercial); team size; rough timeline.
 2. **Genre and comparables** — genre(s) and 3–5 comparable games, each with *the one thing borrowed*.
 3. **Pitch** — two sentences a stranger understands; the fantasy; the hook.
-4. **Governing rule** — the one or two rules that decide every cut later, e.g. "theme and mechanic
-   are the same idea". The most useful line in the document.
+4. **Pillars** — the three feelings the whole game is built to give, settled right after the pitch
+   (see "Pillars" below). Every later skill judges work against them.
 5. **Core loop** — the moment-to-moment loop, the session loop, the long loop; how a session ends;
    win and loss.
 6. **Mechanics** — each system, what the player decides in it, and its exact terms. Every term goes
    in the glossary with one meaning.
 7. **Progression and economy** — what carries over between sessions, what never does.
 8. **Content** — what is authored and roughly how much (levels, events, cards, characters).
-9. **Story and tone** — if any; how it is delivered.
+9. **Story and tone** — if any; how it is delivered. Plot lives here, never in the pillars.
 10. **Art and audio direction** — style, camera and resolution, 2–5 reference games or images with
     what each contributes, palette mood, audio mood. This feeds `art-direction` later.
-11. **Platform and business** — engine, platforms, input devices, session length, price model and
+11. **Interface** — how information reaches the player: density (minimal unless the genre or a pillar
+    asks for more); where words live (in the world or on a HUD); how much reading the game asks,
+    which pillar wants it and in whose voice; what the player is never told, including how summaries
+    treat their choices; the loudest moment and the space kept for it; the smallest readable size;
+    how the comparables present information. This decides what reaches the player and why; how it
+    looks is `art-direction`'s job. The `game-ui` skill holds the defaults these choices confirm or
+    override.
+12. **Platform and business** — engine, platforms, input devices, session length, price model and
     store (itch.io, Steam…).
-12. **Scope boundary** — what is explicitly out, and ideas parked for later.
-13. **Risks and open questions** — what could make this not fun, and what is still undecided.
+13. **Scope boundary** — what is explicitly out, and ideas parked for later.
+14. **Risks and open questions** — what could make this not fun, and what is still undecided.
+
+### Pillars
+
+Suggest them; don't impose them. Draft **six to eight candidates** from the concept, the comparables
+and the games the user loves, and let the one answering pick three, edit them, or write their own.
+
+- **A name, one line and a test question.** The line says the feeling and where the player gets it;
+  the question is what any feature, screen or sound is tested against.
+- **Plain, not pretty.** Pillars guide decisions; a line that adds meaning to sound better is cut.
+- **For the whole game.** A pillar never prescribes the interface, art or audio ("the interface does
+  X" never appears in one); each discipline derives its own rules from the pillars.
+- **Not plot.** Story beats go in the story branch.
+- **Specific to this game.** A candidate that would fit any game ("fun", "immersive") is dropped.
+- **Refining keeps the meaning.** When the user's own words become a pillar, keep their words beside
+  it and flag any premise you added.
+
+For example: **Scarcity forces choices.** There's never enough fuel for everyone, so every trip
+leaves someone behind. *Test: could the player do everything here without giving something up?*
+
+When two pillars pull apart later, the owner decides at that moment, in the feature's ledger; no rule
+is written in advance. Changing a pillar after the GDD exists goes through `design-change`.
 
 ## 3. Research agents
 
@@ -68,6 +96,9 @@ Typical moments:
   and complain about in reviews;
 - after the **pitch**: the market — similar titles on Steam and itch.io, their prices, tags, review
   counts, release years, and what made the successful ones stand out;
+- after the **pillars**: how two or three comparables present information — screenshots of their main
+  screen and their between-session or summary screens, each with the one thing to borrow. This feeds
+  the interface branch;
 - on a **mechanic**: how two or three shipped games solved the same design problem.
 
 Brief each agent with the exact question, sources to prefer (store pages, reviews, postmortems, GDC

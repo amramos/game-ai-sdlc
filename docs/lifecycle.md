@@ -9,8 +9,8 @@ what each one produces, and the failure that taught it.
 
 ## 1. Design — `gdd` or `gdd-handsoff`
 
-**Produces:** a GDD with a pitch, comparables, a governing rule, the core loop, mechanics, a glossary,
-a scope boundary and open questions.
+**Produces:** a GDD with a pitch, comparables, three pillars, the core loop, mechanics, an interface
+section, a glossary, a scope boundary and open questions.
 
 The original GDD came out of a long conversation with an AI. `gdd` turns that into an interview with
 research agents on the side. `gdd-handsoff` is for people who won't sit through an interview. Its
@@ -21,8 +21,15 @@ listed for the owner on one page.
 
 - **Design before code.** The GDD was the second commit, before any game code. Agents build from
   documents; without one, each session invents its own version of the game.
-- **One governing rule.** For example, "theme and mechanic are the same idea". Months later it still
-  settled arguments about what to cut.
+- **Three pillars, not a governing rule.** The first version had one rule that decided every cut.
+  Written as an absolute ("every verdict is a contradiction"), agents applied it literally and cut
+  variety the game needed. Pillars replaced it: the three feelings the whole game is built to give,
+  each with a test question, written plainly and never as interface or plot. When two pull apart,
+  the owner decides at that moment.
+- **The interface is designed, not defaulted.** A game that played well still looked like a web page,
+  because nothing before the build said how information reaches the player. The GDD now has an
+  interface section, the style guide covers the interface, and the `game-ui` skill holds ten
+  commandments distilled from thirteen talks on game UI (the literature is in `research/game-ui/`).
 - **`[OPEN]` instead of a guess.** An agent that meets a gap fills it with something plausible, and
   plausible is how a game drifts from what you meant. Marking undecided things as decisions made
   agents ask instead of invent.

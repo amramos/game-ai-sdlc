@@ -26,7 +26,7 @@ Three panelists, each a separate agent with its own brief, so their views stay i
 
 | Panelist | Answers from the point of view of | Model |
 |---|---|---|
-| **Designer** | the GDD, its governing rule, and consistency with the rest of the game | the session's model |
+| **Designer** | the GDD, its pillars (every answer tested against them), and consistency with the rest of the game | the session's model |
 | **Player advocate** | a player meeting this for the first time: clarity, fun, frustration | a different model from the designer's |
 | **Skeptic** | what fails, what's missing, what's expensive, what contradicts a past decision | a model from another vendor when available (e.g. Codex through its Claude Code plugin); otherwise a third model |
 
@@ -39,8 +39,9 @@ They don't see each other's answers.
 For each question:
 - **unanimous** → take it; `Decided by: panel`;
 - **split** → you decide, with a one-line reason that names the dissent; `Decided by: panel`;
-- **the owner's by nature** — taste, scope, reversing a past decision, the GDD's governing rule,
-  anything `AGENTS.md` reserves to the owner → still answered by the steps above, but recorded as
+- **the owner's by nature** — taste, scope, reversing a past decision, the GDD's pillars (setting
+  them when missing, or choosing between two that pull apart), anything `AGENTS.md` reserves to the
+  owner → still answered by the steps above, but recorded as
   `Decided by: panel — assumed`, and listed in the ledger's "Assumed by the panel" section.
 
 Never stall on an owner-only question, and never quietly drop it: answer it, mark it assumed, move on.

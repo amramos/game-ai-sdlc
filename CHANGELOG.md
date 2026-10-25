@@ -3,6 +3,36 @@
 What changed in each version of the `game-sdlc` and `game-sdlc-godot` plugins, newest first. Both
 plugins are released together under one version.
 
+## Unreleased (planned 0.5.0)
+
+Game interfaces designed from the start, not defaulted to web-page layouts. Built and awaiting a test
+on a held-out game before release.
+
+- **New skill, `game-ui`:** ten commandments for game interfaces, each with a check, plus a screen
+  spec template and a review procedure (`/game-sdlc:game-ui` on a screen or capture). Agents load it
+  for anything the player sees. The research behind it is in `research/game-ui/`.
+- **Pillars replace the governing rule** everywhere. `gdd` and `gdd-handsoff` suggest six to eight
+  candidates and the owner picks three; they're written plainly, for the whole game, with no interface
+  rules and no plot. `feature-planning` settles them first when a GDD has none and tests every answer
+  against them; `prototype` and the art critic judge against them.
+- **The GDD gains an interface section:** density, where words live, how much reading and in whose
+  voice, what the player is never told, the loudest moment, the smallest readable size, and how the
+  comparables present information.
+- **art-direction:** the text-heavy screen becomes a style frame (from worst-case content), the
+  chosen direction adds the hardest-to-read gameplay asset and the loudest moment, and
+  `art-direction.md` gains an interface section (materials, type roles with licences, colour jobs,
+  minimum size, motion). Assets must be rebuildable from the repository.
+- **comfyui-art:** batch checks for generator habits, pixel-art transform and signal-colour rules,
+  and a critic that asks what an asset reads as before whether it's pretty.
+- **feature-planning:** a screen spec for every new or changed screen, "how the player sees it" for
+  every mechanic, a fix-a-screen method for layout decisions, and visual acceptance that is never an
+  open-ended pass bar.
+- **playtest:** blind playtesters report what they skipped reading, what they understood without
+  reading and which words they didn't know; the panel report says which pillars were felt.
+- **setup-godot:** new projects get their pillars in `AGENTS.md`, a capture script (1:1, ×3,
+  greyscale, blurred), a lock for windowed runs, theme type roles with a guard test, and a text-fit
+  helper.
+
 ## 0.3.1 — 2026-10-23
 
 - **setup-godot and bug-intake:** the workflow templates use current GitHub Actions versions

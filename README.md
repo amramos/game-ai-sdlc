@@ -105,8 +105,8 @@ leave undecided becomes an `[OPEN]` question instead of a quiet guess. Out comes
 Don't want an interview? `/game-sdlc:gdd-handsoff` needs about 30 seconds of input: an idea (or
 "surprise me"), a few games you love and one you find boring, and a scope. It drafts three different
 concepts and you pick one; then an agent panel (a designer, a player advocate, a market analyst and a
-skeptic from another model vendor) writes the GDD. Quality gates check that every mechanic serves the
-governing rule, that the scope fits, and that the hook isn't a reskin. Blind AI playtesters then play
+skeptic from another model vendor) writes the GDD. Quality gates check that every mechanic serves one
+of the game's three pillars, that the scope fits, and that the hook isn't a reskin. Blind AI playtesters then play
 a quick prototype of the core loop, and the panel revises it if they don't get it or don't want
 another round. You get a one-page summary: the pitch, the five decisions the panel assumed for you
 (each with its runner-up), the playtesters' verdict, and the three likeliest ways the game fails.
