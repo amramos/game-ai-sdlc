@@ -7,6 +7,7 @@ Standard library only; run from the project root: python tools/ci/export_all.py 
 from __future__ import annotations
 
 import argparse
+import os
 from pathlib import Path
 import re
 import shutil
@@ -41,13 +42,26 @@ def project_slug(project: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", title.lower()).strip("_") or "game"
 
 
+def default_godot(root: Path) -> str:
+    """The Godot the hooks use: GODOT_BIN, then .agents/local/godot (written by setup), then PATH."""
+    if os.environ.get("GODOT_BIN"):
+        return os.environ["GODOT_BIN"]
+    local = root / ".agents" / "local" / "godot"
+    if local.is_file():
+        configured = local.read_text(encoding="utf-8").strip()
+        if configured:
+            return configured
+    return shutil.which("godot") or "godot"
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", default="build")
-    parser.add_argument("--godot", default=shutil.which("godot") or "godot")
+    parser.add_argument("--godot", default=None, help="defaults to the Godot the hooks use")
     args = parser.parse_args()
 
     root = Path.cwd()
+    args.godot = args.godot or default_godot(root)
     config_path = root / "export_presets.cfg"
     if not config_path.is_file():
         print("No export_presets.cfg: add presets in the editor (Project > Export) and commit it.")

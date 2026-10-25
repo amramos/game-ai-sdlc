@@ -105,8 +105,8 @@ leave undecided becomes an `[OPEN]` question instead of a quiet guess. Out comes
 Don't want an interview? `/game-sdlc:gdd-handsoff` needs about 30 seconds of input: an idea (or
 "surprise me"), a few games you love and one you find boring, and a scope. It drafts three different
 concepts and you pick one; then an agent panel (a designer, a player advocate, a market analyst and a
-skeptic from another model vendor) writes the GDD. Quality gates check that every mechanic serves the
-governing rule, that the scope fits, and that the hook isn't a reskin. Blind AI playtesters then play
+skeptic from another model vendor) writes the GDD. Quality gates check that every mechanic serves one
+of the game's three pillars, that the scope fits, and that the hook isn't a reskin. Blind AI playtesters then play
 a quick prototype of the core loop, and the panel revises it if they don't get it or don't want
 another round. You get a one-page summary: the pitch, the five decisions the panel assumed for you
 (each with its runner-up), the playtesters' verdict, and the three likeliest ways the game fails.
@@ -167,7 +167,8 @@ really yours get marked *assumed*, so when you're back you read only those.
 The approved plan becomes an epic, with one feature per work package (`issue-tracking`, Linear or
 GitHub Issues). A lead agent writes a brief, agrees the interfaces, and runs developer agents in
 parallel. Each piece is reviewed adversarially by a model from another vendor as it lands, then the
-lead playtests the result, runs every check, cleans the docs, and opens one pull request per feature.
+lead playtests the result, runs every check, cleans the docs, and opens a pull request for each
+checkpoint you'll actually look at (usually the playable slice, then the rest).
 You merge. The run ends with a short story page: who did what, pushback, disagreements, the results,
 and how to try it yourself.
 
@@ -216,6 +217,7 @@ a fix agent opens a pull request that starts from a failing test.
 | `issue-tracking` | game-sdlc | agents | Epic → Feature on Linear or GitHub, statuses kept current |
 | `team-lead` | game-sdlc | you | An epic built by an agent team, as PRs for you to merge |
 | `team-lead-handsoff` | game-sdlc | you | The same, merged to `main` behind a checklist |
+| `game-ui` | game-sdlc | agents, or you | The ten commandments for game interfaces; a screen spec; a ranked UI review of a screen |
 | `playtest` | game-sdlc | you or agents | Blind AI playtest reports; your findings mapped to fixes |
 | `release` | game-sdlc | you | A playtest or public build on itch.io |
 | `bug-intake` | game-sdlc | you, once | Bugs triaged and fixed as PRs, automatically |

@@ -19,9 +19,10 @@ Solo or small-team, AI-assisted development. No Git Flow, no long-lived branches
   `git pull --ff-only origin main && git checkout -b feature/<slug>`.
 - **Confirm the current branch right before each commit.** A session can be moved onto `main` by a
   merge or a pull between two commands.
-- An epic's features ship as **stacked pull requests**, one per feature. With *Automatically delete
-  head branches* enabled in the repository settings, merging one retargets the next on its own;
-  `git rebase --update-refs` moves the whole stack after a change lower down.
+- An epic ships as **one pull request per checkpoint the owner will look at** (usually the playable
+  slice, then the rest), with one commit per feature. When there is more than one, they stack: with
+  *Automatically delete head branches* enabled in the repository settings, merging one retargets the
+  next on its own, and `git rebase --update-refs` moves the whole stack after a change lower down.
 - Milestones are tags (`v0.1.0`, `playtest-YYYYMMDD`), never release branches. A tag triggers the
   release workflow.
 

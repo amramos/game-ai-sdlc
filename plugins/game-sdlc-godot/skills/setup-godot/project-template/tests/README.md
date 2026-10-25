@@ -4,6 +4,7 @@ GUT tests (ADR-0003), mirroring the source tree.
 
 - `unit/` — pure logic (`core/`, `Resource` classes, components without a scene).
 - `integration/` — real scenes and composed behavior.
+- `support/` — helpers tests share, never tests themselves (`text_fit.gd`: does a text fit a label).
 
 A test file mirrors its subject (`core/turn.gd` → `tests/unit/core/turn_test.gd`) and ends in
 `_test.gd`; `.gutconfig.json` sets both, because GUT's defaults match neither.

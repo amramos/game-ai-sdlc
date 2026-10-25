@@ -19,6 +19,8 @@ mono_crash.*.json
 # which the .godot/ line above already ignores. Keep local absolute paths out of it.
 /build/
 /export/
+# Screenshots from tools/capture/, for judging a screen; regenerated, never committed.
+/captures/
 
 # ---------------------------------------------------------------------------
 # Claude Code

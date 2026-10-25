@@ -34,6 +34,10 @@ Round <N> of at most <M>. Previous choice and why: <one line, or "first round">
 
 Candidates: <paths>  (review sheet: <path>; true-size copies are under each)
 
+Judge it as a player would: at true size, first say what each candidate reads as ("a wound", "a
+clasp", "frost") before saying whether it's pretty. A beautiful asset that reads as the wrong thing
+loses.
+
 Reply with:
 1. Ranking, best first, one sentence each on why.
 2. For the winner: the 1–3 most important things to change next round, as concrete visual

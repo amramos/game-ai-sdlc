@@ -20,9 +20,9 @@ Template: [project-template/](project-template/), copied by
 
 ## 1. One round — or none
 
-Find the GDD (`docs/GDD.md` or `GDD.md`) and take from it the title, pitch, glossary, platforms,
-input devices, art style and resolution. Check the machine (§2's list) while preparing the round, so
-the recommendations already fit it.
+Find the GDD (`docs/GDD.md` or `GDD.md`) and take from it the title, pitch, pillars, glossary,
+platforms, input devices, art style and resolution. Check the machine (§2's list) while preparing the
+round, so the recommendations already fit it.
 
 Then ask **one round**, every question with a recommendation, and offer **"Use every
 recommendation"** as the first answer. Recommend that fast path when the GDD is marked
@@ -84,7 +84,10 @@ Start the history first, so nothing else is ever written on `main`: `git init -b
 folder, commit the GDD alone (`docs: add the GDD`), then `git checkout -b setup/project-foundation`.
 
 1. Write a values file (in the scratchpad) for every placeholder: `GAME_TITLE`, `PROJECT_SLUG`,
-   `PITCH`, `GLOSSARY` (the GDD glossary as a markdown table), `PLATFORMS`, `INPUT_RULE`,
+   `PITCH`, `PILLARS` (the GDD's three pillars copied word for word, each its name, line and test
+   question, as the GDD's numbered list; for a GDD without pillars: "None yet: the first
+   `feature-planning` round settles them in the GDD, then they're copied here."), `GLOSSARY` (the
+   GDD glossary as a markdown table), `PLATFORMS`, `INPUT_RULE`,
    `INPUT_RULE_DETAIL`, `WORKING_STYLE` (one of the two texts below), `GODOT_VERSION` (e.g. `4.7.1`),
    `GODOT_FEATURE` (e.g. `4.7`), `RENDERER_FEATURE` / `RENDERING_METHOD` (`GL Compatibility` /
    `gl_compatibility`, `Forward Plus` / `forward_plus`, `Mobile` / `mobile`), `DATE`, `NEXT_STEP`,
@@ -130,14 +133,20 @@ Python works on this machine (`python`, `python3` or `py -3`); once a hook has r
 
 ```bash
 godot --headless --import            # twice on the first run, see below
-godot --headless -s addons/gut/gut_cmdln.gd -gexit        # 1 test: tests/unit/project_setup_test.gd
+godot --headless -s addons/gut/gut_cmdln.gd -gexit        # 6 tests in 3 scripts (setup, type roles, text fit)
 python -m unittest discover -s .agents/tests -v           # the hooks' own tests
 python .agents/scripts/sync_skills.py --check
 godot --headless --quit-after 60                          # the game boots without errors
+python tools/windowed_run.py godot --path . -s res://tools/capture/capture.gd -- --scene=res://scenes/main.tscn
 ```
 
 The very first import of a freshly copied GUT can log "invalid UID" and "failed loading resource"
 for GUT's own fonts and icons; import a second time — that one must be clean.
+
+The last line opens a window briefly, through the window lock, and writes four PNGs to `captures/`
+(git-ignored). Look at `captures/main.png`: the title, centred, at the native resolution from §3's
+display settings, and `main_x3.png`, `main_grey.png` and `main_blur.png` beside it. A machine with
+no display can't capture; say so and move on.
 
 Then **export every preset** (`python tools/ci/export_all.py --out build`) and boot the build for
 this machine headless (`build/windows/<slug>.exe --headless --quit-after 60`, or
@@ -174,3 +183,8 @@ Offer the next step **in the working style** from §1:
 - then the first feature — usually the core loop from the GDD as a playable slice — with
   **`feature-planning-handsoff`** (hands-off) or **`feature-planning`** (interactive);
 - optionally `bug-intake`.
+
+Start the next phase fresh: it needs only the repository and its documents. Where the client can
+start a new session in the project, hand it over there with a short brief, or ask the owner for a
+compaction when they're present, rather than carrying this setup's conversation into every later
+call.

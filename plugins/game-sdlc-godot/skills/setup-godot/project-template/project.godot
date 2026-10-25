@@ -15,6 +15,10 @@ config/features=PackedStringArray("{{GODOT_FEATURE}}", "{{RENDERER_FEATURE}}")
 
 enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 
+[gui]
+
+theme/custom="res://assets/themes/ui_theme.tres"
+
 [rendering]
 
 renderer/rendering_method="{{RENDERING_METHOD}}"

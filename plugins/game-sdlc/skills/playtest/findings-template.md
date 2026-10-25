@@ -6,6 +6,10 @@
 
 <Accepted / not accepted, in the owner's words, and what has to change before the next play.>
 
+## Pillars, felt or not
+
+- **<Pillar>:** <where the owner felt it, or "not felt", in their words>
+
 ## Owner findings
 
 ### 1. <Short title in the owner's words>

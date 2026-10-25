@@ -3,6 +3,75 @@
 What changed in each version of the `game-sdlc` and `game-sdlc-godot` plugins, newest first. Both
 plugins are released together under one version.
 
+## 0.5.0 — 2026-10-25
+
+Game interfaces designed from the start, not defaulted to web-page layouts; and agent teams that run
+leaner and faster. Tested before release on a new game, from GDD to a playable slice.
+
+**Leaner runs:**
+- **Hands-off skills can be started by agents:** `feature-planning-handsoff` and `team-lead-handsoff`
+  run when the owner chose them, including from an up-front question, instead of only from a typed
+  command.
+- **Models on purpose, never above the session's:** every agent's model is set explicitly, the
+  session's model is the ceiling, and narrow work runs a tier down. Panels' "different model" means a
+  cheaper one.
+- **A small lead context:** agents report in about 200 words with paths to the detail, screenshots go
+  to a critic agent, the lead writes `STATE.md` at each package boundary, and at a usage-limit
+  warning it launches nothing new.
+- **Build cards** quote each package's ledger rows, so agents don't each read the whole ledger and
+  plan; **scene hooks** agreed up front replace the integrator stage; a shared scene has one owner
+  who builds its placeholders first.
+- **Fixes inline or in a fresh small agent,** never inside an agent resumed at a large context; the
+  full test suite runs once per package, at the gate.
+- **Capped loops:** code review at most two cycles, biased to one, the second only checking the
+  fixes; the visual critic one scoring round plus one confirmation, with motion judged in play and
+  layout or taste calls sent to the owner.
+- **One pull request per owner checkpoint,** one commit per feature; a PR may close several features.
+- **A lighter log,** with PR bodies and reports drafted by a cheap agent; and lessons for the lead
+  (background waits, Glob and Grep instead of recursive listings, Windows heredocs, Codex prompts on
+  stdin).
+
+**From the held-out test** (a new game, GDD to playable slice in 2.9 hours, no usage-limit stops):
+- **A fresh lead context at each phase boundary:** each phase hands the next a short brief pointing
+  at its documents, in a new session where the client allows it, since one session running every
+  phase let the lead's context grow from 78k to 630k tokens.
+- **The reviewer is checked before the first review,** and a Codex path that works is passed to every
+  review; the reviewer agent tries other installed Codex CLIs and never falls back silently.
+- **Each mechanic earns its place:** a gate in the GDD, planning and prototype skills, checked by a
+  solver, a simulation with a bot, or blind playtesters, whichever the genre allows.
+- **prototype** ships a headless runner (`scripts/proto_cli.mjs`) for playtesters and solvers without
+  a browser; the template's `export_all.py` uses the Godot the hooks use.
+- Agents can start `gdd-handsoff` and `feature-planning`; the pillar wording agrees between
+  `gdd-core` and `gdd-handsoff`; words on a gameplay asset are proved as live text in the engine;
+  first-feature sketches draw over the style frames or the prototype.
+
+**Designed interfaces:**
+
+- **New skill, `game-ui`:** ten commandments for game interfaces, each with a check, plus a screen
+  spec template and a review procedure (`/game-sdlc:game-ui` on a screen or capture). Agents load it
+  for anything the player sees. The research behind it is in `research/game-ui/`.
+- **Pillars replace the governing rule** everywhere. `gdd` and `gdd-handsoff` suggest six to eight
+  candidates and the owner picks three; they're written plainly, for the whole game, with no interface
+  rules and no plot. `feature-planning` settles them first when a GDD has none and tests every answer
+  against them; `prototype` and the art critic judge against them.
+- **The GDD gains an interface section:** density, where words live, how much reading and in whose
+  voice, what the player is never told, the loudest moment, the smallest readable size, and how the
+  comparables present information.
+- **art-direction:** the text-heavy screen becomes a style frame (from worst-case content), the
+  chosen direction adds the hardest-to-read gameplay asset and the loudest moment, and
+  `art-direction.md` gains an interface section (materials, type roles with licences, colour jobs,
+  minimum size, motion). Assets must be rebuildable from the repository.
+- **comfyui-art:** batch checks for generator habits, pixel-art transform and signal-colour rules,
+  and a critic that asks what an asset reads as before whether it's pretty.
+- **feature-planning:** a screen spec for every new or changed screen, "how the player sees it" for
+  every mechanic, a fix-a-screen method for layout decisions, and visual acceptance that is never an
+  open-ended pass bar.
+- **playtest:** blind playtesters report what they skipped reading, what they understood without
+  reading and which words they didn't know; the panel report says which pillars were felt.
+- **setup-godot:** new projects get their pillars in `AGENTS.md`, a capture script (1:1, ×3,
+  greyscale, blurred), a lock for windowed runs, theme type roles with a guard test, and a text-fit
+  helper.
+
 ## 0.3.1 — 2026-10-23
 
 - **setup-godot and bug-intake:** the workflow templates use current GitHub Actions versions

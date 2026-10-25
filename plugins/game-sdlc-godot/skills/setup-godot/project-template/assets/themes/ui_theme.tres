@@ -1,0 +1,9 @@
+[gd_resource type="Theme" format=3]
+
+[resource]
+Body/base_type = &"Label"
+Body/font_sizes/font_size = 16
+Caption/base_type = &"Label"
+Caption/font_sizes/font_size = 12
+Display/base_type = &"Label"
+Display/font_sizes/font_size = 32

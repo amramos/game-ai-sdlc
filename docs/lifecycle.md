@@ -9,8 +9,8 @@ what each one produces, and the failure that taught it.
 
 ## 1. Design — `gdd` or `gdd-handsoff`
 
-**Produces:** a GDD with a pitch, comparables, a governing rule, the core loop, mechanics, a glossary,
-a scope boundary and open questions.
+**Produces:** a GDD with a pitch, comparables, three pillars, the core loop, mechanics, an interface
+section, a glossary, a scope boundary and open questions.
 
 The original GDD came out of a long conversation with an AI. `gdd` turns that into an interview with
 research agents on the side. `gdd-handsoff` is for people who won't sit through an interview. Its
@@ -21,8 +21,15 @@ listed for the owner on one page.
 
 - **Design before code.** The GDD was the second commit, before any game code. Agents build from
   documents; without one, each session invents its own version of the game.
-- **One governing rule.** For example, "theme and mechanic are the same idea". Months later it still
-  settled arguments about what to cut.
+- **Three pillars, not a governing rule.** The first version had one rule that decided every cut.
+  Written as an absolute ("every verdict is a contradiction"), agents applied it literally and cut
+  variety the game needed. Pillars replaced it: the three feelings the whole game is built to give,
+  each with a test question, written plainly and never as interface or plot. When two pull apart,
+  the owner decides at that moment.
+- **The interface is designed, not defaulted.** A game that played well still looked like a web page,
+  because nothing before the build said how information reaches the player. The GDD now has an
+  interface section, the style guide covers the interface, and the `game-ui` skill holds ten
+  commandments distilled from thirteen talks on game UI (the literature is in `research/game-ui/`).
 - **`[OPEN]` instead of a guess.** An agent that meets a gap fills it with something plausible, and
   plausible is how a game drifts from what you meant. Marking undecided things as decisions made
   agents ask instead of invent.
@@ -98,15 +105,22 @@ Two refinements came later:
 
 ## 7. Build — `team-lead`
 
-**Produces:** stacked pull requests, a short report and a story page.
+**Produces:** a pull request per owner checkpoint, a short report and a story page.
 
 - **The lead decides, developers build.** Architecture is settled in the brief, interfaces are agreed
   before anyone starts, and each developer owns its files.
 - **Review from another vendor.** A model reviewing code written by its own kind tends to share its
   blind spots. Reviews by a different vendor's model found real bugs that same-model review missed.
 - **Fix with a failing test first, or decline with a reason.** Both are recorded.
-- **Explicit models on every agent.** An agent inherits the session's model and its usage cap; three
-  agents on one capped model died mid-run.
+- **Explicit models on every agent, never above the session's.** An agent inherits the session's
+  model and its usage cap; three agents on one capped model died mid-run. Narrow work runs a tier
+  down.
+- **Most of a run's cost is context, not output.** The Valhalla UI overhaul (15 hours, 6 of them
+  stopped at usage limits) showed where it went: a lead re-reading about 500k tokens on every call,
+  small fixes made inside agents resumed at 200k tokens, an integrator stage every package waited
+  on, critic loops that couldn't converge on stills, five PRs for an owner who merged them at once.
+  Hence build cards, brief reports, fresh small agents for fixes, scene hooks instead of an
+  integrator, capped review and critic rounds, and a PR per checkpoint.
 - **Whole epics overnight.** Several epics were built unattended, each piece reviewed. Every gate
   stayed provisional until the owner played the result.
 - **Hands-off means no setup questions mid-run.** The first hands-off test stopped on three questions:

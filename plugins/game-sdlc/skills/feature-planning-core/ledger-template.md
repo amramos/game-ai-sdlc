@@ -14,6 +14,15 @@ below; the plan cites these ids, and a reviewer checks that it holds every decis
 - **Replaced or removed:** <…>
 - **Not doing:** <…>
 - **Cost:** <decisions, specs, tests, content and code this invalidates>
+- **Pillars it serves:** <pillar names, as the GDD writes them; settled in the first round if the GDD
+  has none>
+- **Earlier rulings it overturns:** <decision or ADR ids, or "none">
+
+## Pillars
+
+1. **<Name>.** <one line> *Test: <question>* — owner's words: "<…>" <!-- only when tidied -->
+2. **<Name>.** <…>
+3. **<Name>.** <…>
 
 ## Decisions
 
@@ -30,6 +39,8 @@ below; the plan cites these ids, and a reviewer checks that it holds every decis
 2. <…>
 3. **Failure:** <…>
 4. <return to the ordinary loop>
+
+**Where each pillar is felt:** <pillar> — <step(s) above>; <…>
 
 ## Sketches
 

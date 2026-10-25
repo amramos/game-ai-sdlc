@@ -19,7 +19,7 @@ against the bar `gdd-handsoff` sets. Everything else is the same.
 
 ## 1. Settle the question and the variations
 
-Read the GDD's pitch, governing rule and core loop. Then agree with the user, in one short round:
+Read the GDD's pitch, pillars and core loop. Then agree with the user, in one short round:
 
 - **The question.** One sentence the prototypes must answer, e.g. "Does choosing what to leave
   unhandled feel tense rather than unfair?"
@@ -41,6 +41,12 @@ Each prototype is a **single self-contained `.html` file** that opens in a brows
   - `act(name)` performs one and returns what happened.
 
   The visible page and this interface show the same information; never expose hidden state.
+- the rules and `window.proto` in one `<script id="proto-rules">` block that never touches the page
+  (no `document`, no timers that draw); the drawing and input code goes in a second block that reads
+  from it. Then [scripts/proto_cli.mjs](scripts/proto_cli.mjs) plays the rules headless, with Node 18
+  or later, for playtesters and solvers without a browser:
+  `node <this skill>/scripts/proto_cli.mjs prototypes/<variation>.html` starts a session (`describe`,
+  `actions`, `act <name>`, `quit`); commands given after the file run in order and exit.
 
 Put the files in a `prototypes/` folder outside any game repository (or the scratchpad), named
 `<variation>.html`. If an artifact or page publishing tool is available, publish each one as a
@@ -51,7 +57,7 @@ private page so it can be played from a link.
 **The user** plays each variation. Afterwards, ask three questions per variation: what was the goal,
 when was it most interesting, and would you play another round (1–10)?
 
-**AI playtesters** play each variation **blind**: they get the page or its `window.proto` interface
+**AI playtesters** play each variation **blind**: they get the page, or the headless runner on it,
 and the one-line instruction, never the GDD or this conversation. Start each one in a separate
 agent whose prompt contains only that, ideally from a folder with no project instruction files —
 an agent that has read the design plays like its author, not like a player. Ask each one to play
@@ -68,12 +74,19 @@ away disagreement.
 ## 4. Pick, record, discard
 
 Show a short comparison: for each variation, the user's verdict, the playtesters' verdicts in one
-line each, and your read of what the question's answer is. The **user picks one**, or a merge of two.
+line each, **which pillars the playtesters felt without being told** (compare their reports with the
+GDD's pillars; never show the pillars to them), **whether each mechanic earned its place**
+(`gdd-core` §2; where the rules can be searched, run a solver over the runner, since it catches what
+discussion misses), and your read of what the question's answer is. The
+**user picks one**, or a merge of two.
 
 Then:
 - update the GDD's core loop and mechanics to the chosen approach, and add a dated line to its
   amendments header ("<date> — core loop chosen by prototype: <one line>");
 - move any new uncertainty into the GDD's open questions;
+- **take only the mechanic's lessons into the GDD.** The prototype's page layout is a web page by
+  necessity; it never becomes the game's interface, which the GDD's interface section and
+  `art-direction` decide;
 - **throw the other variations away.** Don't keep them, don't record them as rejected directions.
 
 ## 5. Next

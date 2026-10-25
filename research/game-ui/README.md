@@ -24,14 +24,25 @@ pillar it serves, or the player decision it supports. A default is not a decisio
 
 - **Where relevant, an element that can't be strongly linked to a pillar isn't shown.** The exception
   is the functional floor every game needs: settings, pause, saving, accessibility, input help.
-- **Hiding information is a decision too.** Withhold on purpose (to build dread, to make discovery
-  matter), never by accident. Before removing friction someone designed, find out why it's there.
+- **Information is given on purpose, not by default.** The game knows more than the player should
+  see: show what the player needs to decide and to feel, and choose what to withhold (to build dread,
+  to make discovery matter). Summaries, endings and results are where this slips most: whether they
+  judge the player's choices, nudge, or only show consequences is a call for the pillars. A tutorial
+  may well show verdicts; an in-world nudge usually teaches better than a verdict (in Valhalla Intake,
+  Odin complaining that he was sent a soul with no weapon in hand). Before removing friction someone
+  designed, find out why it's there.
+- **Unknown words are on purpose too.** A name dropped to intrigue is fine if the game pays it off
+  later (Control is built on this); a term the player needs for a decision is taught by play before
+  that decision, not explained in a caption.
 - **A rule is broken only knowingly**, for a pillar, and never at the player's expense.
 
 Checks:
 - [review] Each screen spec lists its elements, each with its pillar or the decision it supports, and
   the deliberate absences.
 - [review] An element whose only reason is "the template had it" or "games usually have one" is cut.
+- [review] No text tells the player what they should have done unless a pillar wants it.
+- [review] Every word the player doesn't know yet is either intrigue the game pays off or taught
+  before it's needed.
 
 Sources: HUD 00:54–05:21 (gauges and previews; cut repeats and window dressing), 11:13 (an enemy made
 unreadable on purpose); LEC 1:30:03, 1:52:14 (helper cues as a choice); ZEL 16:14 (a slow menu meant
@@ -45,15 +56,15 @@ precision it needs.
 
 - **Start from the activity**, not from the previous screen or a template. Style and interaction
   patterns stay consistent across screens; layout may differ.
-- **When the mode changes, the previous mode's UI goes.** What matters only sometimes appears only
-  then.
+- **When the mode changes, the previous mode's live data and controls go.** A dimmed, inert backdrop
+  may stay for a sense of place. What matters only sometimes appears only then.
 - **Precision follows the decision.** Exact numbers where the player compares or calculates; meters or
   words where they should feel. Exact numbers beside prose pull the eye away from the prose.
 
 Checks:
 - [review] Each screen spec names the player's activity.
 - [review] Each number on screen names the comparison it serves.
-- [play] No panel is left over from a previous mode.
+- [play] No live data or control is left over from a previous mode.
 
 Sources: DKD 00:43–03:11 (each screen rebuilt from the activity; no money shown inside a dungeon); LEC
 1:04:43, 1:13:55; HUD 08:06 (show it only while it's relevant), 11:53–13:18 (Reigns: exact stats made
@@ -83,14 +94,16 @@ The eye knows where to go first, second and third, and the screen reads in a bli
 
 - **Rank information in three reads**: the objects in play; the rules that matter now; minor context.
   Push the low ranks back on purpose: darker, washed out, lower contrast.
-- **Ration emphasis.** The hottest, brightest colour goes only to what matters or can be acted on.
-  Frames, borders and titles sit mid-tone. Emphasis on everything is emphasis on nothing.
+- **Ration emphasis.** Importance shows through brightness, size and weight, and the accent colour
+  keeps the one job commandment 7 gives it. Frames, borders and titles sit mid-tone. Emphasis on
+  everything is emphasis on nothing.
 - **About seven kinds of thing per screen at most**, three to five being safer (a list counts once),
   and no more than three menu levels. Both are rules of thumb, not research.
 - **Centre for what matters, edges for what's glanced at**; controls near what they act on.
 - **Shape first, then colour.** Different roles look different in silhouette; neighbouring colours
   differ in brightness, not only in hue; colour never carries meaning alone.
-- **Critical state uses at least two channels**: a meter plus motion, sound or an in-world reaction.
+- **Live critical state uses at least two channels** (health, a timer, a threat): a meter plus
+  motion, sound or an in-world reaction. Static summaries don't need it.
 
 Checks:
 - [auto] A greyscale and a blurred capture of every screen: the key objects and their roles still read.
@@ -147,8 +160,11 @@ allows.
   interface; an action game shouldn't be.
 - **Neither more nor less decoration is the fix.** Toneless and flashy both fail; plain works when
   it's chosen and unmistakably the game's.
-- **The UI's colours stand apart from the world's**, and one accent colour has one job, with a variant
-  per state.
+- **The UI's colours stand apart from the world's**, and one accent colour has one job, named in the
+  interface style sheet, with a variant per state. When two things want the accent, one of them gets a
+  shape or a weight instead. (The Valhalla replay used its ember accent for both "press here" and
+  "this soul tipped the ending", so the names looked pressable or the seal looked like a
+  consequence.)
 - **In-world wording for flavour actions; plain verbs where a mistake costs the player.**
 
 Checks:
@@ -170,8 +186,8 @@ The world and the board carry the state. Words are a cost, spent where only word
   shift), not only as numbers.
 - **Put information in the world when it lives there and stays readable.** Tag each element
   diegetic, non-diegetic, spatial or meta, with the reason that fits this game's tone.
-- **Never restate what the screen shows.** A label names; it doesn't explain. Highlight the words
-  that matter.
+- **Never restate what the screen already shows elsewhere** (a comparison row may repeat its terms).
+  A label names; it doesn't explain. Highlight the words that matter.
 - **Text-heavy play is right only when a pillar asks for it.** Papers, Please buries the player in
   paperwork because being overwhelmed by bureaucracy is the point; the same density would be wrong in
   Devil May Cry. When text belongs, give it the voice the pillars choose (an oracle's riddles, a song,
@@ -196,6 +212,8 @@ instead of a health bar); VAL; owner ruling, 2026-10-24.
   represent.
 - **Repeated feedback stays short and out of the way.** Nothing blocks input except the game's one
   signature moment, and that one briefly.
+- **No UI sounds yet?** Synthesise them in code (as Valhalla Intake does) or use CC0 sounds, recording
+  the source, or record them as owed.
 
 Checks:
 - [auto] Harness timings: every press answered within 0.3 s (Valhalla's number, not the
@@ -218,6 +236,14 @@ The Last of Us (a UI that feels good the hundredth time); VAL.
   spacing tight enough to read fast, give pixel text over art an edge or a shadow, and prefer columns
   to very wide lines.
 - **Text stays live**, never baked into images, so it can be localised.
+- **When the fonts on hand aren't enough:** with one font, the display role is a size and treatment of
+  it. If a role still needs another face, search licence-safe sources: Google Fonts (all under the SIL
+  Open Font License) first; sites such as 1001 Fonts and DaFont only for fonts whose licence
+  explicitly allows commercial use and embedding, since many are free for personal use only. The font
+  must cover the game's characters (Valhalla Intake needs á, ö, þ and ð) and, for pixel art, have a
+  grid at the native size. Record its source and licence, and follow the project's rules for new
+  assets (Valhalla once ruled against a second font file). If nothing fits, tell the owner what to look
+  for: the role, the style, the characters, the size grid and the licence.
 
 Checks:
 - [auto] A theme with type roles, and a guard test that no scene sets a font or size directly.
@@ -239,6 +265,49 @@ one menu); GD2 04:13; LEC 57:22; VAL.
 - **In-world verbs for flavour, plain verbs where a mistake costs** (7; was X3).
 - **Text-heavy play only when a pillar calls for it** (8; was G21).
 
+## Owner rulings, 2026-10-25, after the first test
+
+- **Information is given on purpose, not by default**, and **unknown words are on purpose too** (1).
+- **One accent colour, one job**; importance shows through brightness, size and weight (4, 7).
+- **A dimmed backdrop from the previous scene may stay; its live data and controls go** (2).
+- **A comparison row may repeat its terms** (8). **Two channels apply to live critical state only**
+  (4).
+- **Missing fonts and sounds:** use what exists, then licence-safe sources, then tell the owner what to
+  look for (9, 10).
+- **Design steps,** in the `game-ui` skill: style frames from worst-case content, with the fit winning;
+  greyscale and blur checks on the frame and the first build; motion in the screen spec; the earlier
+  rulings a redesign overturns listed and settled.
+- **Pillars are written plainly, for the whole game.** They guide decisions rather than sound good,
+  never prescribe the interface, art or audio, aren't plot, and keep the owner's meaning when refined.
+  The `game-ui` skill only reads them; `gdd-core` and `feature-planning-core` write them.
+
+## Tested
+
+**2026-10-25: a replay of Valhalla Intake's dusk and ending screens.** A fresh session, cut from the
+last commit before the UI overhaul and given only the draft skill, redesigned and rebuilt the dusk
+summary and the ending in about 26 minutes, with all 250 tests passing. Its captures were judged blind
+against the original screens and the overhaul's (15 hours of work, for the whole interface):
+
+| Judge | Dusk | Ending |
+|---|---|---|
+| The owner | the replay's presentation, the original's content | the replay |
+| A Codex critic (given the pitch and pillars only) | replay, overhaul, original | replay, overhaul, original |
+| A Codex audit against the commandments (major/minor violations) | replay 0/0, overhaul 0/1, original 2/3 | replay 1/1, overhaul 1/1, original 1/4 |
+
+What the test found:
+- **An answer key.** The replay's dusk printed what the Law said and what the truth was, which the
+  owner's pillar about hard decisions forbids. No commandment caught it, so commandment 1 now says
+  information is given on purpose.
+- **A reworded pillar.** The replay agent turned the owner's pillar into one that assumed a "truth",
+  and wrote interface rules into the pillars; hence the pillar rules above.
+- **Untaught terms.** The ending relied on words the player was never taught (feathers, rank, "the
+  first horn"); hence the unknown-words rule.
+- **The rest** (the accent conflict, the dimmed backdrop, the restatement wording, the design-step
+  gaps) came from the replay agent's own feedback and the audit.
+
+Caveats: one critic model, judging stills; the overhaul also built motion, sound and the whole desk;
+and the commandments came partly from this same game, so a game they haven't seen is the next test.
+
 ## What isn't a commandment
 
 - **Process steps live in the skills that run them:** the final look before blind play in `playtest`
@@ -250,8 +319,9 @@ one menu); GD2 04:13; LEC 57:22; VAL.
 
 ## Where the commandments are used
 
-None of this is built yet. Each row is a change from the owner's open proposal for the skills
-(numbered P1 to P25, not yet in the repository), named in its last column.
+Built on 2026-10-25 and shipped in 0.5.0, after a test on a game the commandments hadn't seen (a
+puzzle game, from GDD to playable slice). Each row is a change from the owner's proposal for the
+skills (numbered P1 to P25, not in the repository), named in its last column.
 
 | Where | When it runs | Commandments | What happens there | Proposal |
 |---|---|---|---|---|

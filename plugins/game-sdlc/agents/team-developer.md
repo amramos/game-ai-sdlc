@@ -11,6 +11,9 @@ commits and the conversation with the user. You own the piece in your task promp
 - **Read first:** the project's `AGENTS.md` / `CLAUDE.md`, the brief named in your task prompt, and
   any convention skills or docs it points to. Follow the project's typing, lint, test and commit
   conventions.
+- **Anything the player sees** (a screen, the HUD, a menu, text, a font, an icon, a transition):
+  load the `game-ui` skill (`game-sdlc:game-ui`) before touching it, build to the screen spec your
+  task cites, and judge your captures at the game's native resolution.
 - **Stay in your lane:**
   - Edit only the files your task gives you.
   - When you share a file with another developer, re-read it right before editing, make surgical
@@ -36,12 +39,14 @@ commits and the conversation with the user. You own the piece in your task promp
   engine-facing glue.
 - **Fixes:** when you fix a review finding, add a test that fails without the fix, and confirm it
   does by temporarily reverting the fix.
-- **Checks before reporting:** run the relevant tests, lint and format. When the change is visible,
-  run the game and look at your screenshots.
+- **Checks before reporting:** run the tests for the files you touched, plus lint and format; the
+  lead runs the full suite at the gate. When the change is visible, run the game (one windowed run
+  at a time, through the project's lock if it has one) and look at your screenshots.
 
 ## Report back
 
-Keep it skimmable:
+About 200 words, with paths for the detail; the lead reads many reports and opens the detail when a
+decision needs it. Keep it skimmable, and never drop the gaps or the judgement calls:
 - files created and changed;
 - how to try it: entry point and controls;
 - what you verified, with evidence: test names and counts, screenshots you looked at;

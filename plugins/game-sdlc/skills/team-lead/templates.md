@@ -29,6 +29,21 @@ Plan: `<plan path>` · Ledger: `<ledger path>` · Epic: <issue id>.
 - Report: files, how to see it, evidence (tests and results, screenshots looked at), gaps.
 ```
 
+## Build card (one per work package, scratchpad `CARD-<n>.md`)
+
+```markdown
+# Package <n>: <name> — build card
+
+**Ledger rows it implements** (verbatim):
+- D<n>: "<the answer, exactly as the ledger has it>"
+
+**Pieces and files:** <piece> → <owner> → <files it owns>.
+**Shared scene:** `<scene>`, owned by <owner>, who builds its placeholder nodes first.
+**Interfaces and scene hooks:** <signature or node path> — provided by <piece>, used by <piece>.
+**Screen specs:** <links, or "none">.
+**Tests:** each piece runs <its own test files>; the full suite runs at the gate.
+```
+
 ## Developer task (spawn `team-developer` in the background, with an explicit `model:`)
 
 ```text
@@ -36,7 +51,8 @@ You are **<Name>**, a developer on a small team led by <Lead> (the main session)
 <One line on what the game/feature is.> Your job: **<the piece>**.
 
 Checkout: `<path>` (run everything from here). Read first: AGENTS.md / CLAUDE.md, <docs>, the brief
-`<scratchpad>/BRIEF.md`.
+`<scratchpad>/BRIEF.md` and your build card `<scratchpad>/CARD-<n>.md`. You don't need the whole
+ledger or plan; the card quotes the rows you implement.
 
 ## Decisions already made (by the owner — don't change)
 <numbered list, citing ledger ids>
@@ -51,24 +67,33 @@ Checkout: `<path>` (run everything from here). Read first: AGENTS.md / CLAUDE.md
 <typing/lint rules, what the tests must cover, coverage floor, how to run tests and the game>
 
 ## Report back
-Files created/changed, how to try it, what you verified with evidence, honest gaps, anything you need.
+About 200 words, with paths to the detail: files created/changed, how to try it, what you verified
+with evidence, honest gaps and judgement calls, anything you need.
 ```
 
-## Fix request (SendMessage to the owning agent)
+## Fix request (a fresh agent, a tier below the session's model)
+
+The default for a fix the lead won't do inline. The fresh agent gets only what the fix needs.
 
 ```text
-<Lead> here. <One specific line of credit for what worked.> The review of <piece> found <n> issues.
-Fix each with a test that fails before the fix:
+Fix one finding in <checkout path>. Read AGENTS.md / CLAUDE.md first; don't read anything else
+beyond the files below.
 
-1. **<Severity> — <file:line> — <what goes wrong>.** <Concrete scenario.> Preferred shape: <direction>.
+Finding: **<severity> — <file:line> — <what goes wrong>.** <Concrete scenario.>
+Preferred shape: <direction>.
+The test that must fail before the fix and pass after: <test file and name, or "write one in <file>">.
+Files you may edit: <list>.
 
-Declined (don't fix): <finding> — <reason>.
-Re-run <tests/lint>. Don't commit. Report briefly.
+Run <that test, then the tests for these files> and <lint>. Don't commit. Report in under 100 words.
 ```
+
+Resume the original developer instead (SendMessage) only when its context is still small and the fix
+needs what it knows.
 
 ## Adversarial review (spawn `adversarial-reviewer`)
 
 ```text
+Codex CLI: `<the path that passed the recon check>` · Model: `<id>`  (omit both to let the agent search)
 Adversarial code review, READ-ONLY (don't edit files). Repo: <stack>. Review ONLY <files / diff scope>.
 <Already-reviewed neighbours: only check how they're called.>
 Feature: <what it must guarantee — invariants, state rules, what must never happen>.

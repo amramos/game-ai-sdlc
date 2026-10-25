@@ -15,8 +15,9 @@ to have it. Everything below degrades gracefully (§8).
 ## 1. Two levels: Epic → Feature
 
 - **Epic** — one approved plan.
-- **Feature** — one work package from that plan. The smallest thing that gets a status change, the
-  unit the owner reviews, and normally one pull request.
+- **Feature** — one work package from that plan. The smallest thing that gets a status change, and
+  one commit in the delivery. A pull request covers one of the owner's checkpoints, so it may close
+  several features at once (`Closes` for each).
 - **No story level.** A story-sized piece of work is a **checklist line** in its feature's
   description, ticked in the same edit that lands it. A checklist line big enough to want its own
   review should have been its own feature: say so and offer the split.
