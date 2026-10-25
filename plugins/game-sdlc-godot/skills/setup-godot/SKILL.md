@@ -32,10 +32,14 @@ recommendation"** as the first answer. Recommend that fast path when the GDD is 
    repository name, private.
 2. **Godot version:** the latest stable 4.x that a current GUT release supports; check both release
    pages and recommend that pair (prefer a Godot already installed on the machine if it qualifies).
-3. **Renderer:** Compatibility for 2D and web builds (recommended for pixel art and itch.io), Forward+
-   for 3D desktop, Mobile otherwise.
-4. **Display:** base resolution and stretch. For pixel art: a small base (e.g. 640×360), stretch mode
-   `viewport`, integer scaling, nearest filtering.
+3. **Renderer**, from the GDD's camera, medium and platforms: Compatibility for any game with a web
+   build, 2D or 3D (recommended for itch.io); Forward+ for desktop-only 3D that needs its lighting;
+   Mobile otherwise.
+4. **Display:** base resolution and stretch, from the GDD's medium:
+   - pixel art: a small base (e.g. 640×360), stretch mode `viewport`, integer scaling, nearest
+     filtering;
+   - painted, vector or 3D: a 1920×1080 base (1280×720 for a jam), stretch mode `canvas_items`,
+     aspect `expand`, linear filtering.
 5. **Input rule** for `AGENTS.md`: mouse and keyboard; or mouse, keyboard and gamepad (then:
    "everything clickable also takes focus and answers `ui_accept` through the same method its click
    calls").

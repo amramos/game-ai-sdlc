@@ -40,13 +40,19 @@ A style frame is a still image whatever the medium — a low-poly 3D direction n
 image, not real models, at this stage. Choose per direction, using the first one available that
 renders that medium well, and say which:
 
-1. **Local ComfyUI** through the `comfyui-art` skill — free, private, best for pixel art.
-2. **Codex image generation**, when the Codex CLI is installed — good for painted concepts. Run it in
-   a scratch folder; it writes images on request.
-3. **Meshy** (paid) for 3D games or when nothing else is available. Show the cost of every call
+1. **Local ComfyUI** through the `comfyui-art` skill — free and private; strong at pixel art and
+   painted concepts, weaker at rendered-looking 3D.
+2. **Codex image generation**, when the Codex CLI is installed — good for painted concepts and for
+   rendered-looking 3D frames (low poly, toon-shaded). Run it in a scratch folder; it writes images on
+   request.
+3. **Meshy** (paid) makes real 3D models: use it after a 3D direction is chosen (§4 and later
+   assets), or for frames only when nothing else can render the medium. Show the cost of every call
    and get a credit budget before the first one; keep a ledger of credits spent.
 
-If none is available, stop and tell the user what each needs.
+**The generator never chooses the medium.** If nothing available renders a direction well, show it
+anyway, with the closest frame you can make and screenshots of the reference games it follows, and
+say what it would take to produce properly. If none is available at all, stop and tell the user what
+each needs.
 
 ## 3. Generate two or three directions
 
@@ -55,8 +61,9 @@ or rendering, never only in colour.** A palette swap is a variant of a direction
 
 - **The style was assumed (or is `[OPEN]`):** one direction keeps the GDD's style; the others use
   different **media** that suit the game, its camera and its platforms — for example pixel art, 2D
-  vector or flat, low-poly 3D, painterly or hand-drawn, ink or woodcut. For each, add one line on
-  why it suits this game and one on what it costs to produce (3D needs a model for every asset;
+  vector or flat, low-poly 3D, painterly or hand-drawn, ink or woodcut. When most of the GDD's
+  reference games share a medium the GDD didn't choose, one direction uses it. For each, add one line
+  on why it suits this game and one on what it costs to produce (3D needs a model for every asset;
   hand-drawn needs a consistent hand).
 - **The owner chose the style:** every direction stays in that medium but differs in **rendering**
   — outlines or none, flat or shaded, perspective, line weight, texture, level of detail.
@@ -79,9 +86,12 @@ resembles.
   available (e.g. Codex), otherwise a different model from the one that generated the frames and
   no more expensive than the session's — and
   it gets only the GDD's art and interface sections, its references and pillars, and a review sheet
-  of the frames. It scores each direction on: fit with the references and the pillars; readability
-  at game scale, judged at 1:1 (the text-heavy screen included); consistency across the four frames;
-  distinctness from the comparables; and how reliably the generator can repeat it. It returns the pick and, for every direction, one line of why. Within a
+  of the frames. It scores each direction on: fit with the references (their media included) and the
+  pillars; readability at game scale, judged at 1:1 (the text-heavy screen included); consistency
+  across the four frames; and distinctness from the comparables. Separately, and without scoring it,
+  it writes what each direction costs to produce (tools, assets, time, paid services): production cost
+  informs the owner, it doesn't pick the medium, and a frame's polish says more about the generator
+  than about the direction. It returns the pick and, for every direction, one line of why. Within a
   direction, `comfyui-art`'s unattended critic (its `references/critic.md`) can pick between seeds.
 
 ## 4. Approve one before multiplying
