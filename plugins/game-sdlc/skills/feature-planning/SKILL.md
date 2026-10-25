@@ -1,8 +1,7 @@
 ---
 name: feature-planning
-description: Plan a feature with the owner answering every question — rounds of questions with recommendations, a player walkthrough, sketches for layout decisions, and a short decisions ledger to approve — then turn the approved plan into an epic. Use when the owner wants to plan a feature, mechanic or change themselves.
+description: Plan a feature with the owner answering every question — rounds of questions with recommendations, a player walkthrough, sketches for layout decisions, and a short decisions ledger to approve — then turn the approved plan into an epic. Use when the owner wants to plan a feature, mechanic or change themselves: when they invoke it, ask to plan something with you, or accept it as the next step offered in the project's interactive working style. In a hands-off project, prefer feature-planning-handsoff unless the owner asks to answer the rounds themselves.
 argument-hint: "The feature or change to plan"
-disable-model-invocation: true
 ---
 
 # Feature planning (interactive)
