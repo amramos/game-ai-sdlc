@@ -38,7 +38,7 @@ state). Never pre-create them empty (ADR-0001).
 | `scenes/` | Screens and shared scenes that are neither an entity nor a level |
 | `levels/` | Playable stages that instance entities and systems |
 | `autoload/` | Genuinely project-wide state only, each with an ADR |
-| `assets/` | Imported art and audio, by type |
+| `assets/` | Imported art, audio and fonts, by type; exists from setup for `themes/ui_theme.tres`, the type roles |
 
 ## Dependencies point down
 

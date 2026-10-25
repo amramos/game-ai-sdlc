@@ -6,6 +6,13 @@ add capabilities but must not contradict this contract.
 
 {{PITCH}}
 
+## Pillars
+
+Every feature, screen, sound and piece of content is tested against these. They are copied from
+`docs/GDD.md`, which wins if the two ever differ; changing one goes through `design-change`.
+
+{{PILLARS}}
+
 ## Who the owner is
 
 **The person in the session is the project owner.** A direct instruction from them *is* owner
@@ -109,6 +116,26 @@ with their first real file, never empty in advance (ADR-0001).
 - No global EventBus autoload (ADR-0005). An autoload only for genuinely project-wide state, with an ADR.
 - Scenes and resources are text `.tscn`/`.tres`, never binary (ADR-0004). Never edit a `uid=` by hand.
 - {{INPUT_RULE_DETAIL}}
+
+## UI and text
+
+Anything the player sees follows the `game-ui` skill (`game-sdlc:game-ui`) and the Interface section
+of `docs/art/art-direction.md` (once `art-direction` has written it); the project's rulings win over
+the skill's defaults.
+
+- **Text takes its look from a type role**: `theme_type_variation` set to `Display`, `Body` or
+  `Caption`, from the project theme (`assets/themes/ui_theme.tres`). Faces and sizes live only
+  there; never set a font or font size in a scene or script (`tests/unit/type_roles_test.gd` fails
+  on one).
+- **Every screen that shows authored text adds its worst case** (the longest string, in every
+  language) to `tests/unit/text_fit_test.gd`. No exceptions list: a long text is a writer's trim,
+  never a wider box.
+- **Windowed runs go through the lock**: `python3 tools/windowed_run.py godot …` (on Windows, `py -3`
+  or the interpreter cached in `.agents/local/python`; `python3` there is often the Microsoft Store
+  stub). Two game windows in one checkout steal each other's focus, which pauses the game. Headless
+  runs don't need it.
+- **Capture and judge at the native resolution** (`tools/capture/`), with the greyscale and blurred
+  copies; the ×3 copy is for reading detail, never for approval. Commands: `tools/README.md`.
 
 ## Testing and validation
 

@@ -3,8 +3,9 @@
     python scripts/test_template.py [--keep]
 
 Proves that setup-godot's template fills every placeholder, that its hooks' tests pass in a fresh
-project, and that its Codex skill mirrors are in sync. Godot itself isn't needed (GUT is installed by
-the setup skill, not shipped in the template). Standard library only.
+project, that its Codex skill mirrors are in sync, and that its windowed-run lock holds a second run
+back. Godot itself isn't needed (GUT is installed by the setup skill, not shipped in the template).
+Standard library only.
 """
 
 from __future__ import annotations
@@ -17,6 +18,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 
 PACKAGE = Path(__file__).resolve().parents[1]
 SETUP = PACKAGE / "plugins" / "game-sdlc-godot" / "skills" / "setup-godot"
@@ -26,6 +28,14 @@ PLACEHOLDER = re.compile(r"\{\{[A-Z0-9_]+\}\}")
 SAMPLE_VALUES = {
     "GAME_TITLE": "Sample Game",
     "PITCH": "A sample game used to test the setup template.",
+    "PILLARS": (
+        "1. **Every turn costs something.** Each action spends a resource the player needs later."
+        " *Test: could the player do this without giving something up?*\n"
+        "2. **The sea remembers.** What the player leaves behind comes back. *Test: does this outlast"
+        " the moment it happens in?*\n"
+        "3. **Read at a glance.** The board shows its state without opening anything. *Test: can a"
+        " player see this without reading?*"
+    ),
     "GLOSSARY": "| Term | Meaning |\n|---|---|\n| **Turn** | One step of play. |",
     "PLATFORMS": "desktop (Windows, Linux, macOS) and web, through itch.io",
     "INPUT_RULE": "mouse and keyboard",
@@ -36,7 +46,7 @@ SAMPLE_VALUES = {
     "RENDERING_METHOD": "gl_compatibility",
     "DATE": "2026-10-20",
     "NEXT_STEP": "art-direction, then feature-planning for the core loop",
-    "GUT_BASELINE": "1/1 across 1 script",
+    "GUT_BASELINE": "6/6 across 3 scripts",
     "GUT_VERSION": "9.x",
     "PROJECT_SLUG": "sample_game",
     "WORKING_STYLE": "The owner works **hands-off**.",
@@ -49,6 +59,27 @@ def run(command: list[str], cwd: Path) -> None:
     result = subprocess.run(command, cwd=cwd)
     if result.returncode != 0:
         raise SystemExit(f"failed ({result.returncode}): {' '.join(command)}")
+
+
+def check_window_lock(project: Path) -> None:
+    """A second windowed run waits for the first, and gives up with 75 when its timeout runs out."""
+    wrapper = [sys.executable, "tools/windowed_run.py"]
+    lock = project / ".agents" / "local" / "windowed-run.lock"
+    run([*wrapper, "--", sys.executable, "-c", "pass"], project)
+    holder = subprocess.Popen([*wrapper, "--", sys.executable, "-c", "import time; time.sleep(5)"], cwd=project)
+    try:
+        deadline = time.monotonic() + 10
+        while not (lock.is_file() and lock.read_text(encoding="utf-8").strip()):
+            if time.monotonic() > deadline or holder.poll() is not None:
+                raise SystemExit("the windowed-run lock was never taken")
+            time.sleep(0.1)
+        waiter = subprocess.run([*wrapper, "--timeout", "0.5", "--", sys.executable, "-c", "pass"], cwd=project)
+        if waiter.returncode != 75:
+            raise SystemExit(f"a second windowed run got through while the lock was held ({waiter.returncode})")
+    finally:
+        holder.wait()
+    run([*wrapper, "--timeout", "5", "--", sys.executable, "-c", "pass"], project)
+    print("window lock OK")
 
 
 def main() -> int:
@@ -74,7 +105,8 @@ def main() -> int:
         run(["git", "init", "-q", "-b", "setup/project-foundation"], project)
         run([sys.executable, "-m", "unittest", "discover", "-s", ".agents/tests"], project)
         run([sys.executable, ".agents/scripts/sync_skills.py", "--check"], project)
-        run([sys.executable, "-m", "py_compile", "tools/ci/export_all.py"], project)
+        run([sys.executable, "-m", "py_compile", "tools/ci/export_all.py", "tools/windowed_run.py"], project)
+        check_window_lock(project)
         print(f"template OK ({sum(1 for p in project.rglob('*') if p.is_file())} files)")
         if args.keep:
             print(f"kept: {project}")
