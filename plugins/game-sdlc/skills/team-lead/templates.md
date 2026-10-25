@@ -93,6 +93,7 @@ needs what it knows.
 ## Adversarial review (spawn `adversarial-reviewer`)
 
 ```text
+Codex CLI: `<the path that passed the recon check>` · Model: `<id>`  (omit both to let the agent search)
 Adversarial code review, READ-ONLY (don't edit files). Repo: <stack>. Review ONLY <files / diff scope>.
 <Already-reviewed neighbours: only check how they're called.>
 Feature: <what it must guarantee — invariants, state rules, what must never happen>.

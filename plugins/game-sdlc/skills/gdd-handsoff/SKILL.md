@@ -1,8 +1,7 @@
 ---
 name: gdd-handsoff
-description: Design a game with almost no input — the user gives a one-line idea (or "surprise me"), a few games they love and one they find boring, and a scope; picks one of three concepts; and an agent panel writes the GDD, checked by quality gates and by blind AI playtesters on a quick prototype, ending with a one-page summary of what the panel assumed. Use when the user wants a GDD without answering a design interview.
+description: Design a game with almost no input — the user gives a one-line idea (or "surprise me"), a few games they love and one they find boring, and a scope; picks one of three concepts; and an agent panel writes the GDD, checked by quality gates and by blind AI playtesters on a quick prototype, ending with a one-page summary of what the panel assumed. Use when the user wants a GDD without answering a design interview: when they invoke it, or ask for one in their own words. Never pick it on your own initiative.
 argument-hint: "A one-line game idea, or \"surprise me\""
-disable-model-invocation: true
 ---
 
 # GDD (hands-off)
@@ -74,6 +73,10 @@ These stand in for the missing owner. Apply each before writing the final GDD, a
 fails:
 
 - **The pillars.** Every mechanic serves at least one pillar, or it's cut.
+- **Each mechanic earns its place** (gdd-core §2): it enables a move or a decision the player
+  wouldn't have without it, checked with the cheapest evidence the genre allows — a solver, a
+  simulation with a bot, or the blind playtesters of §5. Give the plan's later reviewers that evidence,
+  not just the documents.
 - **Grounded in research.** Each mechanic names a shipped game that does something similar. A
   mechanic with none is flagged as a novelty risk — possibly the good kind — and becomes the first
   thing the prototype tests.

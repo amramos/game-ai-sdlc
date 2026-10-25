@@ -31,6 +31,20 @@ leaner and faster. Built, and awaiting one test on a held-out game before releas
   (background waits, Glob and Grep instead of recursive listings, Windows heredocs, Codex prompts on
   stdin).
 
+**From the held-out test** (a new game, GDD to playable slice in 2.9 hours, no usage-limit stops):
+- **A fresh lead context at each phase boundary:** each phase hands the next a short brief pointing
+  at its documents, in a new session where the client allows it, since one session running every
+  phase let the lead's context grow from 78k to 630k tokens.
+- **The reviewer is checked before the first review,** and a Codex path that works is passed to every
+  review; the reviewer agent tries other installed Codex CLIs and never falls back silently.
+- **Each mechanic earns its place:** a gate in the GDD, planning and prototype skills, checked by a
+  solver, a simulation with a bot, or blind playtesters, whichever the genre allows.
+- **prototype** ships a headless runner (`scripts/proto_cli.mjs`) for playtesters and solvers without
+  a browser; the template's `export_all.py` uses the Godot the hooks use.
+- Agents can start `gdd-handsoff` and `feature-planning`; the pillar wording agrees between
+  `gdd-core` and `gdd-handsoff`; words on a gameplay asset are proved as live text in the engine;
+  first-feature sketches draw over the style frames or the prototype.
+
 **Designed interfaces:**
 
 - **New skill, `game-ui`:** ten commandments for game interfaces, each with a check, plus a screen

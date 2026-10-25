@@ -92,7 +92,10 @@ Before saving the guide, take the chosen direction one step further:
   into the key scene at game scale;
 - **the hardest-to-read gameplay asset** (the mark, wound, symbol or unit the player must read to
   decide), composited on its real background. Measure its contrast against its own surroundings,
-  per object and in every lighting state, not average colour against average colour;
+  per object and in every lighting state, not average colour against average colour. **When it
+  carries words** (a sign, a label, a number), the words are live text in the game's font, never
+  painted by the generator: pick the font now, under the interface section's type roles, and prove
+  that element in the engine at native size;
 - **the loudest moment**: a frame of the game's signature action, with the space the layout keeps for
   it.
 
@@ -180,3 +183,7 @@ the next skill starts without a swap, mark the choice confirmed and delete `runn
 ## 8. Next
 
 Offer the first feature — usually the GDD's core loop as a playable slice — with `feature-planning-handsoff` or `feature-planning`. Offer it **in the working style**: the `Working style` line in the project's `AGENTS.md`, or, before a project exists, the mode of the skill that just ran (`gdd-handsoff` means hands-off). Hands-off: offer the `-handsoff` variant first. Interactive: offer the interactive skill, and mention the hands-off variant once.
+
+Start it fresh: planning needs only the GDD and `docs/art/`, not this run's image sheets and rounds.
+Where the client can start a new session, hand it over with a short brief, or ask the owner for a
+compaction when they're present.

@@ -47,7 +47,7 @@ Roughly in this order, though the frontier decides. Skip what doesn't apply.
 5. **Core loop** — the moment-to-moment loop, the session loop, the long loop; how a session ends;
    win and loss.
 6. **Mechanics** — each system, what the player decides in it, and its exact terms. Every term goes
-   in the glossary with one meaning.
+   in the glossary with one meaning. Each mechanic earns its place (see below).
 7. **Progression and economy** — what carries over between sessions, what never does.
 8. **Content** — what is authored and roughly how much (levels, events, cards, characters).
 9. **Story and tone** — if any; how it is delivered. Plot lives here, never in the pillars.
@@ -67,8 +67,10 @@ Roughly in this order, though the frontier decides. Skip what doesn't apply.
 
 ### Pillars
 
-Suggest them; don't impose them. Draft **six to eight candidates** from the concept, the comparables
-and the games the user loves, and let the one answering pick three, edit them, or write their own.
+Suggest them; don't impose them. In interactive mode, draft **six to eight candidates** from the
+concept, the comparables and the games the user loves, and let the user pick three, edit them, or
+write their own. In hands-off mode, each of `gdd-handsoff`'s concepts carries three pillars, so
+picking a concept picks its pillars.
 
 - **A name, one line and a test question.** The line says the feeling and where the player gets it;
   the question is what any feature, screen or sound is tested against.
@@ -85,6 +87,21 @@ leaves someone behind. *Test: could the player do everything here without giving
 
 When two pillars pull apart later, the owner decides at that moment, in the feature's ledger; no rule
 is written in advance. Changing a pillar after the GDD exists goes through `design-change`.
+
+### Each mechanic earns its place
+
+A mechanic belongs in the game only if it enables a move or a decision the player wouldn't have
+without it. Discussion rarely catches one that doesn't (a hazard that can only ever be an obstacle, a
+resource nobody needs), so check it with the cheapest evidence the genre allows:
+
+- **a solver**, where the rules can be searched exhaustively (puzzles, turn-based logic): every
+  mechanic is needed for at least one solution, and no level has an unintended bypass;
+- **a simulation with a bot**, where the game can be played automatically (strategy, roguelites,
+  economies): removing the mechanic changes the outcomes or the choices;
+- **blind playtesters** otherwise (real-time and action games): they use it, and miss it when it's
+  gone.
+
+A mechanic that fails is reworked, given a partner that makes it matter, or cut.
 
 ## 3. Research agents
 
@@ -137,6 +154,11 @@ Use [gdd-template.md](gdd-template.md). Put it at `docs/GDD.md` if a repository 
 **Carry the mode forward.** After `gdd-handsoff`, recommend `setup-godot`'s "use every
 recommendation" fast path and say the project will be set to work hands-off, so every later skill
 offers its hands-off variant first. After `gdd`, recommend the normal round.
+
+**Start the next phase fresh.** It needs only the documents this one wrote (the GDD, its summary).
+Where the client can start a new session, hand the next phase over with a short brief pointing at
+them, or ask the user for a compaction when they're present, rather than carrying this phase's
+conversation into every later call.
 
 ## Later ideas don't come back here
 

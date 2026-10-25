@@ -100,12 +100,14 @@ When a decision is about **how something looks or is laid out**, prose can't be 
 - state the pain with a number where there is one (presses, seconds, words, items);
 - capture the real game and draw the options over the capture, in the game's palette and fonts, as
   an HTML page or a generated image — never a described layout; include the cheapest fix as one of
-  them;
+  them. For a first feature, with no game to capture yet, draw over the art direction's style frames
+  or the prototype's screens;
 - judge each option at the full content (the longest text, the most items) and for the real input
   devices;
 - if an option overturns an earlier design, find out why that design was chosen first;
 - show **two or three options side by side**, each with a short *for / against*;
-- pair them with **screenshots from shipped games**, each captioned with the one thing borrowed;
+- pair them with **screenshots from shipped games**, each captioned with the one thing borrowed
+  (with no way to fetch screenshots, name the game and the exact screen instead);
 - then ask which.
 
 One sketch per material fork, not per answer.
@@ -125,6 +127,11 @@ or an early checkpoint.
 For risky interaction or gameplay changes, the first work package is the **smallest playable slice**
 that proves the core experience — real input, timing, resolution and feedback. An owner-played
 checkpoint follows it, and the plan says which work pauses until then. Tests don't replace this gate.
+
+A feature that adds a mechanic also shows it **earns its place** (`gdd-core` §2): it enables a move
+or a decision the player wouldn't have without it, checked by a solver, a simulation with a bot, or
+blind playtesters, whichever is cheapest for the genre. Give the two-way reviewer (§9) that evidence,
+not just the documents.
 
 ## 7. The decisions ledger
 
@@ -187,7 +194,10 @@ Then hand off, in this order:
 1. record the rulings where they live (the GDD for mechanics, an ADR for a new rule or reversal);
 2. turn the plan into an **epic** with the `issue-tracking` skill: one feature per work package, the
    approval record as the epic's description, the ledger as its first comment;
-3. build it with `team-lead` (or `team-lead-handsoff`). Offer it **in the working style**: the `Working style` line in the project's `AGENTS.md`, or, before a project exists, the mode of the skill that just ran (`gdd-handsoff` means hands-off). Hands-off: offer the `-handsoff` variant first. Interactive: offer the interactive skill, and mention the hands-off variant once.
+3. build it with `team-lead` (or `team-lead-handsoff`). Offer it **in the working style**: the `Working style` line in the project's `AGENTS.md`, or, before a project exists, the mode of the skill that just ran (`gdd-handsoff` means hands-off). Hands-off: offer the `-handsoff` variant first. Interactive: offer the interactive skill, and mention the hands-off variant once. Start the build
+fresh: it needs only the plan, the ledger and the GDD, not this planning conversation. Where the
+client can start a new session, hand it over with a short brief, or ask the owner for a compaction
+when they're present.
 
 Save both documents in the repository, e.g. `docs/plans/<feature>-ledger.md` and
 `docs/plans/<feature>-plan.md`.

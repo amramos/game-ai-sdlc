@@ -65,6 +65,14 @@ Say in the report which reviewer actually ran, and why if it was the fallback.
    build on. Explore with Glob and Grep, or an exploring agent; never a recursive listing of the
    repository. Find the gate: tests, lint, format, coverage, and how hooks run. Check that hooks are
    installed in this checkout; worktrees often lack them.
+
+   **Check the reviewer once, before the first review.** Send a one-line request through the
+   other-vendor route with the model you intend (for Codex: `codex exec --skip-git-repo-check -m
+   <model>` with the prompt on stdin). If it fails, try the vendor's other installed CLIs (another
+   `codex` on PATH, or the Codex desktop app's bundled one, under `%LOCALAPPDATA%\OpenAI\Codex\bin\` on
+   Windows). Record in `STATE.md` which CLI and model work, and pass both in every review prompt. If
+   none works, say so before building (in a hands-off run, in `STATE.md` and the report) and use the
+   fallback knowingly; cross-vendor review is the point of the step.
 2. **Brief and build cards.**
    - Write `BRIEF.md` in the scratchpad: the goal, the architecture decisions you made, where new code
      may live, what's off-limits, conventions, how to run things. Every agent reads it.
@@ -141,6 +149,13 @@ waiting for.
 
 Every call re-reads your whole context, so its size, times the number of calls, is most of the run's
 cost, and the main cause of hitting usage limits.
+
+- **Start fresh at phase boundaries.** When this build follows other phases in the same session (the
+  GDD, art direction, planning), their conversation is history the build doesn't need, and every call
+  pays to re-read it. Before the build, and at a package boundary once your context has grown large,
+  continue in a fresh context from the documents (the plan, the ledger, `BRIEF.md`, the build cards,
+  `STATE.md`): hand the next phase to a new session where the client can start one, or ask the owner
+  for a compaction when they're present. Automatic compaction alone comes late and loses detail.
 
 - **Agents report briefly**: about 200 words, with paths to the detail, and always their gaps and
   judgement calls. Open the detail when a decision hinges on it.

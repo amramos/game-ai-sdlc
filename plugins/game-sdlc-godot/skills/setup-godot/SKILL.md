@@ -183,3 +183,8 @@ Offer the next step **in the working style** from §1:
 - then the first feature — usually the core loop from the GDD as a playable slice — with
   **`feature-planning-handsoff`** (hands-off) or **`feature-planning`** (interactive);
 - optionally `bug-intake`.
+
+Start the next phase fresh: it needs only the repository and its documents. Where the client can
+start a new session in the project, hand it over there with a short brief, or ask the owner for a
+compaction when they're present, rather than carrying this setup's conversation into every later
+call.
