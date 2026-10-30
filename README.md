@@ -114,8 +114,10 @@ another round. You get a one-page summary: the pitch, the five decisions the pan
 **2. Try the core first — `/game-sdlc:prototype`** *(optional)*
 
 It builds two or three throwaway browser prototypes, each taking a different approach to the core
-mechanic. You play them, and so do blind AI playtesters, who play without ever seeing the design.
-You pick one, the GDD is updated, and the rest are thrown away.
+mechanic. Each opens with what it tests and what to ignore, teaches itself in a few guided steps,
+and draws the game in its own camera rather than as text. You play them, and so do blind AI
+playtesters, who play without ever seeing the design; one of them skips the tutorial, to show what
+the screen teaches on its own. You pick one, the GDD is updated, and the rest are thrown away.
 
 **3. Set up the repository — `/game-sdlc-godot:setup-godot`**
 

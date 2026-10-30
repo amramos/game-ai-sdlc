@@ -99,8 +99,9 @@ fails:
 Run the **`prototype`** skill in its hands-off form on the core loop: two variations of the chosen
 core mechanic, played by **blind AI playtesters only** (no user play), compared on their reports.
 
-The bar: the playtesters can state the goal correctly, and their median "want another round" is at
-least 6/10. If neither variation clears it, the panel revises the core loop using the reports and
+The bar: the playtesters who had the tutorial can state the goal correctly, and their median "want
+another round" is at least 6/10. The cold playtester and the ten-second check don't count toward
+it; what they misread goes in the summary. If neither variation clears it, the panel revises the core loop using the reports and
 tries again — **at most twice**. If it still fails, say so plainly in the summary and recommend the
 user try the prototype themselves before going further; don't paper over it.
 

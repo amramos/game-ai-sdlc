@@ -44,6 +44,10 @@ The first real code in the original project was the core resolution rule plus a 
 it. Prototypes make that step deliberate: two or three versions of the core, compared by playing them
 rather than by imagining them, before any repository exists to be wasted.
 
+- **Legible to the owner, not just to agents.** Early prototypes printed their text interface onto
+  the page; agents could play them, and the owner clicked at random. Each now states what it tests,
+  teaches itself in 3–5 guided steps, and draws the state where it lives in the GDD's camera.
+
 ## 3. Foundations — `setup-godot`
 
 **Produces:** a repository an agent can work in safely from the first commit.
