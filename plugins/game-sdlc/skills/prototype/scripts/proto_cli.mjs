@@ -3,6 +3,7 @@
 //
 //   node proto_cli.mjs <prototype.html>                 interactive: describe, actions, act <name>, quit
 //   node proto_cli.mjs <prototype.html> "act left" ...  runs the commands in order, then exits
+//   node proto_cli.mjs --no-tutorial <prototype.html>   starts cold, skipping the tutorial
 //
 // The prototype keeps its rules and window.proto in one <script id="proto-rules"> block that never
 // touches the page; that block runs here in a sandbox with no DOM.
@@ -10,9 +11,11 @@ import { readFileSync } from "node:fs";
 import readline from "node:readline";
 import vm from "node:vm";
 
-const [file, ...commands] = process.argv.slice(2);
+const args = process.argv.slice(2);
+const cold = args.includes("--no-tutorial");
+const [file, ...commands] = args.filter((arg) => arg !== "--no-tutorial");
 if (!file) {
-  console.error("usage: node proto_cli.mjs <prototype.html> [command ...]");
+  console.error("usage: node proto_cli.mjs [--no-tutorial] <prototype.html> [command ...]");
   process.exit(2);
 }
 
@@ -44,6 +47,13 @@ const proto = sandbox.proto;
 if (!proto || ["describe", "actions", "act"].some((name) => typeof proto[name] !== "function")) {
   console.error("the rules block must define window.proto with describe(), actions() and act(name)");
   process.exit(2);
+}
+if (cold) {
+  if (typeof proto.restart !== "function") {
+    console.error("--no-tutorial needs window.proto.restart({ tutorial }) in the rules block");
+    process.exit(2);
+  }
+  proto.restart({ tutorial: false });
 }
 
 function show(value) {

@@ -3,6 +3,27 @@
 What changed in each version of the `game-sdlc` and `game-sdlc-godot` plugins, newest first. Both
 plugins are released together under one version.
 
+## 0.6.0 — 2026-10-30
+
+Prototypes the owner can play, not only agents. Prototypes printed their text interface onto the
+page as paragraphs of rules with a row of buttons; AI playtesters coped, and the owner clicked at
+random without knowing the goal.
+
+- **prototype:** each variation opens with a card for the owner (what it tests, what to ignore, how
+  it differs), hidden from playtesters with `?blind`. A 3–5 step tutorial on a scripted deal replaces
+  the rules text, one new term per step, teaching the goal and the verbs but never the best move;
+  then a free round with no coach. A core that can't be taught in five steps is reported, not given
+  a sixth step.
+- **prototype:** the page draws the GDD's camera and medium at greybox quality (three.js only for a
+  3D game), with state where it lives and input on the world, and is never `describe()` in a box.
+  Feel stays out unless the question is about feel.
+- **prototype:** the page itself is tested: a ten-second check on one screenshot, and a playtester
+  on the real page. At least one playtester per variation plays cold, without the tutorial, and the
+  comparison reads the two arms against each other. `window.proto` gains `restart({ tutorial })`,
+  and the headless runner `--no-tutorial`.
+- **gdd-handsoff:** the prototype bar counts the playtesters who had the tutorial; the cold one's
+  misreadings go in the summary.
+
 ## 0.5.1 — 2026-10-25
 
 The camera and the medium follow the owner's taste, not the toolchain. A test game whose references
