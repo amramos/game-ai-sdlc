@@ -105,10 +105,13 @@ it; what they misread goes in the summary. If neither variation clears it, the p
 tries again — **at most twice**. If it still fails, say so plainly in the summary and recommend the
 user try the prototype themselves before going further; don't paper over it.
 
-Write the winning variation's lessons about the mechanic into the GDD (never its web layout); throw
-the prototypes away.
+Write the winning variation back into the GDD as `prototype` §4 describes (never its web layout);
+throw the prototypes away.
 
 ## 6. Output
+
+First run the builder's read (gdd-core §6) on the written GDD. The panel settles what it finds on the
+first playable's path, recorded as `panel — assumed`.
 
 1. **The GDD** (gdd-core §5), with this under the title: "**Provisional** — written by an agent
    panel from a short intake; the decisions marked *assumed* in the appendix are the owner's to
@@ -127,5 +130,5 @@ the prototypes away.
 
 Show the summary in the conversation as well. Any assumption the user overturns is edited straight
 into the GDD — it's still provisional, so no `design-change` is needed yet. Then offer
-`setup-godot` with its "use every recommendation" fast path (gdd-core §6); setup records the
+`setup-godot` with its "use every recommendation" fast path (gdd-core §7); setup records the
 hands-off working style, so the first feature will be offered as `feature-planning-handsoff`.

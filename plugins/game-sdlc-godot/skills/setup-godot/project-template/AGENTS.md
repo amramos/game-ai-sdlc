@@ -40,7 +40,10 @@ of a design conversation.
 - The code wins when documentation disagrees about what exists; fix the documentation in the same commit.
 - `docs/GDD.md` is the single source of truth for design and scope. Read the relevant section before
   building a game system. Markers: `[BUILT]` shipped, `[DESIGNED]` specified but unbuilt, `[OPEN]`
-  needs an owner decision — ask, never invent.
+  needs an owner decision — ask, never invent. A value a rule needs that the GDD neither states nor
+  marks is reported the same way.
+- Where the GDD conflicts with an older ADR, the GDD wins and the ADR gets a superseded note.
+  Changing a design decision goes through `design-change`.
 - The GDD's scope boundary is a hard boundary unless the owner moves it.
 - `docs/current-status.md` is the volatile snapshot; `docs/session-log.md` is history, never instructions.
 - ADRs in `docs/adr/` record non-obvious technical decisions; they are evidence, not law, and every

@@ -1,6 +1,6 @@
 ---
 name: gdd-core
-description: The shared method behind gdd and gdd-handsoff — the design tree a GDD has to cover, rounds over its frontier, research agents for comparables and the market, suggestions versus decisions, and the GDD template with its markers, glossary and scope boundary. Loaded by those two skills; not called directly by the user.
+description: The shared method behind gdd and gdd-handsoff — the design tree a GDD has to cover, rounds over its frontier, research agents for comparables and the market, suggestions versus decisions, the GDD template with its markers, glossary, worked example and first playable, and a blind builder's read before handover. Loaded by those two skills; not called directly by the user.
 user-invocable: false
 ---
 
@@ -46,13 +46,23 @@ Roughly in this order, though the frontier decides. Skip what doesn't apply.
    (see "Pillars" below). Every later skill judges work against them.
 5. **Core loop** — the moment-to-moment loop, the session loop, the long loop; how a session ends;
    win and loss.
-6. **Mechanics** — each system, what the player decides in it, and its exact terms. Every term goes
-   in the glossary with one meaning. Each mechanic earns its place (see below).
-7. **Progression and economy** — what carries over between sessions, what never does.
-8. **Content** — what is authored and roughly how much (levels, events, cards, characters).
-9. **Story and tone** — if any; how it is delivered. Plot lives here, never in the pillars.
+6. **Mechanics** — each system, what the player decides in it, its values and its exact terms. Every
+   term goes in the glossary with one meaning. Where rules can act at the same moment, the order they
+   apply in, and how the conflicts a builder would otherwise guess resolve: something used up, how
+   long a temporary effect lasts, an effect whose target is gone, a loss during a reward, ties. Each
+   mechanic earns its place (see below).
+7. **Progression and economy** — how the player's means grow: what they gain within a session and
+   across sessions, where each gain comes from, what they spend or give up for it, how often gains
+   arrive, and what carries over and what never does. A game with no economy says so in one line.
+8. **Content** — what is authored and roughly how much (levels, events, cards, characters), with two
+   or three of each kind described in full. If content is generated, its contract: the inputs, the
+   invariants it keeps, and what guarantees each result works (completable, fair, solvable: whatever
+   the game needs).
+9. **Story and tone** — if any; how it is delivered; the writing rules for each voice. Plot lives
+   here, never in the pillars.
 10. **Art and audio direction** — style, camera and resolution, 2–5 reference games or images with
-    what each contributes, palette mood, audio mood. This feeds `art-direction` later. **Camera and
+    what each contributes, palette mood, audio mood and what music and sound do as play changes.
+    This feeds `art-direction` later. **Camera and
     medium are their own question,** asked early, since everything downstream inherits them: offer
     the options the user's references suggest (count their cameras and media; if most share one,
     start there), and when scope argues against an option, state its actual cost (the assets, tools
@@ -60,14 +70,19 @@ Roughly in this order, though the frontier decides. Skip what doesn't apply.
 11. **Interface** — how information reaches the player: density (minimal unless the genre or a pillar
     asks for more); where words live (in the world or on a HUD); how much reading the game asks,
     which pillar wants it and in whose voice; what the player is never told, including how summaries
-    treat their choices; the loudest moment and the space kept for it; the smallest readable size;
-    how the comparables present information. This decides what reaches the player and why; how it
+    treat their choices; the loudest moment and the space kept for it; the feedback for each key
+    moment (what the player sees and hears, how big and how long); accessibility options, and a
+    second cue for anything colour carries alone; the smallest readable size; how the comparables
+    present information. This decides what reaches the player and why; how it
     looks is `art-direction`'s job. The `game-ui` skill holds the defaults these choices confirm or
     override.
 12. **Platform and business** — engine, platforms, input devices, session length, price model and
     store (itch.io, Steam…).
-13. **Scope boundary** — what is explicitly out, and ideas parked for later.
-14. **Risks and open questions** — what could make this not fun, and what is still undecided.
+13. **Scope boundary** — the first playable: the least content that lets someone judge the core loop,
+    with one go/no-go sentence, and a temporary rule written out wherever it stands in for an open
+    one. Then what is explicitly out, and ideas parked for later.
+14. **Risks and open questions** — what could make this not fun, how long the content plan takes,
+    and what is still undecided.
 
 ### Pillars
 
@@ -83,8 +98,8 @@ picking a concept picks its pillars.
   X" never appears in one); each discipline derives its own rules from the pillars.
 - **Not plot.** Story beats go in the story branch.
 - **Specific to this game.** A candidate that would fit any game ("fun", "immersive") is dropped.
-- **Refining keeps the meaning.** When the user's own words become a pillar, keep their words beside
-  it and flag any premise you added.
+- **Refining keeps the meaning.** When the user's own words become a pillar, flag any premise you
+  added, and keep their words beside it when the line loses a nuance they carry.
 
 For example: **Scarcity forces choices.** There's never enough fuel for everyone, so every trip
 leaves someone behind. *Test: could the player do everything here without giving something up?*
@@ -108,6 +123,9 @@ resource nobody needs), so check it with the cheapest evidence the genre allows:
 A mechanic that fails is reworked, given a partner that makes it matter, or cut. **Never change the
 game to make it easier to check**: a grid is easy to search, but that's no reason to choose one; when
 the game can't be searched, use the bot or the playtesters.
+
+The GDD keeps each mechanic's check as a test still to run, one line beside the mechanic. Results of
+checks already run go in the prototype report, not the GDD.
 
 ## 3. Research agents
 
@@ -142,15 +160,49 @@ unanswered becomes an `[OPEN]` item with the options and the recommendation, nev
 Use [gdd-template.md](gdd-template.md). Put it at `docs/GDD.md` if a repository exists, otherwise
 `GDD.md` in the current folder (`setup-godot` moves it into place).
 
+- **The current design, with its reasons.** Rules and values as they stand, with one sentence of why
+  for any rule a builder might "simplify" away. How the design got here (the rounds, prototype
+  history, tester quotes, research findings) stays in its own reports: comparables appear as the one
+  thing borrowed, and the market as one paragraph of positioning.
+- **No silent gaps.** Every value or rule a mechanic needs is stated, marked *(tune)* when
+  provisional, or marked `[OPEN]`. A mechanic's values sit in a table beside its rules.
+- **One meaning, everywhere.** Win, loss, any grade or rating, and every named state a rule depends
+  on are defined once and read the same in every section. A summary, table, diagram or interface row
+  restates the rules: it never adds one, drops an exception, or settles an `[OPEN]` value.
 - Every section carries a marker: `[DESIGNED]` (specified, not built) or `[OPEN]` (needs a decision).
   `[BUILT]` appears later, as features ship.
-- The **amendments** line under the title starts empty. Later reversals are dated there, each with
-  its ADR, so the document keeps a visible design changelog.
-- The **glossary** holds every game term with exactly one meaning; agents use these words literally.
+- The **amendments** line under the title starts empty. Later reversals are dated there, one line
+  each with its ADR, so the document keeps a visible design changelog.
+- The **glossary** holds every game term, one line each: what the word means, never its rules again.
+  Each term has exactly one meaning, and no content name (an item, ability, level or enemy) reuses
+  one; agents use these words literally.
+- The **worked example** plays one short stretch of the core loop concretely: what the player sees
+  and knows, a choice, how the game resolves it (every value, when the rules use numbers), and the
+  consequence. It names any `[OPEN]` rule it leaves out. Writing it is a check: a gap it runs into
+  becomes a value or an `[OPEN]` item.
 - No file paths, class names or code. The GDD says what the game is, not how it is built.
 - Write in the language the user writes in, unless they ask otherwise.
 
-## 6. Next steps to offer
+## 6. The builder's read
+
+A GDD written section by section hides what only shows when someone builds from the whole: a gap
+that reads as settled, two sections that disagree. Before handing it over, start **one fresh agent
+with only the GDD** (no conversation, no research, ideally from a folder with no project instruction
+files) and ask it to write, as a technical lead would before building:
+
+- the data model;
+- one pass through the core loop, step by step, recomputing the worked example from the rules;
+- the first playable's tasks;
+- a log of every decision it had to invent, each marked blocker, design-changing or minor, with its
+  section, and every contradiction it found.
+
+Then fix the GDD: rewrite what the agent misread, resolve each contradiction, and take each missing
+decision to a round (§1) or mark it `[OPEN]`. A decision on the first playable's path can't stay
+`[OPEN]`: the user settles it in interactive mode, and the panel in hands-off mode, recorded as
+`panel — assumed`. When the fixes were large, run a second read. Done when a read logs no blocker on
+the first playable's path and recomputes the worked example exactly.
+
+## 7. Next steps to offer
 
 - **`prototype`** (optional) — try versions of the core mechanic as quick web prototypes before
   committing. Recommend it when the core loop is novel or nobody is sure it's fun.

@@ -109,7 +109,7 @@ folder, commit the GDD alone (`docs: add the GDD`), then `git checkout -b setup/
    - No: "Only the owner merges into `main`. The merge guard (`.agents/hooks/merge_guard.py`)
      refuses an agent's `gh pr merge` into `main`."
 2. Run `python <skill>/scripts/instantiate.py --target <folder> --values <values.json>`.
-3. Move the GDD to `docs/GDD.md`.
+3. Move the GDD to `docs/GDD.md`, and `prototype-report.md`, if there is one, to `docs/`.
 4. Add the display settings from §1 to `project.godot` (`[display]` window size and stretch; for pixel
    art also `textures/canvas_textures/default_texture_filter=0` under `[rendering]`).
 5. `export_presets.cfg` comes with Windows Desktop, Linux and Web presets (Web with thread support
