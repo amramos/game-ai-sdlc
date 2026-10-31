@@ -7,7 +7,7 @@ them.
 |---|---|---|---|
 | Rules | `AGENTS.md` | `CLAUDE.md` imports it | read natively |
 | Snapshot | `docs/current-status.md` | `CLAUDE.md` imports it | required by `AGENTS.md` |
-| Process skills | the `game-sdlc` plugins | installed as plugins | copied to `~/.codex/skills/` by the package's `install_codex.py` |
+| Process skills | the `game-sdlc` plugins | installed as plugins; `.claude/settings.json` registers their marketplace with auto-update on | copied to `~/.codex/skills/` by the package's `install_codex.py` |
 | Project skills | `.claude/skills/` | native | generated mirrors in `.agents/skills/` |
 | Roles | `.agents/roles/` | `.claude/agents/*.md` | `.codex/agents/*.toml` |
 | Hooks | `.agents/hooks/` | `.claude/settings.json` (owner-managed) | `.codex/hooks.json` |

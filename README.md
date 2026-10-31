@@ -48,7 +48,9 @@ stale rules don't block new ideas.
 
 Then **turn on auto-update**, once: `/plugin` → **Marketplaces** → `game-ai-sdlc` → **Enable
 auto-update**. Claude Code doesn't do this by default for marketplaces outside Anthropic's own, and
-without it you won't receive new versions (see [Updating](#updating)).
+without it you won't receive new versions (see [Updating](#updating)). Game projects that
+`setup-godot` creates turn it on for you: their `.claude/settings.json` registers this marketplace
+with auto-update on, which applies once you trust the project folder.
 
 From a local copy instead of GitHub: `/plugin marketplace add /path/to/game-ai-sdlc`.
 
