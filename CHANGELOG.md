@@ -39,6 +39,10 @@ blind reviewers, from four model vendors, and was 13% shorter.
 - **setup-godot:** `prototype-report.md` moves into `docs/`. `AGENTS.md` now says the GDD beats an
   older ADR and that design changes go through `design-change`, and the GDD keeps only two lines on
   authority.
+- **setup-godot:** new projects turn on auto-update for this marketplace. Their `.claude/settings.json`
+  registers `game-ai-sdlc` with `"autoUpdate": true`, which applies once the folder is trusted.
+  Claude Code auto-updates only Anthropic's own marketplaces by default, and a marketplace can't
+  change that itself.
 
 ## 0.6.0 — 2026-10-30
 
