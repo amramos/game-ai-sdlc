@@ -3,6 +3,47 @@
 What changed in each version of the `game-sdlc` and `game-sdlc-godot` plugins, newest first. Both
 plugins are released together under one version.
 
+## 0.7.0 — 2026-10-31
+
+GDDs that hand off better: shorter, and more buildable. Blind reviewers who built from an SDLC GDD
+found it long on history and short on the values and rules they needed, with gaps that read as
+settled and sections that disagreed. A revision following these rules was ranked first by all six
+blind reviewers, from four model vendors, and was 13% shorter.
+
+- **gdd-core:** the GDD states the current design, with one sentence of why for any rule a builder
+  might simplify away; how it got there stays in reports. Every value a rule needs is stated, marked
+  *(tune)*, or marked `[OPEN]`. Win, loss, grades and named states mean the same in every section,
+  and a summary or table never adds or drops a rule. Glossary entries are one line.
+- **gdd-core:** the design tree asks:
+  - how rules resolve when they meet;
+  - how the player's means grow;
+  - full content examples, and a generator contract for generated content;
+  - feedback for each key moment, accessibility options, and a second cue besides colour;
+  - what the music does during play;
+  - writing rules for each voice;
+  - how long the content plan takes.
+
+  Each of these is skipped when the game has none.
+- **gdd-core:** the template gains a Worked example section and a First playable section, decided
+  and with a go/no-go line. Each mechanic gets a *Check:* line, kept as a test still to run.
+- **gdd-core:** a **builder's read** runs before handover. One blind agent with only the GDD writes
+  the data model, one pass through the core loop and the first playable's tasks, and logs every
+  decision it had to invent. It is done when no blocker sits on the first playable's path and the
+  worked example recomputes exactly. `gdd` asks the user about what it finds; `gdd-handsoff`'s panel
+  settles it.
+- **prototype:** the write-back copies the tuned values and the rules the code decided implicitly. It
+  rewrites the affected sections whole, then sweeps the rest and redoes the worked example. History
+  and evidence go in `prototype-report.md`, and the write-back ends with the builder's read.
+- **docs-cleanup:** the GDD check also covers values neither stated nor marked, glossary collisions
+  and sections that disagree.
+- **setup-godot:** `prototype-report.md` moves into `docs/`. `AGENTS.md` now says the GDD beats an
+  older ADR and that design changes go through `design-change`, and the GDD keeps only two lines on
+  authority.
+- **setup-godot:** new projects turn on auto-update for this marketplace. Their `.claude/settings.json`
+  registers `game-ai-sdlc` with `"autoUpdate": true`, which applies once the folder is trusted.
+  Claude Code auto-updates only Anthropic's own marketplaces by default, and a marketplace can't
+  change that itself.
+
 ## 0.6.0 — 2026-10-30
 
 Prototypes the owner can play, not only agents. Prototypes printed their text interface onto the

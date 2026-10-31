@@ -102,7 +102,10 @@ Start with a one-line idea, or nothing at all. The skill interviews you in round
 games, pitch, the rule that decides every cut, core loop, mechanics, art style, platforms. Every
 question comes with a recommendation, so you can answer a round with "yes to all except 2". While you
 answer, research agents look up comparable games and the market. You make every call. Anything you
-leave undecided becomes an `[OPEN]` question instead of a quiet guess. Out comes `GDD.md`.
+leave undecided becomes an `[OPEN]` question instead of a quiet guess. Before it's handed over, a
+blind agent tries to build from it alone and logs every decision it had to invent, and anything
+blocking the first playable comes back to you. Out comes `GDD.md`, with a worked example and a first
+playable.
 
 Don't want an interview? `/game-sdlc:gdd-handsoff` needs about 30 seconds of input: an idea (or
 "surprise me"), a few games you love and one you find boring, and a scope. It drafts three different
@@ -119,7 +122,8 @@ It builds two or three throwaway browser prototypes, each taking a different app
 mechanic. Each opens with what it tests and what to ignore, teaches itself in a few guided steps,
 and draws the game in its own camera rather than as text. You play them, and so do blind AI
 playtesters, who play without ever seeing the design; one of them skips the tutorial, to show what
-the screen teaches on its own. You pick one, the GDD is updated, and the rest are thrown away.
+the screen teaches on its own. You pick one, the GDD is updated with its tuned values, and the rest
+are thrown away.
 
 **3. Set up the repository — `/game-sdlc-godot:setup-godot`**
 
