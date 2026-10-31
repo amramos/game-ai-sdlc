@@ -9,8 +9,9 @@ what each one produces, and the failure that taught it.
 
 ## 1. Design — `gdd` or `gdd-handsoff`
 
-**Produces:** a GDD with a pitch, comparables, three pillars, the core loop, mechanics, an interface
-section, a glossary, a scope boundary and open questions.
+**Produces:** a GDD with a pitch, comparables, three pillars, the core loop, mechanics with their
+values, a worked example, an interface section, a glossary, a first playable, a scope boundary and
+open questions.
 
 The original GDD came out of a long conversation with an AI. `gdd` turns that into an interview with
 research agents on the side. `gdd-handsoff` is for people who won't sit through an interview. Its
@@ -35,6 +36,13 @@ listed for the owner on one page.
   agents ask instead of invent.
 - **A glossary with one meaning per word.** Agents use terms literally in code. Two meanings for one
   word turned into two systems.
+- **The current design, not its history; every value stated or marked.** Blind reviewers building
+  from an early SDLC GDD found prototype history in the mechanics and the scoring values in a file
+  they didn't have. The unmarked gaps read as settled. The GDD now states rules with one sentence of
+  why, and calls a missing value a mistake to report.
+- **A builder's read before handover.** Sections written one at a time can contradict each other in
+  ways no single section shows. One blind agent builds from the GDD alone and logs every decision it
+  had to invent; nothing on the first playable's path may stay open.
 
 ## 2. Try it cheaply — `prototype` (optional)
 
@@ -47,6 +55,9 @@ rather than by imagining them, before any repository exists to be wasted.
 - **Legible to the owner, not just to agents.** Early prototypes printed their text interface onto
   the page; agents could play them, and the owner clicked at random. Each now states what it tests,
   teaches itself in 3–5 guided steps, and draws the state where it lives in the GDD's camera.
+- **The values come back, not the story.** The write-back copies the tuned numbers and the rules the
+  code decided without saying, rewrites the affected sections whole, and leaves the history in a
+  prototype report.
 
 ## 3. Foundations — `setup-godot`
 
