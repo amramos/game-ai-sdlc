@@ -1,4 +1,13 @@
 {
+  "extraKnownMarketplaces": {
+    "game-ai-sdlc": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/amramos/game-ai-sdlc.git"
+      },
+      "autoUpdate": true
+    }
+  },
   "enabledMcpjsonServers": [
     "godot"
   ],
