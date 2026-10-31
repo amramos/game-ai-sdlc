@@ -150,15 +150,28 @@ earned its place** (`gdd-core` §2; where the rules can be searched, run a solve
 since it catches what discussion misses), and your read of what the question's answer is. The
 **user picks one**, or a merge of two.
 
-Then:
-- update the GDD's core loop and mechanics to the chosen approach, and add a dated line to its
-  amendments header ("<date> — core loop chosen by prototype: <one line>");
-- move any new uncertainty into the GDD's open questions, including what the cold playtester
-  misread, for the game's first-time experience;
-- **take only the mechanic's lessons into the GDD.** The prototype's screen is a greybox built to
-  make the mechanic legible; it never becomes the game's interface, which the GDD's interface
-  section and `art-direction` decide;
-- **throw the other variations away.** Don't keep them, don't record them as rejected directions.
+Then write it back. The GDD states the design as it now stands; the story of how the prototype got
+there stays in the report.
+
+- **Save the comparison** as `prototype-report.md` next to the GDD: the question, the variations,
+  the verdicts and quotes, and each mechanic's check results.
+- **Copy the chosen variation's rules into the GDD.** Its tuned values go into the mechanics'
+  tables, marked *(tune)*. Then read its rules code for the decisions it made without saying (order
+  of operations, randomness, edge cases) and state each one, or mark it `[OPEN]` where the prototype
+  only papered over it.
+- **Rewrite each affected section whole, then sweep the rest.** Check every term the change touched
+  across the pitch, core loop, glossary, feedback table, risks and open questions, and redo the
+  worked example with the new values. A rule that no longer exists is deleted, not annotated. Each
+  rule keeps one sentence of why and its check as a test still to run (`gdd-core` §2); a claim about
+  evidence says what it showed and what it didn't.
+- Add a dated line to the amendments header ("<date> — core loop chosen by prototype: <one line>").
+- Move any new uncertainty into the GDD's open questions, including what the cold playtester
+  misread, for the game's first-time experience.
+- **Only the mechanic crosses over.** The prototype's screen is a greybox built to make the mechanic
+  legible; it never becomes the game's interface, which the GDD's interface section and
+  `art-direction` decide.
+- **Run the builder's read** (`gdd-core` §6) on the updated GDD.
+- **Throw the other variations away.** Don't keep them, don't record them as rejected directions.
 
 ## 5. Next
 

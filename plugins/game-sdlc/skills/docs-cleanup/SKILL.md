@@ -30,7 +30,7 @@ repository, unless the owner asks for a full sweep.
 | Document | What to check | What to do |
 |---|---|---|
 | Status snapshot (`docs/current-status.md`) | Every sentence about what exists, what's open, test counts | Correct it; **delete** what no longer exists. Never append a second narrative beside an old one |
-| GDD | `[BUILT]` / `[DESIGNED]` / `[OPEN]` markers; mechanics the epic changed; the amendments header | Move markers to the truth; a reversal not yet recorded goes to `design-change` |
+| GDD | `[BUILT]` / `[DESIGNED]` / `[OPEN]` markers; mechanics the epic changed; the amendments header; values a rule needs that are neither stated nor marked; glossary terms with two meanings or reused as content names; sections that disagree (a summary, table or feedback row that adds or drops a rule) | Move markers to the truth; state the value or mark it `[OPEN]`; make the sections agree, keeping the mechanics' version unless the owner ruled otherwise; a reversal not yet recorded goes to `design-change` |
 | ADRs | Decisions this epic contradicted or superseded; missing **Revisit when** lines | A contradiction is either a bug in the code or an unrecorded reversal: ask which, don't guess |
 | `AGENTS.md` / instructions | Rules that are stale, duplicated elsewhere, or police taste | Fix stale ones; replace duplicates with a link; **flag** taste rules (§3) |
 | Architecture doc | New folders, layers, coordinators | Add what exists; remove what was deleted |

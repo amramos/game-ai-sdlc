@@ -23,8 +23,10 @@ and **the user makes every design decision**. Your job is to make each decision 
 
 ## Finish
 
-Write the GDD (gdd-core §5), then show a short summary: the pitch, the three pillars with their test
-questions, the core loop in three lines, and the `[OPEN]` items. Ask the user to confirm it reads right, fix what doesn't, and
-offer the next steps (gdd-core §6).
+Write the GDD (gdd-core §5) and run the builder's read (gdd-core §6); what it finds on the first
+playable's path goes to the user as one more round. Then show a short summary: the pitch, the three
+pillars with their test questions, the core loop in three lines, the first playable, and the
+`[OPEN]` items. Ask the user to confirm it reads right, fix what doesn't, and offer the next steps
+(gdd-core §7).
 
 If the user would rather not answer rounds at all, offer `gdd-handsoff` instead.
