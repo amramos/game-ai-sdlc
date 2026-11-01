@@ -6,10 +6,14 @@ unless:
 
 - `.agents/merge-policy.json` says agents may merge to main (adopted by an ADR);
 - every CI check on the pull request passed;
-- the reviewer's latest verdict approves the pull request's current head commit.
+- the latest marker on the pull request allows the current head commit: either the reviewer's
+  verdict approves it, or the lead ruled to merge it after the review cycles ran out.
 
 The verdict is a marker in a PR comment or review, written by the team lead from the reviewer's
-report: `<!-- game-sdlc-review: approve sha=<head sha> -->` (or `request-changes`).
+report: `<!-- game-sdlc-review: approve sha=<head sha> -->` (or `request-changes`). Reviews are capped
+at two cycles; after that the lead rules on what the reviewer still holds and may merge with
+`<!-- game-sdlc-lead-ruling: merge sha=<head sha> -->`. A ruling counts only after two reviewer
+verdicts on the pull request, so it can close a review but never replace one.
 
 It is a safety net against mistakes, not a security boundary: a merge through another path (the
 GitHub API or website) doesn't pass through it. `gh pr merge --admin` is always refused.
@@ -26,8 +30,9 @@ from hook_common import run, shell_segments
 
 POLICY_PATH = Path(".agents") / "merge-policy.json"
 VERDICT = re.compile(
-    r"<!--\s*game-sdlc-review:\s*(approve|request-changes)\s+sha=([0-9a-fA-F]{7,40})\s*-->"
+    r"<!--\s*game-sdlc-(review|lead-ruling):\s*(approve|request-changes|merge)\s+sha=([0-9a-fA-F]{7,40})\s*-->"
 )
+REVIEW_CYCLES = 2
 _PROTECTED = {"main", "master"}
 _PASSING = {"SUCCESS", "NEUTRAL", "SKIPPED"}
 _ENV_ASSIGNMENT = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*=")
@@ -114,21 +119,40 @@ def checks_problem(rollup: list[dict[str, Any]]) -> str | None:
 
 
 def verdict_problem(pr: dict[str, Any]) -> str | None:
-    """The latest verdict marker, across comments and reviews, must approve the current head."""
+    """The latest marker, across comments and reviews, must allow the current head.
+
+    That is a reviewer approval, or a lead ruling to merge once the reviewer has had its cycles.
+    """
     posts = [(item.get("createdAt") or "", item.get("body") or "") for item in pr.get("comments") or []]
     posts += [(item.get("submittedAt") or "", item.get("body") or "") for item in pr.get("reviews") or []]
-    latest: tuple[str, str] | None = None
+    latest: tuple[str, str, str] | None = None
+    reviews = 0
     for _when, body in sorted(posts, key=lambda post: post[0]):
         for match in VERDICT.finditer(body):
-            latest = (match.group(1).casefold(), match.group(2).casefold())
+            source, verdict, sha = (group.casefold() for group in match.groups())
+            if (source == "review") == (verdict == "merge"):
+                continue  # a reviewer doesn't rule to merge, and the lead doesn't approve
+            reviews += source == "review"
+            latest = (source, verdict, sha)
     if latest is None:
         return "there is no reviewer verdict on the pull request (<!-- game-sdlc-review: approve sha=... -->)"
-    verdict, sha = latest
+    source, verdict, sha = latest
     head = str(pr.get("headRefOid") or "").casefold()
     if not head.startswith(sha):
-        return f"the latest verdict is for commit {sha[:12]}, not the current head {head[:12]}; review it again"
+        what = "lead ruling" if source == "lead-ruling" else "verdict"
+        return f"the latest {what} is for commit {sha[:12]}, not the current head {head[:12]}; review or rule on it again"
+    if source == "lead-ruling":
+        if reviews < REVIEW_CYCLES:
+            return (
+                f"a lead ruling counts only after {REVIEW_CYCLES} review cycles, and this pull request has"
+                f" {reviews}; get the reviewer's verdict first"
+            )
+        return None
     if verdict != "approve":
-        return "the reviewer's latest verdict requests changes"
+        return (
+            "the reviewer's latest verdict requests changes; fix and verify, or after the second cycle"
+            " rule on what's left (<!-- game-sdlc-lead-ruling: merge sha=... -->)"
+        )
     return None
 
 

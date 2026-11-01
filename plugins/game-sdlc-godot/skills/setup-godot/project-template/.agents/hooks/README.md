@@ -9,7 +9,7 @@ These four stdlib-only Python entry points implement the same policies for Claud
 | `pre_commit_lint.py` | PreToolUse Bash | On `git commit`, check generated skill drift and staged GDScript. |
 | `validate_gdscript.py` | PostToolUse Edit/Write | Validate every touched `.gd` path with available tools. |
 
-`hook_common.py` is shared plumbing and `merge_guard.py` is the part of `guard_bash.py` that checks `gh pr merge` (policy file, CI, reviewer verdict); neither is a registered entry point. All scripts accept the client's JSON payload on stdin and exit successfully. Pre-tool denials use the native structured `permissionDecision: deny` response; PostToolUse reports `decision: block`, which feeds a validation failure back to the agent but cannot undo an edit.
+`hook_common.py` is shared plumbing and `merge_guard.py` is the part of `guard_bash.py` that checks `gh pr merge` (policy file, CI, reviewer verdict or lead ruling); neither is a registered entry point. All scripts accept the client's JSON payload on stdin and exit successfully. Pre-tool denials use the native structured `permissionDecision: deny` response; PostToolUse reports `decision: block`, which feeds a validation failure back to the agent but cannot undo an edit.
 
 ## Root resolution
 

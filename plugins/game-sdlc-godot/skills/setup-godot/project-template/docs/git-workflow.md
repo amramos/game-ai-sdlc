@@ -12,8 +12,9 @@ Solo or small-team, AI-assisted development. No Git Flow, no long-lived branches
   is checked out and any push to `main`, for both Claude and Codex.
 - **Merging into `main`** goes through the merge guard (`.agents/hooks/merge_guard.py`): an agent's
   `gh pr merge` into `main` is refused unless `.agents/merge-policy.json` allows agent merges (an
-  ADR records that choice), every CI check passed, and the reviewer's latest verdict comment approves
-  the current head commit. `--admin` is always refused. It stands in for branch protection where the
+  ADR records that choice), every CI check passed, and the latest marker allows the current head
+  commit: the reviewer's verdict approves it, or, after two review cycles, the lead's ruling merges
+  it. `--admin` is always refused. It stands in for branch protection where the
   GitHub plan doesn't offer it; it is a safety net, not a security boundary.
 - **Branch at the start of an epic** from a freshly pulled `main`:
   `git pull --ff-only origin main && git checkout -b feature/<slug>`.

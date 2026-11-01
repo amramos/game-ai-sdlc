@@ -18,7 +18,7 @@ them.
 | Hook | When | What it does |
 |---|---|---|
 | `protect_paths.py` | before an edit | blocks `.git/`, `addons/`, generated mirrors, `.godot/`, `*.import`, and the hook registrations |
-| `guard_bash.py` | before a shell command | blocks commits and pushes to `main`, force-pushes, hard resets, broad recursive deletes, and — through `merge_guard.py` — any `gh pr merge` into `main` that the merge policy, CI or the reviewer's verdict doesn't allow |
+| `guard_bash.py` | before a shell command | blocks commits and pushes to `main`, force-pushes, hard resets, broad recursive deletes, and — through `merge_guard.py` — any `gh pr merge` into `main` without the merge policy, green CI, and the reviewer's approval (or, after two review cycles, the lead's ruling) |
 | `pre_commit_lint.py` | before `git commit` | checks skill mirrors and staged GDScript |
 | `validate_gdscript.py` | after an edit | runs gdformat, gdlint and a Godot parse check on touched scripts |
 

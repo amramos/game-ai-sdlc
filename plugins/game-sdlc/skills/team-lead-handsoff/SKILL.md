@@ -37,6 +37,10 @@ Invoking this skill *is* the owner's decision that agents may merge reviewed wor
    token is available (e.g. `REVIEWER_GH_TOKEN` for a GitHub App or machine account), also submit it
    as a real review with that identity; without one, the comment is enough. Don't ask.
 4. **Auto-delete head branches** on, so stacked pull requests retarget as each merges.
+5. **A merge guard that knows lead rulings.** If `.agents/hooks/merge_guard.py` exists but doesn't
+   mention `game-sdlc-lead-ruling` (a project set up before 0.7.1), copy `merge_guard.py` and
+   `.agents/tests/hooks/test_hooks.py` from `setup-godot`'s `project-template`, run the hook tests,
+   and land them in the first pull request with the policy, or in one of their own.
 
 Stop only for what can't be settled: no CI workflow at all (nothing could ever pass the guard), or
 `gh` not signed in. Say exactly what's missing.
@@ -55,21 +59,42 @@ ending with the machine-readable verdict for the head commit that was reviewed:
 
 (or `request-changes`). Get the sha from `gh pr view <n> --json headRefOid`. **Never write an
 `approve` marker the reviewer didn't give**, and never edit the reviewer's text. A new commit makes
-the verdict stale — the merge guard checks the sha — so every fix gets a fresh review.
+the verdict stale — the merge guard checks the sha — so a fix needs a fresh verdict, or, once the
+two cycles are spent, your ruling on the new head.
 
 - **Request changes** → each finding is fixed with a test that fails first (inline, or by a fresh
-  agent, as in `team-lead`). The merge guard needs an approving verdict on the head commit, so a PR
-  with fixes always gets the second cycle: a verification scoped to the fix diff, not a new hunt.
-- **Two cycles at most.** If the reviewer still requests changes after the verification, or holds a
-  finding you declined, stop on that PR: leave it open, label it `needs-owner`, and comment both
-  positions in a few lines. Continue with work that doesn't depend on it.
+  agent, as in `team-lead`). A PR with fixes always gets the second cycle: a verification scoped to
+  the fix diff, not a new hunt.
+- **Two cycles, then you decide.** The cap ends the review, not the work. Still `request-changes`
+  after the second cycle is the normal case, not a stop: rule on each finding the reviewer still
+  holds, as the owner's stand-in:
+  - **fix** it with a test that fails first (no third review; CI and the smoke test cover the fix);
+  - **decline** it, with a reason (no player-visible effect, would break a boundary, cost outweighs
+    risk);
+  - or **defer** it to an issue linked from the PR.
+
+  Then post one comment listing each finding and its ruling, ending with the marker for the head
+  commit you're merging:
+
+  ```text
+  <!-- game-sdlc-lead-ruling: merge sha=<the PR's headRefOid now> -->
+  ```
+
+  The merge guard accepts it only after two reviewer verdicts on the PR. It's your ruling, under your
+  name: it never stands in for the reviewer's verdict, and the reviewer's comments stay as they are.
+- **Stop on a PR only** when a finding you can't fix now could lose the player's save or data, open
+  a security hole, or break a rule that protects the repository (`AGENTS.md`), or when you can't
+  judge it at all. Then leave the PR open, label it `needs-owner`, comment both positions in a few
+  lines, and go on with work that doesn't depend on it. If later packages do depend on it, the epic
+  stops there; say so in the report. Disagreeing with the reviewer is not a reason to stop.
 
 ## 2. The merge checklist
 
 Merge only when every line is true, and post the checklist on the PR as a comment:
 
 - [ ] CI is green on the PR's latest commit. *(the merge guard checks)*
-- [ ] The latest verdict approves the current head commit. *(the merge guard checks)*
+- [ ] The latest verdict approves the current head commit, or, after two cycles, your ruling
+      covers it. *(the merge guard checks)*
 - [ ] The **exported build** passes its smoke test, run on this branch.
 - [ ] `main` is tagged `pre-merge/<feature-slug>-<yyyymmdd>`, pushed.
 
@@ -92,4 +117,5 @@ provisional until then.
 
 The `team-lead` report and story page, plus: whether agent merges were adopted in this run (and the
 ADR), which protection was in force (branch protection or the merge guard), every PR merged with its
-tag, every PR left `needs-owner` and why, and any revert.
+tag, every PR merged on your ruling with the findings you declined or deferred (the owner checks
+those first when playing), every PR left `needs-owner` and why, and any revert.

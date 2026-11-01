@@ -441,6 +441,17 @@ def _verdict(verdict: str = "approve", sha: str = HEAD, when: str = "2026-01-01T
     return {"createdAt": when, "body": f"Review notes.\n<!-- game-sdlc-review: {verdict} sha={sha} -->"}
 
 
+def _ruling(sha: str = HEAD, when: str = "2026-01-03T00:00:00Z", verdict: str = "merge") -> dict:
+    return {"createdAt": when, "body": f"Lead ruling.\n<!-- game-sdlc-lead-ruling: {verdict} sha={sha} -->"}
+
+
+def _two_cycles(sha: str = "b" * 40) -> list[dict]:
+    return [
+        _verdict("request-changes", sha=sha, when="2026-01-01T00:00:00Z"),
+        _verdict("request-changes", sha=sha, when="2026-01-02T00:00:00Z"),
+    ]
+
+
 class MergeGuardTests(unittest.TestCase):
     """`gh pr merge` into main needs the policy, green CI and an approving verdict on the head."""
 
@@ -516,6 +527,28 @@ class MergeGuardTests(unittest.TestCase):
             reviews=[{"submittedAt": "2026-01-03T00:00:00Z", "body": _verdict()["body"]}],
         )
         self.assertIsNone(self._reason("gh pr merge 7", True, pr))
+
+    def test_a_lead_ruling_on_the_head_merges_after_two_cycles(self) -> None:
+        """After the cap the lead decides; the fixes it pushed need no third review."""
+        pr = self._pr(comments=[*_two_cycles(), _ruling()])
+        self.assertIsNone(self._reason("gh pr merge 7", True, pr))
+
+    def test_a_lead_ruling_needs_two_cycles_a_fresh_sha_and_the_right_word(self) -> None:
+        cases = {
+            "no review": [_ruling()],
+            "one cycle": [_verdict("request-changes", sha="b" * 40), _ruling()],
+            "stale ruling": [*_two_cycles(), _ruling(sha="c" * 40)],
+            "lead approves": [*_two_cycles(), _ruling(verdict="approve")],
+            "reviewer rules": [*_two_cycles(), _verdict("merge", when="2026-01-03T00:00:00Z")],
+        }
+        for label, comments in cases.items():
+            with self.subTest(label):
+                self.assertIsNotNone(self._reason("gh pr merge 7", True, self._pr(comments=comments)))
+
+    def test_a_later_reviewer_verdict_overrides_a_ruling(self) -> None:
+        later = _verdict("request-changes", when="2026-01-04T00:00:00Z")
+        pr = self._pr(comments=[*_two_cycles(), _ruling(), later])
+        self.assertIn("requests changes", self._reason("gh pr merge 7", True, pr))
 
     def test_admin_and_unreadable_pull_requests_are_refused(self) -> None:
         self.assertIn("--admin", self._reason("gh pr merge 7 --admin", True, self._pr()))
