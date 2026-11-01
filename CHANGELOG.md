@@ -3,6 +3,23 @@
 What changed in each version of the `game-sdlc` and `game-sdlc-godot` plugins, newest first. Both
 plugins are released together under one version.
 
+## 0.7.1 — 2026-11-01
+
+Hands-off builds no longer stop at the review cap. The lead decides after two cycles, as `team-lead`
+always said.
+
+- **team-lead-handsoff:** the two-cycle review cap ends the review, not the run. A hands-off run
+  stopped a whole epic on its foundation package: the reviewer still requested changes after the
+  second cycle, the skill said to stop, and the merge guard accepted only the reviewer's approval.
+  Now the lead rules on each finding still held (fix with a failing test, decline with a reason, or
+  defer to an issue), posts the ruling with `<!-- game-sdlc-lead-ruling: merge sha=… -->` and
+  merges. A PR stops only for a finding that risks the player's data, security or the repository's
+  own rules. The report lists every ruling merge with what it declined or deferred.
+- **setup-godot:** the merge guard accepts a lead ruling on the head commit once the pull request
+  has two reviewer verdicts, and never accepts a reviewer `merge` or a lead `approve`. A project set
+  up earlier gets the new guard from `team-lead-handsoff`'s setup step, since project files don't
+  auto-update.
+
 ## 0.7.0 — 2026-10-31
 
 GDDs that hand off better: shorter, and more buildable. Blind reviewers who built from an SDLC GDD
