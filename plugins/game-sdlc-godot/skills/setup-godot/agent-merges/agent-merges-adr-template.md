@@ -16,13 +16,15 @@ An agent may merge a pull request into `main` only through `team-lead-handsoff`'
 - every CI check on the pull request passed;
 - a reviewer from another model vendor (or a fallback model) reviewed it, and its latest verdict
   approves the pull request's current head commit — posted on the pull request as
-  `<!-- game-sdlc-review: approve sha=<head sha> -->`;
+  `<!-- game-sdlc-review: approve sha=<head sha> -->`; or, after two review cycles, the lead ruled
+  on every finding still held (fixed, declined with a reason, or deferred) and posted
+  `<!-- game-sdlc-lead-ruling: merge sha=<head sha> -->`;
 - the exported build passed its smoke test;
 - `main` was tagged `pre-merge/<feature>-<yyyymmdd>` before the merge, so it can be reverted.
 
 `.agents/merge-policy.json` (`"agent_merges_to_main": true`) records this for the hooks. The merge
 guard (`.agents/hooks/merge_guard.py`, called by `guard_bash.py`) refuses an agent's `gh pr merge`
-into `main` unless the policy, the checks and the verdict all allow it, and always refuses `--admin`.
+into `main` unless the policy, the checks and the verdict (or the lead's ruling) all allow it, and always refuses `--admin`.
 Committing or pushing to `main` directly stays forbidden.
 
 ## Alternatives considered

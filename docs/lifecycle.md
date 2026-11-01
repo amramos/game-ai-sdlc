@@ -144,6 +144,10 @@ Two refinements came later:
   - setup records agent merges on day one;
   - the reviewer's verdict is a PR comment carrying the commit it approved;
   - a merge guard hook stands in for branch protection.
+- **The review cap ends the review, not the run.** A later run stopped its whole epic on its first
+  package because the reviewer still requested changes after two cycles, and the guard accepted only
+  the reviewer's approval. Now the lead rules on what's left and merges on a ruling marker the guard
+  accepts after two reviewer verdicts; a PR stops only for data, security or repository rules.
 
 ## 8. Play — `playtest`
 

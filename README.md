@@ -188,7 +188,10 @@ doesn't stop to ask about setup:
 - the reviewer's verdict goes on the PR as a comment, so no second GitHub account is needed;
 - where your GitHub plan has no branch protection, the project's **merge guard** hook refuses an
   agent's merge into `main` unless CI passed and the latest verdict approves the exact commit being
-  merged.
+  merged;
+- review stops after two cycles, and then the lead decides: it fixes, declines or defers what the
+  reviewer still holds, posts that ruling on the PR, and merges. It stops a PR only for a finding that
+  risks data, security or the repository's own rules.
 
 **7. Play it — `/game-sdlc:playtest`**
 
