@@ -5,8 +5,11 @@ plugins are released together under one version.
 
 ## 0.8.1 — 2026-11-03
 
-The hands-off skills load in GitHub Copilot.
+The hands-off skills load in GitHub Copilot, and reading the taste profile costs no extra agent.
 
+- **taste-profile:** the session gets the profile's Never lines from one command (bash or
+  PowerShell) that prints only that section, instead of spawning a reader agent. It's cheaper, and
+  the rest of the file never enters the session's context.
 - **gdd-handsoff, feature-planning, feature-planning-handsoff, team-lead-handsoff:** their
   descriptions had an unquoted `: `, which is invalid YAML. Claude Code reads it anyway; Copilot CLI
   parses frontmatter strictly and dropped all four skills without a word. They're reworded.
