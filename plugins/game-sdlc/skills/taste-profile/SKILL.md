@@ -205,6 +205,8 @@ specific item. Nothing else changes it.
 - **Owner away** (a hands-off run): append each ruling, overturned assumption or piece of feedback
   that would hold for the owner's *other* games too to `proposals.md` in the profile folder.
   - One line each, with the date and the project.
+  - A run that read `docs/taste-snapshot.md` (no `taste.md` in the profile folder) puts them in its
+    report instead, never in `proposals.md`.
   - If it can't be written, §1, "Can't write".
   - If there are none, say so in the run's report.
 - **Owner present** at an endpoint (a ledger or GDD approved, an epic's end, a hands-off report

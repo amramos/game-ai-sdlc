@@ -33,7 +33,8 @@ below; the plan cites these ids, and a reviewer checks that it holds every decis
 <!-- Example (hands-off): | D4 | How many orders show at once? | Three, oldest left | panel | Five (lead's recommendation: the reviewer showed five cover the stove at 1280×720) | 2026-05-02 | -->
 
 **Assumed by the panel** (hands-off only — the owner skims these first):
-- D<n>: <one line each> — runner-up: <the reviewer's answer, or the strongest option rejected>
+- D<n>: <one line each> — runner-up: <the answer not taken: the reviewer's when you kept yours, your original
+  recommendation when you adopted the reviewer's, or the strongest option rejected when it agreed>
 
 ## The experience, walked through
 

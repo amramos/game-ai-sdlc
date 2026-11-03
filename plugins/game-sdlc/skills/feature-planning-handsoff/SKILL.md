@@ -49,7 +49,9 @@ GDD sections and docs, and this brief:
 - **The reply's format**, given in the brief word for word:
 
   ```
-  Q<n>: agree | different: <answer> — <one line of reason from the game, never from the profile>
+  Q<n>: agree — <one line of reason from the game>
+  Q<n>: different: <answer> — <one line of reason from the game>
+  Q<n>: agree | different: <answer> — (profile) <label>
   Player (Q<n>): sees <…> / misreads <…> / frustrated by <…>
   Q<n> addition: <the change in game terms> (profile) <label>
   Skeptic: <what fails, what's missing, what's expensive>
@@ -58,7 +60,11 @@ GDD sections and docs, and this brief:
   <which entry, and why, for each (profile) line>
   ```
 
-  `VERDICT: approve` when it agrees with every recommendation, `request-changes` otherwise.
+  - One `Q<n>` line per question. The `(profile)` form is only for an answer whose sole reason is
+    the profile; its explanation goes below the line.
+  - `VERDICT: approve` when it agrees with every recommendation, `request-changes` otherwise.
+
+  A `Q<n>` line ending in `(profile)` and a label is recorded as `panel — assumed (profile)` (§3).
 
 **Read the reply only up to the `=== EXPLANATION (owner only) ===` line**, never by opening the
 whole file:
@@ -105,6 +111,9 @@ For each question:
     §3, "What gets recorded").
   - Leaving it out is a dissent like any other: the addition goes in the Dissent column, by its game
     change and label.
+- **Its only reason is the profile** (a `Q<n>` line ending in `(profile)` and a label) → whichever
+  way you decide, the row is `panel — assumed (profile)` when you take that answer, or carries the
+  answer in its Dissent column when you don't.
 - **Its answer carries profile text** (a quote or a paraphrase above the line) → take only the
   decision and the label, word the row yourself, and note the slip in the report.
 - **The owner's by nature** → still answered by the steps above, but recorded as `Decided by:
