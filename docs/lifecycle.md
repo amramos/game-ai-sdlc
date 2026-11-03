@@ -114,6 +114,15 @@ Two refinements came later:
 - **The ledger.** The owner read the questions and answers, not the long plan, and trusted the plan
   to match. The ledger makes that trust checkable: the plan cites each decision, and a reviewer checks
   that every decision is in the plan and that the plan invents none.
+- **One outside reviewer, not a panel.** Hands-off planning used to put three or four agents on every
+  round: a designer, a player advocate, a skeptic and, for the GDD, a market analyst. A before/after
+  test on two invented games and two model tiers showed that nearly all the disagreement came from the
+  skeptic on another vendor's model. The same-model designer re-derived the lead's answers, and the
+  panel's splits were buried where the owner didn't read them. Now the lead answers, one reviewer from
+  another vendor checks each round, and every assumed decision carries the reviewer's answer as its
+  runner-up. The first version lost a taste-profile opening on the mid-size model, because the
+  reviewer put it in a note the lead never read; it now goes among the reviewer's answers. The test
+  is in `research/agent-usage/`.
 
 ## 6. Track — `issue-tracking`
 
@@ -138,7 +147,7 @@ Two refinements came later:
 - **Explicit models on every agent, never above the session's.** An agent inherits the session's
   model and its usage cap; three agents on one capped model died mid-run. Narrow work runs a tier
   down.
-- **Most of a run's cost is context, not output.** The Valhalla UI overhaul (15 hours, 6 of them
+- **Most of a run's cost is context, not output.** One UI overhaul (15 hours, 6 of them
   stopped at usage limits) showed where it went: a lead re-reading about 500k tokens on every call,
   small fixes made inside agents resumed at 200k tokens, an integrator stage every package waited
   on, critic loops that couldn't converge on stills, five PRs for an owner who merged them at once.
@@ -156,6 +165,12 @@ Two refinements came later:
   package because the reviewer still requested changes after two cycles, and the guard accepted only
   the reviewer's approval. Now the lead rules on what's left and merges on a ruling marker the guard
   accepts after two reviewer verdicts; a PR stops only for data, security or repository rules.
+- **A second agent has to see something different.** An audit of every place the package spawned
+  agents kept the ones that see differently: blind playtesters, the builder's read, another vendor's
+  reviewer, research that keeps web pages out of the lead's context. It trimmed the ones that only
+  played a role on the same model. Rules that relied on an agent's obedience became scripts (the
+  Codex review runner, which can't fall back silently; the blind-playtest folder; the GDD and ledger
+  checks), because a script holds on every model and the users' models vary.
 
 ## 8. Play — `playtest`
 
