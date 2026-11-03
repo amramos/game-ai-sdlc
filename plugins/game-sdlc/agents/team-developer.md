@@ -35,6 +35,9 @@ commits and the conversation with the user. You own the piece in your task promp
 
 ## Quality
 
+- **Your whole package:** you build its feature and its tests; no other agent writes them for you.
+  When your package follows another one, start from the code and your build card, not from the
+  previous developer's history.
 - **Tests:** test what you add. Prefer pure, testable classes for rules and state, with thin
   engine-facing glue.
 - **Fixes:** when you fix a review finding, add a test that fails without the fix, and confirm it

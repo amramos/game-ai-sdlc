@@ -20,7 +20,8 @@ Plan: `<plan path>` · Ledger: `<ledger path>` · Epic: <issue id>.
 - Pieces: <piece → owner → responsibility → interface it exposes>.
 
 ## Art direction
-<Decisions from the art-direction round and docs/art/, or "no new art".>
+<"Follow docs/art/art-direction.md" when it covers every asset this epic needs; the art director's
+decisions only for the kinds it doesn't cover; or "no new art".>
 
 ## Conventions
 - Read `AGENTS.md` / `CLAUDE.md` and <skills/docs> before writing code.
@@ -71,7 +72,7 @@ About 200 words, with paths to the detail: files created/changed, how to try it,
 with evidence, honest gaps and judgement calls, anything you need.
 ```
 
-## Fix request (a fresh agent, a tier below the session's model)
+## Fix request (a fresh agent, a tier below the session's model, or the same model when there's none below)
 
 The default for a fix the lead won't do inline. The fresh agent gets only what the fix needs.
 
@@ -90,10 +91,13 @@ Run <that test, then the tests for these files> and <lint>. Don't commit. Report
 Resume the original developer instead (SendMessage) only when its context is still small and the fix
 needs what it knows.
 
-## Adversarial review (spawn `adversarial-reviewer`)
+## Adversarial review (a prompt file for the Codex runner; the same text for the fallback agent)
+
+Write it to a file and pass it to `codex_review.py --prompt-file`. When the runner exits 2 or 3,
+spawn `adversarial-reviewer` with the same text, preceded by this line:
+`Codex runner: exit <code>, "<its message>". Review it yourself (your fallback).`
 
 ```text
-Codex CLI: `<the path that passed the recon check>` · Model: `<id>`  (omit both to let the agent search)
 Adversarial code review, READ-ONLY (don't edit files). Repo: <stack>. Review ONLY <files / diff scope>.
 <Already-reviewed neighbours: only check how they're called.>
 Feature: <what it must guarantee — invariants, state rules, what must never happen>.
@@ -102,12 +106,13 @@ cleanup after exit, tests that can't fail>.
 For each finding: file:line, a concrete failure scenario, severity. No style nits. Be concise.
 ```
 
-## Art direction (another model, at most two rounds)
+## Art direction (another model, at most two rounds; only for asset kinds the guide doesn't cover)
 
 ```text
 You are the art director for <game>. Style guide: docs/art/art-direction.md and its frames.
+New kinds of asset this epic needs, which the guide doesn't cover: <list>.
 Constraints: <renderer, platform, resolution, poly or palette budget, readability, tools available>.
-Give decisions, not options: <characters / environment / lighting / UI / biggest risk>, each with a
+Give decisions for those kinds only, not options: <characters / environment / lighting / UI / biggest risk>, each with a
 short reason.
 ```
 
@@ -122,8 +127,9 @@ short reason.
 
 **How it went:**
 - **<Name> (<role>, <model>):** <what they built, what review found, how it was fixed>
-- **<Reviewer name> (<model; other vendor or fallback>):** <findings, which were real, which declined and why>
-- **Art:** <rounds, credits spent of budget — or none>
+- **<Reviewer name> (<model; Codex runner or fallback, and why>):** <findings, which were real, which declined and why>
+- **Art:** <guide only, or art-director rounds and why; credits spent of budget — or none>
+- **Models:** <each role that ran → its model; any role below its floor, and why>
 - **My playtest:** <what I found and what changed>
 
 **Checks:** <tests pass/fail with known failures named, coverage, lint>

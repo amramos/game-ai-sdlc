@@ -14,7 +14,8 @@ Templates for the brief, the build card, the developer, fix and reviewer prompts
 prompt and the final report are in [templates.md](templates.md). The story page is
 [story_template.html](story_template.html). The agents are this plugin's `team-developer` and
 `adversarial-reviewer` (`game-sdlc:team-developer`, `game-sdlc:adversarial-reviewer` when installed
-as a plugin).
+as a plugin). The Codex runner for reviews is `scripts/codex_review.py` in this skill's folder
+(`<skill>` below).
 
 ## 1. Settle the ask
 
@@ -43,21 +44,37 @@ developer this rule, and grep the staged diff for every name before each commit.
 
 ## 3. Roles and models
 
-**Choose every agent's model on purpose, and never above the session's.** Set `model:` explicitly on
-every spawn (an agent otherwise inherits the session's model and its usage cap). The session's model
-is the ceiling: no agent runs on a more expensive model than the one leading.
+**Choose every agent's model on purpose.** Set `model:` explicitly on every spawn (an agent otherwise
+inherits the session's model and its usage cap).
 
-| Role | How | Default |
-|---|---|---|
-| Developer, new system | `team-developer` agent | The session's model. One agent per independent piece |
-| Narrow work: a fix round, captures, harness runs, docs, PR bodies, report drafts, research | `team-developer` or a general agent | A tier below the session's model |
-| Adversarial review | `adversarial-reviewer` agent | A model from **another vendor** when the environment has one (for example Codex through its Claude Code plugin); otherwise a different model from the developers', never above the session's |
-| Visual critic | a separate agent | Another vendor's model when available; otherwise a different model, never above the session's |
-| Art direction | another vendor's model, or a different model | At most two rounds; one preferred |
-| 2D art | `comfyui-art` (local) → Codex image generation → Meshy | In that order of availability |
-| 3D art | Meshy, low poly, rigged if a character | Credit ledger in the scratchpad; confirm every paid call |
+- **The session's model is the ceiling for Claude subagents:** none runs on a more expensive model
+  than the one leading.
+- **"A tier below"** means a tier below the session's model, or the same model when there's none
+  below.
+- **A role with a floor may go above the ceiling through another vendor.** When the session is below
+  a role's floor, give that role another vendor's stronger model if the environment has one (Codex,
+  for example). If nothing at or above the floor is available, run the role on the best model you
+  have and say so in the report.
 
-Say in the report which reviewer actually ran, and why if it was the fallback.
+The floor is the weakest model a role can be trusted on. **Strong:** a frontier model preferred,
+mid-size at minimum. **Mid-size:** a vendor's middle tier (Sonnet-class). **Small:** its smallest
+tier (Haiku-class).
+
+| Role | How | Default | Floor |
+|---|---|---|---|
+| Lead (you) | the session | — | Strong when ruling on merges (`team-lead-handsoff`); otherwise as the session is |
+| Developer, new system | `team-developer` agent | The session's model. One agent per package (§4.3) | Mid-size |
+| Fix round | `team-developer` or a general agent, given the finding, the file and a failing test | A tier below | Small |
+| Narrow work: captures, harness runs, docs, research | `team-developer` or a general agent | A tier below | Small (research findings carry links) |
+| PR, report and story drafts (optional, §4.9–10) | a general agent | A tier below | Small |
+| Adversarial review | the Codex runner (§4.1, §4.4); the `adversarial-reviewer` agent as fallback | A model from **another vendor** when the environment has one; otherwise a different model from the developers' | Strong |
+| Visual critic | a separate agent | Another vendor's model when available; otherwise a different model | Mid-size |
+| Art direction | another vendor's model, or a different model; only for asset kinds the style guide doesn't cover (§4.2) | At most two rounds; one preferred | Mid-size |
+| 2D art | `comfyui-art` (local) → Codex image generation → Meshy | In that order of availability | — |
+| 3D art | Meshy, low poly, rigged if a character | Credit ledger in the scratchpad; confirm every paid call | — |
+
+**Say in the report which model filled each role**, which reviewer actually ran (and why, if it was
+the fallback), and any role that ran below its floor.
 
 ## 4. Phases
 
@@ -66,16 +83,19 @@ Say in the report which reviewer actually ran, and why if it was the fallback.
    repository. Find the gate: tests, lint, format, coverage, and how hooks run. Check that hooks are
    installed in this checkout; worktrees often lack them.
 
-   **Check the reviewer once, before the first review.** Send a one-line request through the
-   other-vendor route with the model you intend (for Codex: `codex exec --skip-git-repo-check -s
-   read-only -m <model>` with the prompt on stdin). If it fails, try the vendor's other installed CLIs (another
-   `codex` on PATH, or the Codex desktop app's bundled one, under `%LOCALAPPDATA%\OpenAI\Codex\bin\` on
-   Windows). Record in `STATE.md` which CLI and model work, and pass both in every review prompt. If
-   none works, say so before building (in a hands-off run, in `STATE.md` and the report) and use the
-   fallback knowingly; cross-vendor review is the point of the step.
+   **Check the reviewer route once, before the first review**, with the Codex runner that ships with
+   this skill: `python <skill>/scripts/codex_review.py --probe`. Exit 0 means a route works; it
+   prints `ROUTE: …`, which you record in `STATE.md`. Exit 2 means there is none: say so before
+   building (in a hands-off run, in `STATE.md` and the report) and use the fallback reviewer
+   knowingly; cross-vendor review is the point of the step.
 2. **Brief and build cards.**
    - Write `BRIEF.md` in the scratchpad: the goal, the architecture decisions you made, where new code
      may live, what's off-limits, conventions, how to run things. Every agent reads it.
+   - **Art direction:** when `docs/art/art-direction.md` covers every kind of asset the epic needs,
+     the brief's art-direction section points to it, and no art director is spawned. Spawn one
+     (template in templates.md) only for a kind the guide doesn't cover, such as a new character
+     class or a new screen type, and put its decisions in the brief. The visual critic still judges
+     the results (§4.6).
    - Write one **build card** per work package: the ledger rows it implements, quoted verbatim; the
      files each piece owns; the interfaces, including the **scene hooks** each piece wires itself
      into; the screen specs it builds; the tests to run. Agents read the brief and their card, not the
@@ -87,12 +107,26 @@ Say in the report which reviewer actually ran, and why if it was the fallback.
      separate integration stage.
    - **A shared scene has one owner from the start** (you, or one developer), who builds its
      placeholder nodes first so the others can attach to them.
-   - Spawn independent agents in one message, in the background. Run at most two or three writers at
-     once, on disjoint files; read-only agents (review, critic, research) can run beside them.
-     Windowed game runs go one at a time, through the project's lock if it has one.
+   - **One developer builds a whole package**: its feature and its tests. Never split a package into
+     feature, tests and review agents; review is §4.4's job.
+   - **Packages that are sequential or share state run one after another**, a fresh developer per
+     package so each context stays small. The next one starts from the code and its card, not from
+     the previous developer's history.
+   - **Only independent packages run in parallel.** Spawn them in one message, in the background.
+     Run at most two or three writers at once, on disjoint files; read-only agents (review, critic,
+     research) can run beside them. Windowed game runs go one at a time, through the project's lock
+     if it has one.
 4. **Review as each piece lands**, not at the end. Start the adversarial review of a finished piece
    while others are still working; scope it to that piece; tell the reviewer what the feature must
    guarantee and ask for concrete failure scenarios, no style nits.
+   - **Run it through the Codex runner** when recon found a route: write the review prompt
+     (templates.md) to a file in the scratchpad, then run in the background `python
+     <skill>/scripts/codex_review.py --repo <checkout> --prompt-file <prompt file> --out
+     <scratchpad>/review-<n>.md`. Read only the verdict it prints and the tail of the out file; open
+     more of the file only when a finding needs it.
+   - **Exit 2 or 3** (no route, or the Codex run failed) means the fallback: spawn the
+     `adversarial-reviewer` agent with the same prompt, telling it the runner's exit and message so
+     it reviews the code itself. With no route at recon, use the agent from the first review.
    - **Two cycles at most, biased to one.** The first hunts for defects. Run a second only when the
      first found something blocking or the fixes touched shared code, and scope it to the fix diff:
      it checks that each finding was fixed, and doesn't hunt for new ones. Then you decide.
@@ -101,7 +135,7 @@ Say in the report which reviewer actually ran, and why if it was the fallback.
 5. **Triage every finding,** and write each outcome where the owner can read it: fixed, declined
    with a reason, or deferred.
    - **Fix inline** when it's one file and you already understand it, with a test that fails first.
-   - **Otherwise fix in a fresh agent** a tier below the session's model, given only the finding,
+   - **Otherwise fix in a fresh agent** a tier below (§3), given only the finding,
      the file and the failing test. Don't resume an agent whose context has grown past about 150k
      tokens for a small fix; retire it.
    - **Decline** with a reason (no player-visible effect, would break a boundary, cost outweighs
@@ -133,12 +167,13 @@ Say in the report which reviewer actually ran, and why if it was the fallback.
      PR retargets itself when one merges. To move a stack after a change lower down, use
      `git rebase --update-refs`.
    - Each PR body: what was built, where assets came from, the test plan with real numbers, review
-     notes, and the issue references (`Closes` / `Ref`, see `issue-tracking`). Have a cheap agent
-     draft it from the log, then check it.
+     notes, and the issue references (`Closes` / `Ref`, see `issue-tracking`). Write it from the
+     log yourself; when the log is long, you may have a cheap agent draft it, then check it.
    - Move features to `In Review`. **Don't merge** — the owner does (`team-lead-handsoff` is the
      variant that merges).
 10. **Report** in two parts: the short chat report (template in templates.md) and the story page (§6).
-    A cheap agent can draft both from the log; you check them.
+    Write both yourself when the log is short; otherwise you may have a cheap agent draft them from
+    the log, and you check them.
 11. **Offer the next step**: playing it (`playtest`), then the next feature from the GDD with
     `feature-planning-handsoff` or `feature-planning`. Offer it **in the working style**: the `Working style` line in the project's `AGENTS.md`, or, before a project exists, the mode of the skill that just ran (`gdd-handsoff` means hands-off). Hands-off: offer the `-handsoff` variant first. Interactive: offer the interactive skill, and mention the hands-off variant once.
 
