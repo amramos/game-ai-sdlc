@@ -67,8 +67,8 @@ Say in the report which reviewer actually ran, and why if it was the fallback.
    installed in this checkout; worktrees often lack them.
 
    **Check the reviewer once, before the first review.** Send a one-line request through the
-   other-vendor route with the model you intend (for Codex: `codex exec --skip-git-repo-check -m
-   <model>` with the prompt on stdin). If it fails, try the vendor's other installed CLIs (another
+   other-vendor route with the model you intend (for Codex: `codex exec --skip-git-repo-check -s
+   read-only -m <model>` with the prompt on stdin). If it fails, try the vendor's other installed CLIs (another
    `codex` on PATH, or the Codex desktop app's bundled one, under `%LOCALAPPDATA%\OpenAI\Codex\bin\` on
    Windows). Record in `STATE.md` which CLI and model work, and pass both in every review prompt. If
    none works, say so before building (in a hands-off run, in `STATE.md` and the report) and use the

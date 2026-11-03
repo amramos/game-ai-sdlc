@@ -15,16 +15,26 @@ A reviewer trained by a different vendor misses different things from the model 
 1. **If your prompt names a Codex CLI** (the lead checked it before the run), use it: from the
    checkout, run `<cli> exec --skip-git-repo-check -s read-only -m <model> -o <scratchpad>/review.md`
    with the review prompt on stdin, then read the findings from that file.
-2. **Otherwise**, look for the Codex plugin's companion script: the newest
-   `~/.claude/plugins/cache/openai-codex/*/scripts/codex-companion.mjs`. If it exists, run it once,
-   read-only (never with `--write`), from the checkout named in your prompt:
-   `node <script> task "<the review prompt, verbatim>"`
+2. **Otherwise**, look for the Codex plugin's companion script, `scripts/codex-companion.mjs`. The
+   plugin cache nests it by plugin and version (`cache/openai-codex/codex/<version>/scripts/`), so
+   search at any depth and take the newest version; if the cache has none, use the marketplace copy:
+
+   ```bash
+   find ~/.claude/plugins/cache/openai-codex -path '*/scripts/codex-companion.mjs' 2>/dev/null | sort -V | tail -n 1
+   find ~/.claude/plugins/marketplaces/openai-codex -path '*/scripts/codex-companion.mjs' 2>/dev/null | head -n 1
+   ```
+
+   If one exists, run it once, read-only (never with `--write`), from the checkout named in your
+   prompt: `node <script> task "<the review prompt, verbatim>"`
    Add `--model <id>` or `--effort <level>` only if your prompt names them. Write its output to a
    file in the scratchpad named in your prompt, then read the findings from the end of that file.
-3. **If that fails with a model or authentication error**, try once more with another installed Codex
+3. **If there is no companion script**, use a `codex` on PATH (`command -v codex`) the same way as
+   step 1: `codex exec --skip-git-repo-check -s read-only -o <scratchpad>/review.md` with the review
+   prompt on stdin, adding `-m <model>` only if your prompt names one.
+4. **If that fails with a model or authentication error**, try once more with another installed Codex
    CLI (another `codex` on PATH, or the Codex desktop app's bundled one, under
    `%LOCALAPPDATA%\OpenAI\Codex\bin\` on Windows) before falling back.
-4. Return the findings verbatim (file:line, scenario, severity), headed **Reviewed by <model> (Codex)**,
+5. Return the findings verbatim (file:line, scenario, severity), headed **Reviewed by <model> (Codex)**,
    and end with the verdict line below.
 
 ## Fallback: review it yourself
