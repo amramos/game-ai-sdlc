@@ -38,7 +38,8 @@ the request clearly says otherwise.
 
 **Unattended**: the user said so — "on your own", "don't wait for me", "unattended", "just come
 back with the result", "let another agent review", or they are clearly away (a scheduled task,
-a remote trigger). A critic picks each round instead of the user; read `references/critic.md`.
+a remote trigger). A critic picks each round instead of the user; read `references/critic.md`, which
+also says when, inside a hands-off `art-direction` run, you pick seeds by its rubric instead.
 
 If it's genuinely ambiguous (e.g. "make art for the three new crew" with no word on
 involvement), ask once, in one line, and default to guided. State the mode you're using in your
