@@ -25,6 +25,11 @@ project's root, before reading anything else about the profile. It prints only t
 `MISSING` or `INACCESSIBLE`, so the rest of the file never enters your context. Only judges read
 the whole file (§3), in their own context.
 
+The one exception: a session running this skill's own interview or review
+([references/interview.md](references/interview.md), [references/updates.md](references/updates.md))
+reads and shows the whole file, with the owner present. Afterwards it never drafts (§3, "After the
+interview").
+
 In bash or zsh (Linux, macOS, Git Bash):
 
 ```bash

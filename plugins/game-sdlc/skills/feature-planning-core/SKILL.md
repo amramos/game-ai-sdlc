@@ -226,9 +226,9 @@ the date. Who decided is one of:
 - `panel — assumed` — hands-off: they answered a question that is **the owner's by nature** (taste,
   scope, reversing a past decision, the pillars, anything the project's `AGENTS.md` reserves to the
   owner);
-- `panel — assumed (profile)` — the same, when an entry in the owner's taste profile settled it. The
-  row holds the concrete game change and the entry's label at most; the entry itself goes only in
-  the report to the owner.
+- `panel — assumed (profile)` — hands-off: an entry in the owner's taste profile settled it, whatever
+  kind of question it was. The row holds the concrete game change and the entry's label at most; the
+  entry itself goes only in the report to the owner.
 
 The ledger also holds the intent record, the walkthrough, the sketches (or links to them) and, at
 the end, the approval record.
@@ -317,7 +317,8 @@ Save both documents in the repository, e.g. `docs/plans/<feature>-ledger.md` and
 2. **Taste rulings.** Look through the rulings for any that would hold for the owner's other games
    too (`taste-profile` §6).
    - Interactive: ask about them now.
-   - Hands-off: append them to `proposals.md`, or say in the report that there are none.
+   - Hands-off: handle them by `taste-profile` §6, "Owner away" (`proposals.md`, or the report for
+     a snapshot run), or say in the report that there are none.
 3. **Stop here when the owner chose to stop at the plan** (hands-off option 1): no epic, no build,
    nothing pushed.
 4. Turn the plan into an **epic** with the `issue-tracking` skill:
