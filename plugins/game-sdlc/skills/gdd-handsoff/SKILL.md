@@ -28,6 +28,10 @@ Ask for all of it at once, in one message or one multiple-choice call, with defa
    decides the housekeeping baseline (gdd-core §2), so nothing more is asked about it.
 4. *(Optional)* platform. Default: desktop and web, through itch.io.
 
+This is also the moment to offer the taste profile if there isn't one (gdd-core, "The owner's taste
+profile"): the user is here now and may not be later. With a profile, still ask for the loved games:
+they say what *this* game is reaching for, which the profile doesn't.
+
 ## 2. Three concepts; the user picks
 
 Draft **three deliberately different concepts**, each built from the intake. Each has:
@@ -39,6 +43,11 @@ Draft **three deliberately different concepts**, each built from the intake. Eac
 - a camera and medium (for example first-person low-poly 3D, top-down pixel art, side-view painted);
 - three comparables, each with the one thing borrowed;
 - one line on how it reflects the games they love and avoids the one they find boring.
+
+With a taste profile, a separate drafter agent writes the three concepts from the intake, the market
+search and the profile's Never lines only (`taste-profile` §3). Then a judge with the whole profile
+reads the finished concepts and adds one line to each concept that has room for a Signature item.
+The judge doesn't rewrite them.
 
 "Different" means a different core verb or structure (e.g. one about routing, one about
 deck-building, one about real-time juggling), not three tunings of one idea. Run a quick market search
@@ -129,6 +138,10 @@ first playable's path, recorded as `panel — assumed`.
      or "build" after a jam or prototype, "strike <item>" after a release;
    - the playtesters' verdict in two lines (including any failed bar);
    - the skeptic's kill list, one line each;
+   - **in the conversation only, never in the file**: which taste-profile entry settled each
+     `panel — assumed (profile)` decision, and the rulings proposed for the profile
+     (`taste-profile` §6). With no profile, one line offering to set one up, under that skill's
+     §5 check;
    - one closing question: *change any of these, or continue to setup?*
 
 Show the summary in the conversation as well. Any assumption the user overturns is edited straight

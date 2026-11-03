@@ -28,7 +28,7 @@ below; the plan cites these ids, and a reviewer checks that it holds every decis
 
 | Id | Question | Answer | Decided by | Date |
 |---|---|---|---|---|
-| D1 | <…> | <…> | owner / owner (rec) / panel / panel — assumed | <…> |
+| D1 | <…> | <…> | owner / owner (rec) / panel / panel — assumed / panel — assumed (profile) | <…> |
 
 **Assumed by the panel** (hands-off only — the owner skims these first):
 - D<n>: <one line each>

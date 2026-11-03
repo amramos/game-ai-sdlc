@@ -30,6 +30,13 @@ each contributes), palette mood and tone. If the references are thin, run one ro
 In hands-off mode the critic answers that round from the GDD instead, and each answer is recorded as
 assumed.
 
+Look for the owner's **taste profile** too (`taste-profile` §1; `game-sdlc:taste-profile` when
+installed as a plugin), and offer it if it's missing and the owner is there (its §5). Use it by its
+§3. You, choosing the directions, keep only its Never lines. Image generators get nothing from it,
+and neither do saved prompts or the style guide. Only the judge reads it whole: the critic in
+hands-off mode, or a recommendation check before the owner picks. The profile never picks a medium
+or an art style: those come from the GDD.
+
 Note **whose decision the style is**. It is **assumed** when the GDD lists it in its "Assumed by the
 panel" appendix (as `gdd-handsoff` does) or leaves it `[OPEN]`; it is **the owner's** when the owner
 chose it, as in the interactive `gdd`. That decides how far apart the directions go (§3).
@@ -85,8 +92,9 @@ resembles.
 - **Hands-off:** **the critic picks.** It's a separate agent — a model from another vendor when
   available (e.g. Codex), otherwise a different model from the one that generated the frames and
   no more expensive than the session's — and
-  it gets only the GDD's art and interface sections, its references and pillars, and a review sheet
-  of the frames. It scores each direction on: fit with the references (their media included) and the
+  it gets only the GDD's art and interface sections, its references and pillars, the owner's taste
+  profile when there is one (`taste-profile` §3), and a review
+  sheet of the frames. It scores each direction on: fit with the references (their media included) and the
   pillars; readability at game scale, judged at 1:1 (the text-heavy screen included); consistency
   across the four frames; and distinctness from the comparables. Separately, and without scoring it,
   it writes what each direction costs to produce (tools, assets, time, paid services): production cost

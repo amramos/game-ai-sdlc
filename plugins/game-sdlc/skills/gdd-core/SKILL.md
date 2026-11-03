@@ -15,6 +15,14 @@ Turns an idea into a GDD that agents can build from. The method is the same in b
 Either way, decisions are made by whoever answers the round. Facts are looked up by research agents,
 never asked.
 
+**The owner's taste profile.** Before the first round, look for it (`taste-profile` §1;
+`game-sdlc:taste-profile` when installed as a plugin) and offer it if it's missing (its §5). Use it
+by its §3. You, running the rounds, and every drafter keep only its Never lines. Before each round
+goes out, a judge with the whole profile checks the recommendations (interactive), or the panel
+judges with it (hands-off). Research agents get nothing from it. A decision it settled is
+`panel — assumed (profile)`, and the GDD never quotes it. At the end, ask about rulings that look
+like taste rather than this game (its §6).
+
 ## 1. Rounds over the frontier
 
 Think of the design as a tree: each decision unlocks the ones that depend on it. Work it in **rounds**.

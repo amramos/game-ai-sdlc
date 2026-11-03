@@ -56,7 +56,7 @@ From a local copy instead of GitHub: `/plugin marketplace add /path/to/game-ai-s
 
 | Plugin | What's in it |
 |---|---|
-| **`game-sdlc`** | The process, engine-agnostic: 17 skills and 2 agents |
+| **`game-sdlc`** | The process, engine-agnostic: 18 skills and 2 agents |
 | **`game-sdlc-godot`** | The Godot 4 engine pack: `setup-godot` and seven Godot workflow skills |
 
 Skills are called as `/game-sdlc:<skill>` and `/game-sdlc-godot:<skill>`.
@@ -95,6 +95,18 @@ version gets a release, with what changed in [CHANGELOG.md](CHANGELOG.md). Codex
 ---
 
 ## Your first game, step by step
+
+**0. Say what you like — `/game-sdlc:taste-profile`** *(optional, once)*
+
+A 15–25 minute interview: games and other media you love, moments that got you, your own game ideas,
+and what spoils a game for you. Then you correct a playback of what it inferred. Out comes one short
+file in your home folder (`~/.game-sdlc/taste.md`) that every project reads: your values, the
+signature you want across your games, your hard limits and some weak leanings. It holds reasons, not
+content, so it doesn't pick genres for you. Agents that draft options see only your hard limits;
+only agents that judge finished options see all of it, and they tell you which entry decided. It's
+yours: any agent tool reads it, but nothing committed to your repositories quotes it. Later
+skills ask before adding anything to it. `gdd`, `art-direction` and `feature-planning` offer it when it's missing; say
+no and they carry on as before.
 
 **1. Design it — `/game-sdlc:gdd`**
 
@@ -215,6 +227,7 @@ a fix agent opens a pull request that starts from a failing test.
 
 | Skill | Plugin | Called by | What you get |
 |---|---|---|---|
+| `taste-profile` | game-sdlc | you, once (offered when missing) | A short file of how you judge games, used by every project's agents |
 | `gdd` | game-sdlc | you | A GDD from a design interview with research |
 | `gdd-handsoff` | game-sdlc | you | A provisional GDD from a 30-second intake, a concept pick and an agent panel |
 | `gdd-core` | game-sdlc | the two above | The shared method (hidden from the menu) |
