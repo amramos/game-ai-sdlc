@@ -3,6 +3,38 @@
 What changed in each version of the `game-sdlc` and `game-sdlc-godot` plugins, newest first. Both
 plugins are released together under one version.
 
+## 0.8.0 — 2026-11-03
+
+Your taste, carried between games, and the housekeeping every shipped game needs, decided by scope.
+
+- **taste-profile (new):** a 15–25 minute interview writes one short file in your home folder
+  (`~/.game-sdlc/taste.md`, or the folder in `GAME_SDLC_TASTE`) that every project reads. The
+  interview covers games and other media you love, moments that got you, your own game ideas and
+  your dealbreakers, then you correct a playback. The file has four sections: values, signature,
+  never and leanings. It holds reasons, not genres or content. Agents that draft options see only
+  your hard limits; only agents that judge finished options read all of it, and committed files
+  never quote it. A decision it settled is recorded as `panel — assumed (profile)`. It changes only
+  when you answer *add* to a proposal, and proposals from runs you weren't there for wait in
+  `proposals.md` until you're back.
+- **gdd, gdd-handsoff, feature-planning, feature-planning-handsoff, art-direction:** offer the taste
+  profile once when you have none (*set it up now*, *not now*, *don't ask again*), and use it under
+  those rules when you do. `gdd-handsoff` drafts its three concepts with a separate agent. `docs-cleanup`
+  asks about rulings from an epic that look like taste.
+- **gdd-core:** a housekeeping baseline: save and continue, no silent progress loss, a main menu,
+  persistent settings, control rebinding, pause, and skipping dialogue and cutscenes. The GDD's scope
+  decides how strict it is: offered for jams and prototypes, recommended for small releases, built
+  for commercial projects. The GDD template gains *Scope* and *Housekeeping baseline* lines;
+  `issue-tracking` and `setup-godot` turn the line into an epic, `feature-planning-core` treats an
+  item as a requirement, and `game-ui` checks prompts after rebinding, text at every size, and
+  skippable text and cutscenes.
+- **adversarial-reviewer:** finds Codex on a real install. The companion lookup searched one folder
+  too shallow and every review silently fell back to the agent's own model. It now searches the
+  plugin cache at any depth, then the marketplace copy, then tries a `codex` on PATH before
+  reviewing by itself.
+
+Existing projects: their GDDs don't have the new lines, since project files don't auto-update. Add
+*Scope* and *Housekeeping baseline* by hand to get the baseline epic.
+
 ## 0.7.1 — 2026-11-01
 
 Hands-off builds no longer stop at the review cap. The lead decides after two cycles, as `team-lead`
