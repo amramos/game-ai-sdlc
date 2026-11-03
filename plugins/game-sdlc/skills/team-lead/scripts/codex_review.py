@@ -215,6 +215,16 @@ def tail(text: str, limit: int = 400) -> str:
     return text if len(text) <= limit else "..." + text[-limit:]
 
 
+def hide(out: Path) -> None:
+    """Move whatever a failed private run wrote to <out> into the owner file."""
+    if out.exists():
+        text = out.read_text(encoding="utf-8", errors="replace")
+        if text:
+            with owner_path(out).open("a", encoding="utf-8") as owner:
+                owner.write(text)
+        out.unlink()
+
+
 def run_route(
     route: Route, repo: Path, prompt_file: Path, out: Path, model: str | None, timeout: float, effort: str | None = None,
     private: bool = False,
@@ -247,17 +257,18 @@ def run_route(
             timeout=timeout, stdin=None if stdin is not None else subprocess.DEVNULL,
         )
     except subprocess.TimeoutExpired:
+        if private:
+            hide(out)
         return f"timed out after {timeout:g}s"
     except OSError as error:
+        if private:
+            hide(out)
         return f"could not start: {error}"
     if route.kind == "companion":
         out.write_text(result.stdout, encoding="utf-8")
     findings = out.read_text(encoding="utf-8", errors="replace") if out.exists() else ""
     if private and (result.returncode != 0 or not findings.strip()):
-        if findings:
-            with owner_path(out).open("a", encoding="utf-8") as owner:
-                owner.write(findings)
-            out.unlink()
+        hide(out)
         return f"exit {result.returncode}" if result.returncode != 0 else "empty result"
     if result.returncode != 0:
         return f"exit {result.returncode}: {tail(result.stderr or result.stdout) or 'no output'}"

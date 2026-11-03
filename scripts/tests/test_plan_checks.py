@@ -256,6 +256,27 @@ class CheckGddTests(unittest.TestCase):
                          "word for word"):
             self.assertIn(expected, joined)
 
+    def test_an_empty_runner_up_fails(self) -> None:
+        problems, _ = check_gdd.check(GDD.replace("runner-up: playful.", "runner-up:"), TEMPLATE, handsoff=True)
+        self.assertEqual(len(problems), 1)
+        self.assertIn("no runner-up", problems[0])
+
+    def test_a_commented_out_question_is_no_item(self) -> None:
+        gdd = GDD.replace("1. **How strong are currents?** — options: one tile, two. Recommendation: one.",
+                          "<!--\n1. **How strong are currents?** — options: one tile, two. Recommendation: one.\n-->\nNone.")
+        problems, _ = check_gdd.check(gdd, TEMPLATE)
+        self.assertEqual(len(problems), 2)
+        self.assertTrue(all("§14 has no item 1" in p for p in problems))
+
+    def test_the_closing_question_belongs_in_the_last_part(self) -> None:
+        summary = SUMMARY.replace("Not run.", "Not run. Change any of these, or continue to `setup-godot` with every "
+                                  "recommendation (the project will run hands-off)?")
+        summary = summary.rsplit("## Closing question", 1)[0] + "## Closing question\n"
+        problems = check_gdd.check_summary(summary, GDD)
+        self.assertEqual(len(problems), 2)
+        self.assertIn("empty", problems[0])
+        self.assertIn("word for word", problems[1])
+
     def test_an_empty_summary_part_fails(self) -> None:
         problems = check_gdd.check_summary(SUMMARY.replace("Not run.\n", ""), GDD)
         self.assertEqual(len(problems), 1)
@@ -370,6 +391,11 @@ class CheckLedgerTests(unittest.TestCase):
         self.assertIn("D3 is in the", problems[1])
         problems = check_ledger.check(HANDSOFF_LEDGER.replace(" — runner-up: never", ""), PLAN)
         self.assertEqual(problems, [problems[0]])
+        self.assertIn("no runner-up", problems[0])
+
+    def test_an_empty_ledger_runner_up_fails(self) -> None:
+        problems = check_ledger.check(HANDSOFF_LEDGER.replace("runner-up: never", "runner-up:"), PLAN)
+        self.assertEqual(len(problems), 1)
         self.assertIn("no runner-up", problems[0])
 
     def test_handsoff_open_questions_stay_none(self) -> None:

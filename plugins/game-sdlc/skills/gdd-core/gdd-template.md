@@ -17,8 +17,8 @@ decision deliberately not made yet — it needs an answer from the owner, never 
 marked is a mistake in this document: report it.
 
 <!-- In a GDD written in another language, keep these labels in English, since check_gdd.py reads
-them: *Check:*, options:, Recommendation:, runner-up:, **Provisional**, the `panel — assumed` labels,
-the A1, A2… ids and "§14, item <n>". A translated "When rules meet" subsection still has a
+them: the heading "Appendix: Assumed by the panel", *Check:*, options:, Recommendation:, runner-up:,
+**Provisional**, the `panel — assumed` labels, the A1, A2… ids and "§14, item <n>". A translated "When rules meet" subsection still has a
 *Check:* line ("none — the order rules apply in"). -->
 
 ---

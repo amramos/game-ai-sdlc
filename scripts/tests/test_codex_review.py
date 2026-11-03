@@ -267,6 +267,25 @@ class RoundTests(Routes):
                 self.assertIn("Value 2", self.owner().read_text(encoding="utf-8"))
                 self.owner().unlink()
 
+    def test_a_timed_out_round_leaves_nothing_readable(self) -> None:
+        self.out.write_text("Q1: agree\nVERDICT: approve\n=== EXPLANATION (owner only) ===\nValue 2\n",
+                            encoding="utf-8")
+        real_run = codex_review.subprocess.run
+
+        def times_out(*args, **kwargs):
+            self.out.write_text("partial === EXPLANATION (owner only) ===\nValue 2\n", encoding="utf-8")
+            raise codex_review.subprocess.TimeoutExpired("codex", 1)
+
+        codex_review.subprocess.run = times_out
+        try:
+            code, printed = self.run_review([self.route("cli")], "round", "plan")
+        finally:
+            codex_review.subprocess.run = real_run
+        self.assertEqual(code, codex_review.FAILED)
+        self.assertFalse(self.out.exists())
+        self.assertNotIn("Value 2", printed)
+        self.assertIn("Value 2", self.owner().read_text(encoding="utf-8"))
+
     def test_split_a_saved_judge_reply(self) -> None:
         reply = self.tmp / "judge.md"
         reply.write_text("A: keep\n**VERDICT: approve**\n**=== EXPLANATION (owner only) ===**\nSignature 1\n",

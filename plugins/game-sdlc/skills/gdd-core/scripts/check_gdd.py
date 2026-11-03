@@ -60,7 +60,7 @@ CHECK = re.compile(r"\*Check:\*")
 ITEM = re.compile(r"^\s*(?:\d+\.|[-*])\s+(.*)")
 SECTION_REF = re.compile(r"§\s*(\d+)")
 ASSUMED = re.compile(r"panel\s*[—–-]+\s*assumed", re.IGNORECASE)
-RUNNER_UP = re.compile(r"runner-up:?\**\s*\S", re.IGNORECASE)
+RUNNER_UP = re.compile(r"runner-up\**:\**[ \t]*(?![<…])[^\s*.,;:—-]", re.IGNORECASE)
 APPENDIX_ID = re.compile(r"\*\*(A\d+)\*\*")
 CITED_ID = re.compile(r"\bA\d+\b")
 OPTIONS = re.compile(r"\boption|\bopci|\bopç", re.IGNORECASE)
@@ -75,9 +75,9 @@ CLOSING_QUESTION = ("Change any of these, or continue to setup-godot with every 
 SUMMARY_PARTS = ("the pitch", "the pillars", "the camera and medium", "the other assumed decisions",
                  "the housekeeping baseline", "the playtesters' verdict", "the reviewer's kill list",
                  "the closing question")
-# Identity decisions (gdd-handsoff §3) by the template section that holds them; the first two are the
-# concept's, which the owner settles by picking it.
-CONCEPT_IDENTITY = {"1": "the pitch, hook and pillars", "8": "the art, camera and medium"}
+# Identity decisions (gdd-handsoff §3) by the template section that holds them. The concept carries the
+# first two (its pitch, hook and pillars; its camera and medium), so the owner settles them by picking it.
+CONCEPT_IDENTITY = {"1": "the pitch, hook and pillars", "8": "the camera and medium"}
 OTHER_IDENTITY = {"7": "tone", "9": "the interface"}
 
 
@@ -158,10 +158,10 @@ def template_rules(text: str) -> Rules:
     return rules
 
 
-def placeholders(section: Section) -> list[tuple[int, str]]:
-    """(line, placeholder) for every template placeholder left in the section, comments excluded."""
-    found, in_comment = [], False
-    for number, line in section.body:
+def visible_lines(body: list[tuple[int, str]]) -> list[tuple[int, str]]:
+    """The body's lines with HTML comments removed, multi-line ones included."""
+    lines, in_comment = [], False
+    for number, line in body:
         visible = ""
         rest = line
         while rest:
@@ -177,8 +177,14 @@ def placeholders(section: Section) -> list[tuple[int, str]]:
                     visible, rest = visible + rest, ""
                 else:
                     visible, rest, in_comment = visible + rest[:start], rest[start + 4:], True
-        found += [(number, match.group(0)) for match in PLACEHOLDER.finditer(INLINE_CODE.sub("", visible))]
-    return found
+        lines.append((number, visible))
+    return lines
+
+
+def placeholders(section: Section) -> list[tuple[int, str]]:
+    """(line, placeholder) for every template placeholder left in the section, comments excluded."""
+    return [(number, match.group(0)) for number, line in visible_lines(section.body)
+            for match in PLACEHOLDER.finditer(INLINE_CODE.sub("", line))]
 
 
 def is_empty(section: Section) -> bool:
@@ -194,7 +200,7 @@ def check(gdd: str, template: str, handsoff: bool = False, owner_picked: bool = 
     found = sections(gdd)
     by_number = {s.number: s for s in found if s.number}
     open_section = by_number.get(rules.open_section) if rules.open_section else None
-    open_numbers = {m.group(1) for _, line in (open_section.body if open_section else [])
+    open_numbers = {m.group(1) for _, line in visible_lines(open_section.body if open_section else [])
                     if (m := NUMBERED.match(line))}
     for number, title in rules.numbered.items():
         if number not in by_number:
@@ -216,7 +222,7 @@ def check(gdd: str, template: str, handsoff: bool = False, owner_picked: bool = 
         in_first_playable = FIRST_PLAYABLE in section.title.lower()
         heading_open = "OPEN" in section.markers
         in_open_section = section.number is not None and section.number == rules.open_section
-        for number, line in section.body:
+        for number, line in visible_lines(section.body):
             words = BRACKETED.findall(line)
             for marker in words:
                 if marker not in known:
@@ -340,15 +346,17 @@ def check_summary(summary: str, gdd: str) -> list[str]:
             problems.append(f"summary: {assumed.title}: {len(set(cited))} decision(s), but the appendix also has "
                             + ", ".join(left) + "; list up to five")
     for index, part in enumerate(parts[:len(SUMMARY_PARTS)]):
-        if is_empty(part) and index != len(SUMMARY_PARTS) - 1:
+        if is_empty(part):
             problems.append(f"summary line {part.line}: {part.title}: empty; part {index + 1} is {SUMMARY_PARTS[index]}")
         for number, placeholder in placeholders(part):
             problems.append(f"summary line {number}: {part.title}: unfilled placeholder {placeholder[:60]}")
     kill_list = parts[6]
     if sum(1 for _, line in kill_list.body if ITEM.match(line)) < 3:
         problems.append(f"summary: {kill_list.title}: three items, one line each")
-    if normalized(CLOSING_QUESTION) not in normalized(summary):
-        problems.append(f"summary: the closing question isn't word for word: \"{CLOSING_QUESTION}\"")
+    closing = parts[len(SUMMARY_PARTS) - 1]
+    if normalized(CLOSING_QUESTION) not in normalized(closing.text()):
+        problems.append(f"summary line {closing.line}: {closing.title}: the closing question, word for word: "
+                        f"\"{CLOSING_QUESTION}\"")
     return problems
 
 

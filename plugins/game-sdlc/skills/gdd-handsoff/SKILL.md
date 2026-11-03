@@ -78,7 +78,7 @@ showing the concepts; the round reviewer that may help you pick later doesn't re
 **The pick.** Ask the user to **pick one**, or to say "you pick". Picking a concept picks its pillars
 too.
 
-- If they pick, record the concept and the pillars as `owner`.
+- If they pick, record the concept as `owner`: its pitch, hook, pillars, camera and medium.
 - If they don't, you pick with the round reviewer (§3). Record the concept and its pillars as
   `panel — assumed`, with the runner-up concept.
 
@@ -126,11 +126,11 @@ Then **one round reviewer**, a fresh agent per round, answers it.
 
 **Identity decisions** are recorded as `panel — assumed` even when the reviewer agrees. They are:
 
-- the pillars;
+- the pillars, the hook, and the camera and medium, unless the user picked the concept that carries
+  them;
 - tone;
-- art style, camera and medium;
+- the art style beyond the camera and medium;
 - the interface choices (gdd-core's interface branch);
-- the hook;
 - anything the intake left open.
 
 Each identity decision has a **runner-up**: the answer you didn't take. When the reviewer disagreed,

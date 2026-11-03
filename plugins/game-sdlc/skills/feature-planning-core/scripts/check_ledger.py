@@ -30,7 +30,7 @@ CITED = re.compile(r"\bD\d+\b")
 HANDSOFF = re.compile(r"^\*\*Mode:\*\*\s*hands-off\b", re.MULTILINE)
 LABELS = {"owner", "owner (rec)", "panel", "panel — assumed", "panel — assumed (profile)"}
 ASSUMED_LIST = re.compile(r"^\*\*Assumed by the panel\*\*")
-RUNNER_UP = re.compile(r"runner-up:?\**\s*\S", re.IGNORECASE)
+RUNNER_UP = re.compile(r"runner-up\**:\**[ \t]*(?![<…])[^\s*.,;:—-]", re.IGNORECASE)
 OPEN_QUESTIONS = re.compile(r"^\s*-\s*\*\*Open questions:\*\*\s*(.*)$", re.MULTILINE)
 
 
