@@ -124,7 +124,7 @@ table gives it:
 | **The session running the skill** (it writes rounds, options and recommendations, and briefs the drafters) | **Never** only |
 | **Drafters**: whoever writes concepts, art directions or candidate answers | **Never** only, as text in their prompt, never the file's path |
 | **Image and asset generators** (ComfyUI, Codex image generation, Meshy) | nothing; the frames are judged afterwards |
-| **Judges**: hands-off panelists, the hands-off art critic, the interactive recommendation check | the **whole file**, read in their own context |
+| **Judges**: the hands-off round reviewer, the hands-off art critic, the interactive recommendation check | the **whole file**, read in their own context |
 | **Any agent not listed** (research, builders, reviewers, playtesters, `comfyui-art`'s seed critic) | nothing |
 
 How judges use it: they test each option against the **Values**; they look for a way in for the
@@ -139,9 +139,17 @@ one line, without profile reasons; a drafter writes it.
   `Never 2`), never its text or a paraphrase;
 - the **explanation**: which entry, and why. This goes only in the run's report to the owner.
 
-- **The interactive recommendation check.** Before a round goes to the owner, one judge agent (a
-  cheap model is fine) reads the round and the whole profile, and may change a recommendation, citing
-  the label. The owner sees the label; they know their own file.
+- **The interactive recommendation check.** Before a round that holds a question the owner's by
+  nature (the pillars, tone, art style, the hook, interface identity) goes to the owner, one judge
+  agent reads the round and the whole profile, and may change a recommendation, citing the label.
+  The owner sees the label; they know their own file. Mechanical, scope and technical rounds skip
+  it: the owner answers them directly and corrects what the profile would have nudged.
+- **The hands-off round reviewer** (`feature-planning-handsoff`, `gdd-handsoff`) is the judge for
+  its rounds; no separate judge runs. A Signature opening goes among its answers, never only in
+  the explanation, since the session reads only the answers.
+- **Judges' models.** A Claude judge runs on the session's model or a tier below it: never above
+  it, and never below a mid-size model (on a mid-size session, the same model). Another vendor's
+  model may be stronger than the session's.
 - **What gets recorded.** Committed or shared files (GDDs, ledgers, style guides, saved prompts,
   issues, pull requests, commits) carry **no profile text and no paraphrase of it**: only decisions
   with reasons that stand on the game alone. A decision an entry settled is recorded as
@@ -149,7 +157,9 @@ one line, without profile reasons; a drafter writes it.
   panel" appendix or section. The explanation goes only in the run's report to the owner, so the
   owner can overturn the entry as well as the decision.
 - **After the interview**, start the next skill in a fresh session or context. The one that ran the
-  interview has read the whole profile.
+  interview has read the whole profile. If it goes on anyway, it never drafts itself: a separate
+  drafter with only the Never lines does (`gdd-handsoff` §2). A session that has read only the Never
+  lines may draft; spawning a drafter then buys nothing.
 - **Breaking a Never** is allowed when the game needs it. Give the game's reason where the decision
   is recorded, with no entry text.
 - **If the profile reached a drafter** (its prompt or context held more than the Never lines),

@@ -14,8 +14,8 @@ exists to prevent.
 The method is the same in both modes. Only **who answers the rounds** differs:
 
 - **interactive** (`feature-planning`): the owner answers;
-- **hands-off** (`feature-planning-handsoff`): a panel of agents answers, and the owner reads the
-  result later.
+- **hands-off** (`feature-planning-handsoff`): you answer with one outside reviewer per round, and
+  the owner reads the result later.
 
 Two documents come out of it, for two readers:
 
@@ -25,11 +25,12 @@ Two documents come out of it, for two readers:
 
 **The owner's taste profile.** Before the first round, look for it (`taste-profile` §1;
 `game-sdlc:taste-profile` when installed as a plugin) and offer it if it's missing (its §5). Use it
-by its §3. You, writing the rounds, keep only its Never lines. Before each round goes out, a judge
-with the whole profile checks the recommendations (interactive), or the panel judges with it
-(hands-off). The ledger and the plan never quote it. When the ledger is approved, ask about rulings
-that look like taste rather than this game. Hands-off, add them to the profile's pending proposals
-(its §6).
+by its §3. You, writing the rounds, keep only its Never lines. Interactive: before a round that
+holds a question the owner's by nature (the pillars, tone, art style, the hook, interface identity)
+goes out, a judge with the whole profile checks its recommendations; other rounds go out without
+it. Hands-off: the round reviewer judges with it, every round. The ledger and the plan never quote it. When
+the ledger is approved, ask about rulings that look like taste rather than this game. Hands-off,
+add them to the profile's pending proposals (its §6).
 
 ## 1. Planning state
 
@@ -155,8 +156,8 @@ one of:
 
 - `owner` — the owner chose;
 - `owner (rec)` — the owner accepted the recommendation;
-- `panel` — hands-off panel decided something within the plan's latitude;
-- `panel — assumed` — hands-off panel answered a question that is **the owner's by nature** (taste,
+- `panel` — hands-off: the lead and the round reviewer decided something within the plan's latitude;
+- `panel — assumed` — hands-off: they answered a question that is **the owner's by nature** (taste,
   scope, reversing a past decision, the pillars, anything the project's `AGENTS.md` reserves to the
   owner). Written `panel — assumed (profile)` when an entry in the owner's taste profile settled
   it; the entry itself goes only in the report to the owner, never in the ledger.
@@ -187,10 +188,12 @@ component exists" or "the signal fires". Interface criteria come from the `game-
 ## 9. The two-way check (big plans)
 
 A plan is **big** when it adds a new system, reverses a past decision, has more than three work
-packages, or the owner says so. Before approval, a reviewer — a model from another vendor when one
-is available (for example Codex through its Claude Code plugin), otherwise a different model (no
-more expensive than the session's) from
-the one that wrote the plan — checks both directions:
+packages, or the owner says so. Before approval, run the mechanical half first:
+`python <feature-planning-core>/scripts/check_ledger.py <ledger.md> <plan.md>` (`py -3` on Windows
+when `python` isn't found). It exits non-zero and lists the decision ids that appear on only one
+side; fix those first. Then a reviewer — a model from another vendor when one is available (for
+example Codex through its Claude Code plugin), otherwise a Claude model a tier below the session's,
+or the same model when there's none below — checks the meaning in both directions:
 
 1. **Every decision in the ledger appears in the plan**, with the same meaning.
 2. **The plan contains no decision missing from the ledger.** A choice the plan makes that nobody
