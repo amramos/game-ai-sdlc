@@ -33,15 +33,42 @@ If the game has neither yet, say so and offer to add the one that fits the quest
 An agent that has read the design plays like its author. AI playtesters therefore get **only** the
 build (or the text interface) and the instructions a player would see.
 
-- Start each playtester **from a folder with no project instruction files** (`AGENTS.md`,
-  `CLAUDE.md`, memory). A subagent started inside the repository loads them automatically and knows
-  every secret before it plays.
-- Give each its own copy of the game's save data or profile, so playtesters don't share progress.
-- Their prompt: the game's name, how to start and send input, a goal like "play one full session
-  as a new player would", and the report format below. Nothing about mechanics or intent.
+- **Run [scripts/blind_setup.py](scripts/blind_setup.py) once per playtester** and start it in
+  the folder it prints. A subagent started inside the repository loads `AGENTS.md`, `CLAUDE.md` and
+  the rest automatically, and knows every secret before it plays.
 
-Run two to four in parallel. Each reports:
+  ```bash
+  python <this skill>/scripts/blind_setup.py <build or page> [--save <fresh save>] [--base <folder>]
+  ```
 
+  It copies only the build and the save into a new empty folder, so each playtester has its own
+  progress. Then it checks that no `AGENTS.md`, `CLAUDE.md`, `.claude/`, `.codex/`, `.github/` or
+  `docs/` is inside the folder or above it, and prints `folder:` and `launch:` lines. If a check
+  fails it exits non-zero and leaves no folder. Don't start that playtester anywhere else: rerun
+  with `--base` pointing outside every project. A `warning:` line names a user-level instruction
+  file that loads in every folder; read it and make sure it says nothing about this game.
+- Their prompt: the game's name, the launch command and how to send input, a goal like "play one
+  full session as a new player would", and the report format below. Nothing about mechanics or
+  intent.
+
+Run two to four in parallel, with at least one **cold**: no tutorial and no instructions beyond the
+screen. Before its first input, the cold playtester writes its **ten-second read**: from the first
+screen alone, what it thinks the goal is and what it would do first. That read is the check of what
+the screen teaches on its own; no separate agent makes it.
+
+**Which mode each plays.** Real-window play costs the most and needs the strongest model (vision
+and a long horizon), so spend it where the question needs it:
+
+- When several builds or variations are compared, the real-window playtester plays the **leading**
+  one, and headless playtesters play the others, unless the question is readability (what the
+  screen shows, whether a newcomer finds the button). Then every one gets a real-window playtester.
+- When the model available to playtesters is below mid-size, prefer headless playtesters: small
+  models play a real window badly and their reports blur what the build did with what they misread.
+  Say in the report that the window went unplayed.
+
+Each reports:
+
+- the cold playtester only: its ten-second read, unchanged since it wrote it;
 - what they think the goal is, and the strategy they ended up using;
 - the most and least interesting decision;
 - where they got stuck or confused, with the screenshot or state at that moment;

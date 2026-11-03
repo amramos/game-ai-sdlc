@@ -17,6 +17,11 @@ Prefer, in order:
    *before* your own preference, and say plainly in the final report that no independent critic
    was used.
 
+**Seeds within one direction of a hands-off `art-direction` run** follow a narrower rule, because a
+cross-direction critic judges the finished directions afterwards and sees every pick: use option 1,
+or option 2 only on a model stronger than yours. With neither, use option 3. A standalone unattended
+run keeps all three options as above, and always uses a critic when one is available.
+
 Never let the critic see your reasoning for a candidate before it judges — send images, the
 target, and the art direction; ask for its ranking first, then compare with yours. If you and the
 critic disagree, say so in the round log and pick with the critic unless the critic's choice

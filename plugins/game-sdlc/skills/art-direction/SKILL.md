@@ -99,8 +99,16 @@ resembles.
   across the four frames; and distinctness from the comparables. Separately, and without scoring it,
   it writes what each direction costs to produce (tools, assets, time, paid services): production cost
   informs the owner, it doesn't pick the medium, and a frame's polish says more about the generator
-  than about the direction. It returns the pick and, for every direction, one line of why. Within a
-  direction, `comfyui-art`'s unattended critic (its `references/critic.md`) can pick between seeds.
+  than about the direction. It returns the pick and, for every direction, one line of why. If a
+  direction looks lost on a weak seed pick rather than on its medium, it can send that one direction
+  back for one adjustment round before it picks.
+
+  **Seeds within a direction.** A separate seed critic (`comfyui-art`'s
+  `references/critic.md`) picks between seeds when it can run on another vendor's model or on a
+  model stronger than the generating agent's. When neither is available, the generating agent picks
+  by that file's brief as a strict rubric (its option 3), ranking before it states a preference, and
+  the run's report says the seed picks had no independent critic. A same-model seed critic adds
+  little here: the cross-direction critic sees every pick.
 
 ## 4. Approve one before multiplying
 

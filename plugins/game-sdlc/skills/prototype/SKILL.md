@@ -104,23 +104,39 @@ private page so it can be played from a link.
 per variation: what was the goal, when was it most interesting, and would you play another round
 (1–10)?
 
-**The ten-second check** comes first. A fresh agent that knows nothing about the game gets one
-screenshot of a variation's first screen with no tutorial (`?blind&tutorial=off`) and says what the
-goal is and what it would do first. It tests what the screen teaches on its own.
-
 **AI playtesters** play each variation **blind**: they get the page, or the headless runner on it,
-never the GDD or this conversation. Start each one in a separate agent whose prompt contains only
-that, ideally from a folder with no project instruction files — an agent that has read the design
-plays like its author, not like a player. Each variation gets a panel of at least three:
+never the GDD or this conversation. An agent that has read the design plays like its author, not
+like a player. Start each one in a separate agent whose prompt contains only that, in a folder made
+by `playtest`'s [blind_setup.py](../playtest/scripts/blind_setup.py):
 
-- **two with the tutorial**: one on the real page through screenshots and input (`?blind`), with a
-  browser tool if the session has one, and one headless on the runner;
+```bash
+python <playtest skill>/scripts/blind_setup.py prototypes/<variation>.html
+```
+
+Run it once per playtester; it prints the folder to start the agent in, the page URLs (`?blind`,
+and `?blind&tutorial=off` for the cold arm) and the headless runner commands. If it exits non-zero,
+don't start that playtester: `playtest` §2 says what to do. Each variation gets a panel of at least
+three:
+
+- **two with the tutorial**: on the variation that leads so far, one on the real page through
+  screenshots and input (`?blind`), with a browser tool if the session has one, and one headless on
+  the runner. On the other variations, both play headless.
 - **at least one cold**, with no tutorial (`?blind&tutorial=off`, or the runner's `--no-tutorial`)
-  and nothing but the screen.
+  and nothing but the screen. **Before its first input it writes its ten-second read**: from the
+  first screen alone, what the goal is and what it would do first. That read tests what the screen
+  teaches on its own; there is no separate ten-second agent. The cold playtester plays the page
+  where the tutorial arm does, and the runner elsewhere.
 
-With no browser tool, all of them play headless, and the comparison says the page went unplayed.
-Ask each one to play until the session ends, then report:
+**The leading variation** is the user's favourite after their play, or, in the hands-off form, the
+one ahead on the headless reports, so its page playtesters run last. **When the question is
+readability** (can a newcomer read the board, find the action), every variation gets the page
+playtesters, since that is what's being compared.
 
+Real-window play needs a model of at least mid-size, with vision. When playtesters would run on a
+smaller one, or with no browser tool, all of them play headless, and the comparison says the page
+went unplayed. Ask each one to play until the session ends, then report:
+
+- the cold playtester only: its ten-second read, unchanged since it wrote it;
 - what they think the goal is and what the best strategy was;
 - the most and least interesting decision they made;
 - where they got stuck or confused, and where the screen misled them;
@@ -143,8 +159,8 @@ One playtester per arm is a pointer, not a measurement; say so when quoting them
 ## 4. Pick, record, discard
 
 Show a short comparison: for each variation, the user's verdict, the playtesters' verdicts in one
-line each, **the steps and terms it needed before its first real choice**, the ten-second check and
-the reading of the tutorial arms, **which pillars the playtesters felt without being told** (compare
+line each, **the steps and terms it needed before its first real choice**, the cold playtester's
+ten-second read and the reading of the tutorial arms (saying which variations' page went unplayed), **which pillars the playtesters felt without being told** (compare
 their reports with the GDD's pillars; never show the pillars to them), **whether each mechanic
 earned its place** (`gdd-core` §2; where the rules can be searched, run a solver over the runner,
 since it catches what discussion misses), and your read of what the question's answer is. The
