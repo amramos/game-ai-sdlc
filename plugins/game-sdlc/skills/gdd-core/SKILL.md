@@ -28,7 +28,9 @@ never asked.
   recommendations. Other rounds go out without it.
 - Hands-off: the round reviewer judges with it, every round.
 - Research agents get nothing from it.
-- A decision it settled is `panel — assumed (profile)`, and the GDD never quotes it (its §3).
+- Hands-off: a decision it settled is `panel — assumed (profile)`. Interactive: the owner's answer
+  stays `owner` or `owner (rec)`, even when the check changed the recommendation.
+- The GDD never quotes it (its §3).
 - At the end, ask about rulings that look like taste rather than this game (its §6).
 
 ## 1. Rounds over the frontier

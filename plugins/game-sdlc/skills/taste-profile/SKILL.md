@@ -204,8 +204,10 @@ Then:
 
 ## 6. Keeping it current
 
-`taste.md` changes only when the owner explicitly answers **add** (or **update** or **drop**) to a
-specific item. Nothing else changes it.
+After it is written, `taste.md` changes only when the owner explicitly answers **add** (or
+**update** or **drop**) to a specific item. Nothing else changes it. The interview's playback and a
+**start over** are the owner writing the whole file, item by item
+([references/interview.md](references/interview.md)).
 
 - **Owner away** (a hands-off run): append each ruling, overturned assumption or piece of feedback
   that would hold for the owner's *other* games too to `proposals.md` in the profile folder.
