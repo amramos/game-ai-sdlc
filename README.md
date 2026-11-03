@@ -74,6 +74,20 @@ python scripts/install_codex.py --remove # uninstall (only what this script inst
 The projects `setup-godot` creates work with both clients: one shared `AGENTS.md`, the same hooks
 registered for each, and the same three agent roles.
 
+### GitHub Copilot CLI
+
+Copilot CLI installs from this marketplace directly:
+
+```bash
+copilot plugin marketplace add amramos/game-ai-sdlc
+copilot plugin install game-sdlc@game-ai-sdlc
+copilot plugin install game-sdlc-godot@game-ai-sdlc
+```
+
+It reads the skills, the two agents and a project's `AGENTS.md`. It doesn't run the hooks that
+`setup-godot` registers for Claude Code and Codex, the merge guard included, so keep hands-off builds
+that merge (`team-lead-handsoff`) on those two.
+
 ### Updating
 
 **With auto-update on**, Claude Code checks this marketplace in the background a few minutes into a

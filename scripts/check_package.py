@@ -46,6 +46,23 @@ def frontmatter(text: str) -> dict[str, str] | None:
     return fields
 
 
+def strict_yaml_problems(fields: dict[str, str]) -> list[str]:
+    """Plain (unquoted) values that a strict YAML parser rejects or cuts short.
+
+    Claude Code reads these leniently, but other clients (Copilot CLI, for one) parse frontmatter
+    as YAML and silently drop the skill when it fails.
+    """
+    problems = []
+    for key, value in fields.items():
+        if value[:1] in {'"', "'"}:
+            continue
+        if ": " in value or value.endswith(":"):
+            problems.append(f"{key} has an unquoted ': ', which strict YAML rejects; reword or quote it")
+        if " #" in value:
+            problems.append(f"{key} has an unquoted ' #', which strict YAML reads as a comment")
+    return problems
+
+
 def main() -> int:
     problems: list[str] = []
     leftovers = list(LEFTOVERS)
@@ -90,11 +107,13 @@ def main() -> int:
             problems.append(f"{rel}: description missing or over 1024 characters ({len(description)})")
         for key in set(fields) - KNOWN_KEYS:
             problems.append(f"{rel}: unknown frontmatter key {key!r}")
+        problems += [f"{rel}: {p}" for p in strict_yaml_problems(fields)]
 
     for agent in sorted(PACKAGE.glob("plugins/*/agents/*.md")):
         fields = frontmatter(agent.read_text(encoding="utf-8"))
         if not fields or fields.get("name") != agent.stem or not fields.get("description"):
             problems.append(f"{agent.relative_to(PACKAGE).as_posix()}: bad agent frontmatter")
+        problems += [f"{agent.relative_to(PACKAGE).as_posix()}: {p}" for p in strict_yaml_problems(fields or {})]
 
     for path in sorted(PACKAGE.rglob("*")):
         if not path.is_file() or ".git" in path.parts or "__pycache__" in path.parts:

@@ -28,9 +28,33 @@ It holds `taste.md` (the profile), and, when they exist, `proposals.md` (additio
 owner's answer, §6) and an empty `no-taste-prompt` file (the owner asked not to be offered a profile
 again, §5).
 
-**Reading it.** The session running a skill never opens `taste.md` itself (§3). It asks a fresh
-**reader** agent, which returns two things: whether the profile exists, and the Never lines word for
-word. Judges read the file themselves.
+**Reading it.** The session running a skill never opens `taste.md` (§3). It runs one command that
+prints only the Never lines, or `MISSING` or `INACCESSIBLE`, from the project's root, so the rest of
+the file never enters its context. Judges read the file themselves.
+
+In bash or zsh (Linux, macOS, Git Bash):
+
+```bash
+d="${GAME_SDLC_TASTE:-$HOME/.game-sdlc}"; f="$d/taste.md"
+[ -e "$f" ] || [ ! -e docs/taste-snapshot.md ] || f=docs/taste-snapshot.md
+if [ ! -e "$f" ]; then echo MISSING; elif [ ! -r "$f" ]; then echo INACCESSIBLE
+else sed -n '/^## Never/,/^## /{/^## /!p;}' "$f"; fi
+```
+
+In PowerShell:
+
+```powershell
+$d = if ($env:GAME_SDLC_TASTE) { $env:GAME_SDLC_TASTE } else { Join-Path $HOME '.game-sdlc' }
+$f = Join-Path $d 'taste.md'
+if (-not (Test-Path $f) -and (Test-Path 'docs/taste-snapshot.md')) { $f = 'docs/taste-snapshot.md' }
+if (-not (Test-Path $f)) { 'MISSING' } else {
+  try { $t = Get-Content -Raw -LiteralPath $f -ErrorAction Stop
+        if ($t -match '(?ms)^## Never[^\n]*\n(.*?)(?=^## |\z)') { $Matches[1].Trim() -replace '\r' } }
+  catch { 'INACCESSIBLE' } }
+```
+
+Pass the printed lines on to drafters as text. If the command can't run at all, treat the profile
+as inaccessible; never fall back to reading the whole file.
 
 - **Missing** (the folder or `taste.md` doesn't exist, and there's no snapshot): carry on without a
   profile. Never an error.
@@ -50,7 +74,7 @@ allowed to hold profile text.
 - Offer it only when the owner is starting such a run, and only when the repository is private.
   Check it (e.g. `gh repo view --json visibility`); if you can't confirm it's private, don't offer
   it. Say that it will be committed, and create it only on a clear yes.
-- The reader uses it only when the profile folder is missing or inaccessible. It follows the same
+- The commands above use it only when the profile folder has no `taste.md`. It follows the same
   rules as `taste.md`.
 - It's read-only. Proposals from that run go in its report. Delete the snapshot when the owner says
   the run is over.
