@@ -94,7 +94,7 @@ Two kinds of question go to what measures them better than an opinion:
 
 - **The market.** When a question turns on comparables, prices or what sells in this niche,
   dispatch a research agent on it (gdd-core §3) and recommend from its findings: decisions, never
-  facts.
+  facts. The price model is always one of these.
 - **The first-time player.** Clarity, fun and frustration are measured by the blind playtesters of
   §5, not guessed; what a round can't settle without them goes to the prototype as a question.
 
@@ -186,7 +186,8 @@ throw the prototypes away.
 
 ## 6. Output
 
-**First, the builder's read** (gdd-core §6) on the written GDD. The panel settles what it finds on
+**First, the builder's read** (gdd-core §6) on the written GDD, with `--handsoff` added to its
+mechanical check (and `--owner-picked` when the user picked the concept). The panel settles what it finds on
 the first playable's path. Record every such settlement as `panel — assumed` (§3's exceptions), with
 a runner-up, so it reaches the appendix.
 

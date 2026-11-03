@@ -165,7 +165,7 @@ An example of the part above the line, for a round about a cooking game's order 
 Q1: agree — the board already reads left to right, as the kitchen layout does
 Q2: different: show three orders, not five — five orders cover the stove at 1280×720
 Player (Q2): sees the timer before the dish / misreads the colour bar as heat / frustrated by an order expiring off-screen
-Q3 addition: the regular customer's order returns on the third day with a changed side dish, unannounced (profile) Signature 1
+Q3 addition: the regular customer's order returns on the third day with a changed side dish (profile) Signature 1
 Skeptic: Q4's queue rule has no case for two orders that expire on the same tick
 VERDICT: request-changes
 ```
@@ -215,6 +215,7 @@ def write_split(text: str, out: Path, need_verdict: bool = True) -> bool:
         return False
     out.write_text(parts[0], encoding="utf-8")
     to_owner(owner_path(out), parts[1])
+    owner_path(out).touch()  # even with no explanation: the report links it
     return True
 
 

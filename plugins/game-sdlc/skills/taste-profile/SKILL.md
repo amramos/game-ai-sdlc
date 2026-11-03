@@ -163,6 +163,8 @@ with reasons that stand on the game alone.
 - **Judges' models.** A Claude judge runs on the session's model or a tier below it.
   - Never above the session's model.
   - Never below a mid-size model; on a mid-size session, the same model.
+  - On a session smaller than mid-size, with no other vendor's model, the same model; the report says
+    the judge had no independence of model.
   - Another vendor's model may be stronger than the session's.
 
 **The rest.**

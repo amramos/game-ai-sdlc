@@ -26,8 +26,7 @@ call.
   decisions, each as `**A<n>**` with its section and a runner-up;
 - the identity decisions are among them: tone (§7), the art style (§8) and the interface (§9), and
   the pitch, hook and pillars (§1) unless the owner picked the concept (--owner-picked);
-- no pillar line (one with its *Test:*) carries a `(profile)` addition;
-- the platform and business section cites the research behind its price model (a link).
+- no pillar line (one with its *Test:*) carries a `(profile)` addition.
 
 --summary also checks GDD-summary.md: eight parts, none empty or left as a placeholder; three
 pillars with their *Test:*; up to five
@@ -307,10 +306,6 @@ def check_handsoff(gdd: str, found: list[Section], rules: Rules, owner_picked: b
                 if "(profile)" in text and PILLAR_TEST.search(text):
                     problems.append(f"line {number}: §1 {title}: a `(profile)` addition never edits a pillar; "
                                     "put it in its own section as a game change")
-    business = by_number.get("10")
-    if business and "http" not in business.text():
-        problems.append(f"line {business.line}: {business.name}: the price model is a market question; cite the "
-                        "research that set it (a link)")
     return problems
 
 

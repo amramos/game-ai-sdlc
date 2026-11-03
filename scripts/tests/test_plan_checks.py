@@ -78,7 +78,7 @@ The tide clock sits top right.
 
 ## 10. Platform and business **[DESIGNED]**
 
-Godot, desktop and web; pay what you want ([itch.io survey](https://example.com/survey)).
+Godot, desktop and web; pay what you want.
 
 ## 11. Glossary
 
@@ -218,12 +218,10 @@ class CheckGddTests(unittest.TestCase):
         self.assertEqual(problems, [])
         self.assertEqual(check_gdd.check_summary(SUMMARY, GDD), [])
 
-    def test_handsoff_needs_the_provisional_line_and_a_researched_price(self) -> None:
-        gdd = GDD.replace("**Provisional**", "Provisional").replace("https://example.com/survey", "survey")
-        problems, _ = check_gdd.check(gdd, TEMPLATE, handsoff=True)
-        self.assertEqual(len(problems), 2)
+    def test_handsoff_needs_the_provisional_line(self) -> None:
+        problems, _ = check_gdd.check(GDD.replace("**Provisional**", "Provisional"), TEMPLATE, handsoff=True)
+        self.assertEqual(len(problems), 1)
         self.assertIn("**Provisional**", problems[0])
-        self.assertIn("price model", problems[1])
 
     def test_the_appendix_lists_only_assumed_decisions_with_ids_and_runner_ups(self) -> None:
         gdd = GDD.replace("- **A3** Quiet and patient (§7) — `panel — assumed` — runner-up: playful.",

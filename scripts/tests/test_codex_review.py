@@ -313,6 +313,14 @@ class RoundTests(Routes):
         self.assertEqual(split(), codex_review.NO_SPLIT)
         self.assertNotIn("Signature", self.out.read_text(encoding="utf-8"))
 
+    def test_the_owner_file_exists_even_with_no_explanation(self) -> None:
+        reply = self.tmp / "judge.md"
+        reply.write_text("A: keep\n=== EXPLANATION (owner only) ===\n", encoding="utf-8")
+        result = subprocess.run([sys.executable, str(SCRIPT), "--split", str(reply), "--out", str(self.out)],
+                                capture_output=True)
+        self.assertEqual(result.returncode, 0)
+        self.assertTrue(self.owner().exists())
+
     def test_a_judge_reply_needs_no_verdict_unless_asked(self) -> None:
         reply = self.tmp / "judge.md"
         reply.write_text("A: keep\n=== EXPLANATION (owner only) ===\nSignature 1\n", encoding="utf-8")
