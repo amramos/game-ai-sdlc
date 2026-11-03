@@ -128,6 +128,9 @@ temporary rule standing in for an [OPEN] one.>
 
 ## 13. Scope boundary
 
+**Scope:** <game jam / prototype / small release / commercial>.
+**Housekeeping baseline:** <build / backlog / not built> — <owner / panel — assumed>. Struck: <item
+— reason, or none>. N/a: <item — the section that shows it, or none>.
 **Out of scope for the first release:** <list>.
 **Parked:** <ideas understood and deliberately deferred>.
 

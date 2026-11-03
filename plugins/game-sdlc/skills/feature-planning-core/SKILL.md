@@ -112,6 +112,12 @@ When a decision is about **how something looks or is laid out**, prose can't be 
 
 One sketch per material fork, not per answer.
 
+**The housekeeping baseline holds.** When the feature adds something a baseline item protects (the
+first progress that carries over, a new action, a setting, dialogue or a cutscene), that item's *done
+when* ([housekeeping-baseline.md](../gdd-core/housekeeping-baseline.md)) is a requirement, not a
+question: a new action is rebindable, new progress is saved by the game's rules, a new line can be
+skipped. Only the items the GDD's line includes apply; how they look stays the round's to decide.
+
 ## 5. How it could pass and still fail
 
 List the most plausible ways the build could meet every written requirement and still be wrong:

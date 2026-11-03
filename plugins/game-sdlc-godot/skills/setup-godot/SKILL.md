@@ -51,6 +51,12 @@ recommendation"** as the first answer. Recommend that fast path when the GDD is 
    is recorded on day one as ADR-0006, so a hands-off build never stops to ask; agents still never
    commit or push to `main` directly.
 
+The **housekeeping baseline** (save, settings, rebinding, pause and the rest; `gdd-core`'s
+`housekeeping-baseline.md`) is not a question here: the GDD's §13 line already settled it. Only a GDD
+without the line gets one more question, decided by the GDD's scope as gdd-core states it (in the
+hands-off working style, apply the scope's default without asking and record it as assumed); write
+the answer into the GDD's §13.
+
 If the folder already holds a Godot project, say so: setup **adds what's missing** and lists every
 file it would replace instead of replacing it.
 
@@ -73,6 +79,8 @@ Show **one list** and ask once. It has two parts.
 - if every check passes: **merge the scaffold into `main`**, **create the private GitHub repository**
   and push, turn on *automatically delete head branches*, and protect `main` (require pull requests
   and the CI `test` job) — when the account's plan allows it;
+- if the GDD's housekeeping baseline says build or backlog and an issue board is connected: create
+  its epic, one feature per item that applies (`issue-tracking`); without a board, say it's owed;
 - for Codex: copy the plugin skills into `~/.codex/skills/` with the package's `scripts/install_codex.py`.
 
 **Only you** — whatever the agent can't do on this machine, usually just: install Git or Python if
@@ -170,6 +178,9 @@ problem — say which. Delete `build/` afterwards. Write the real GUT count into
    private repositories only on paid plans: if the call is refused for that reason, say in one line
    that the project's merge guard covers agents' merges instead, and move on.
 4. **Codex**: run `scripts/install_codex.py` from the package if the user kept that line.
+5. **Housekeeping baseline**: create its epic as `issue-tracking` describes, if the GDD's line says
+   build or backlog. With no board connected, list the epic and its features in the final report so
+   the first session with a board creates them.
 
 Skip any line the user excluded, and say which were skipped.
 

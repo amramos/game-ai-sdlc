@@ -30,7 +30,10 @@ Every box, button, word, sound, effect and omission is a decision with a reason 
 pillar it serves, or the player decision it supports. A default is not a decision, and neither is
 "other games have one".
 - Where relevant, an element that can't be strongly linked to a pillar isn't shown. The exception is
-  the functional floor every game needs: settings, pause, saving, accessibility, input help.
+  the functional floor every game needs: settings, pause, saving, accessibility, input help. What
+  that floor must do is the housekeeping baseline
+  ([housekeeping-baseline.md](../gdd-core/housekeeping-baseline.md)); how it looks is designed
+  like any other screen.
 - Information is given on purpose, not by default. The game knows more than the player should see:
   show what the player needs to decide and to feel, and choose what to withhold. Summaries, endings
   and results are where this slips most: whether they judge the player's choices, nudge, or only show
@@ -104,11 +107,13 @@ pass over every string.
 
 - Choose the layout for the input device: a stick selects by direction, a d-pad by grid, a mouse by
   nearness.
+- Prompts show the player's current binding, read from the input map, never a key baked into text
+  or art, so rebinding (where the baseline includes it) never leaves a prompt lying.
 - Test with the full item count, never a sample. Long lists get structure (columns, tabs, a stacking
   rule) and a position indicator.
 
 *Check:* worst-case presses or pointer travel to reach any item, at full content, on every supported
-device.
+device; after rebinding an action, every prompt for it shows the new binding.
 
 ### 7. Its own identity, minimal by default
 
@@ -140,8 +145,8 @@ colour's job is listed.
   choose (an oracle's riddles, a song, a ledger), not a form.
 - Every screen has a word budget, and low-stakes reading needs no button press.
 
-*Check:* a fit test at native resolution over every player-facing string, with no exceptions list (a
-long text is a writer's trim, never a wider box); a cut pass that deletes what the screen already
+*Check:* a fit test at native resolution over every player-facing string, at every text size the
+settings offer, with no exceptions list (a long text is a writer's trim, never a wider box); a cut pass that deletes what the screen already
 shows.
 
 ### 9. Alive, and fast the hundredth time
@@ -149,7 +154,8 @@ shows.
 - Every press answers with a pressed state and a sound. Motion explains a change (a short slide, not
   a one-frame jump). Actions feel like what they represent.
 - Repeated feedback stays short and out of the way. Nothing blocks input except the game's one
-  signature moment, and that one briefly.
+  signature moment, and that one briefly. Text that types out completes on a press; a cutscene can
+  be skipped (the baseline's skip item, where it applies).
 - No UI sounds yet? Synthesise them in code or use CC0 sounds, recording the source, or record them as
   owed.
 

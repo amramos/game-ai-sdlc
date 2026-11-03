@@ -39,6 +39,25 @@ Approving a plan authorizes creating its epic. Then:
 Any other restructuring — renaming epics, deleting issues, changing labels — is the owner's call:
 report the gap and offer, don't act.
 
+### The housekeeping baseline epic
+
+The GDD's **Housekeeping baseline** line (`gdd-core`,
+[housekeeping-baseline.md](../gdd-core/housekeeping-baseline.md)) is the one epic that needs no plan:
+the GDD's approval authorizes it, the way a plan's approval authorizes its epic.
+
+- **build** or **backlog** → create one epic, *Housekeeping baseline*, with one feature per item that
+  applies (H1, H2…), in the table's order. Each feature's description is the item's *done when* as
+  its checklist. The epic's description names the struck and n/a items with their reasons, so a
+  missing feature reads as a decision, not a gap. **backlog** puts the epic and its features in the
+  backlog state; **build** leaves them ready to plan.
+- **not built** → create nothing.
+- Create it the first time a session has the board and the GDD has the line (usually right after
+  setup). Re-query first (§9): if the epic exists, add only what's missing.
+- A feature from this epic is still planned before it's built: `feature-planning` decides how it
+  looks and is reached, and the item's *done when* joins the plan's requirements unchanged.
+- **Striking an item is the owner's act**: cancel its feature with their reason as a comment and
+  update the GDD line. An agent never strikes one, in either working style.
+
 ## 3. Read the issue before writing code
 
 When a session names an epic or feature, find it **before reading code**, and read its comments.
