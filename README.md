@@ -135,12 +135,13 @@ playable.
 
 Don't want an interview? `/game-sdlc:gdd-handsoff` needs about 30 seconds of input: an idea (or
 "surprise me"), a few games you love and one you find boring, and a scope. It drafts three different
-concepts and you pick one; then an agent panel (a designer, a player advocate, a market analyst and a
-skeptic from another model vendor) writes the GDD. Quality gates check that every mechanic serves one
-of the game's three pillars, that the scope fits, and that the hook isn't a reskin. Blind AI playtesters then play
-a quick prototype of the core loop, and the panel revises it if they don't get it or don't want
-another round. You get a one-page summary: the pitch, the five decisions the panel assumed for you
-(each with its runner-up), the playtesters' verdict, and the three likeliest ways the game fails.
+concepts and you pick one; then the lead agent writes the GDD round by round, with one outside
+reviewer (a model from another vendor when available) checking every round and research agents
+answering the market questions. Quality gates check that every mechanic serves one of the game's
+three pillars, that the scope fits, and that the hook isn't a reskin. Blind AI playtesters then play
+a quick prototype of the core loop, and the lead revises it if they don't get it or don't want
+another round. You get a one-page summary: the pitch, the five decisions assumed for you (each with
+its runner-up), the playtesters' verdict, and the three likeliest ways the game fails.
 
 **2. Try the core first — `/game-sdlc:prototype`** *(optional)*
 
@@ -192,15 +193,16 @@ be wrong. You approve a short **decisions ledger**: every decision, who made it,
 technical plan is for the agents, and a reviewer checks that it contains every decision and invents
 none.
 
-Away from the keyboard? `/game-sdlc:feature-planning-handsoff` has a panel of agents (a designer, a
-player advocate and a skeptic from another model vendor) answer the rounds instead. Decisions that are
-really yours get marked *assumed*, so when you're back you read only those.
+Away from the keyboard? `/game-sdlc:feature-planning-handsoff` has the lead answer the rounds
+instead, with one reviewer from another model vendor checking each round. Decisions that are really
+yours get marked *assumed*, each with a runner-up (the reviewer's answer where they disagreed), so
+when you're back you read only those.
 
 **6. Build it — `/game-sdlc:team-lead`**
 
 The approved plan becomes an epic, with one feature per work package (`issue-tracking`, Linear or
-GitHub Issues). A lead agent writes a brief, agrees the interfaces, and runs developer agents in
-parallel. Each piece is reviewed adversarially by a model from another vendor as it lands, then the
+GitHub Issues). A lead agent writes a brief, agrees the interfaces, and runs developer agents: in
+parallel for independent pieces, one after another for pieces that share state. Each piece is reviewed adversarially by a model from another vendor as it lands, then the
 lead playtests the result, runs every check, cleans the docs, and opens a pull request for each
 checkpoint you'll actually look at (usually the playable slice, then the rest).
 You merge. The run ends with a short story page: who did what, pushback, disagreements, the results,
@@ -217,7 +219,9 @@ doesn't stop to ask about setup:
   merged;
 - review stops after two cycles, and then the lead decides: it fixes, declines or defers what the
   reviewer still holds, posts that ruling on the PR, and merges. It stops a PR only for a finding that
-  risks data, security or the repository's own rules.
+  risks data, security or the repository's own rules;
+- every role has a capability floor, and the report names the model that filled it. If no reviewer
+  at or above the floor ran, the lead leaves the PRs for you instead of merging.
 
 **7. Play it — `/game-sdlc:playtest`**
 
@@ -243,14 +247,14 @@ a fix agent opens a pull request that starts from a failing test.
 |---|---|---|---|
 | `taste-profile` | game-sdlc | you, once (offered when missing) | A short file of how you judge games, used by every project's agents |
 | `gdd` | game-sdlc | you | A GDD from a design interview with research |
-| `gdd-handsoff` | game-sdlc | you | A provisional GDD from a 30-second intake, a concept pick and an agent panel |
+| `gdd-handsoff` | game-sdlc | you | A provisional GDD from a 30-second intake, a concept pick, a lead and an outside reviewer |
 | `gdd-core` | game-sdlc | the two above | The shared method (hidden from the menu) |
 | `prototype` | game-sdlc | you | 2–3 web prototypes, played and compared |
 | `setup-godot` | game-sdlc-godot | you | A Godot repo with rules, ADRs, hooks, GUT, CI, release |
 | `art-direction` | game-sdlc | you | A style guide every asset is generated against |
 | `comfyui-art` | game-sdlc | you or agents | Local image generation, cleaned onto the palette |
 | `feature-planning` | game-sdlc | you | A plan and a decisions ledger you approve |
-| `feature-planning-handsoff` | game-sdlc | you | The same, decided by an agent panel while you're away |
+| `feature-planning-handsoff` | game-sdlc | you | The same, decided by the lead and an outside reviewer while you're away |
 | `feature-planning-core` | game-sdlc | the two above | The shared method (hidden from the menu) |
 | `issue-tracking` | game-sdlc | agents | Epic → Feature on Linear or GitHub, statuses kept current |
 | `team-lead` | game-sdlc | you | An epic built by an agent team, as PRs for you to merge |
@@ -291,7 +295,7 @@ Agents: `team-developer` and `adversarial-reviewer` (in `game-sdlc`); `setup-god
 
 | Tool | Used by | Without it |
 |---|---|---|
-| [Codex CLI](https://github.com/openai/codex) and its Claude Code plugin | adversarial review, the skeptic panelist, image generation | a different Claude model reviews instead |
+| [Codex CLI](https://github.com/openai/codex) and its Claude Code plugin | adversarial review, the round reviewer in hands-off planning, image generation | a different Claude model reviews instead, and says so |
 | [GitHub CLI](https://cli.github.com/) | PRs, releases, bug intake | the skills tell you the manual steps |
 | Linear connector | issue-tracking, bug intake | GitHub Issues, or the plan in the repo |
 | [ComfyUI](https://github.com/comfyanonymous/ComfyUI) + Z-Image Turbo | comfyui-art, art-direction | Codex images, then Meshy |

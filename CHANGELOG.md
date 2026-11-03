@@ -3,6 +3,44 @@
 What changed in each version of the `game-sdlc` and `game-sdlc-godot` plugins, newest first. Both
 plugins are released together under one version.
 
+## 0.9.0 — 2026-11-03
+
+Fewer agents where they didn't see anything different, and rules that hold on any model. An audit
+of every place the plugins spawn agents (`research/agent-usage/`) kept the ones that see something
+different (blind playtesters, the builder's read, another vendor's reviewer, research) and trimmed
+the ones that only played a role on the same model.
+
+- **feature-planning-handsoff, gdd-handsoff:** one outside reviewer per round replaces the panels
+  (designer, player advocate, skeptic, and the market analyst for the GDD). The lead answers. The
+  reviewer is another vendor's model when one is available, and it carries the skeptic's brief, the
+  player advocate's questions and the taste-profile judge. Every assumed decision now has a runner-up,
+  the reviewer's answer where they disagreed, and a taste-profile Signature opening goes among the
+  reviewer's answers so the lead can't miss it. Market questions go to research agents. Tested before
+  and after on two invented games and two model tiers: no Claude panelists, every assumption with a
+  runner-up, and it caught an owner-only reversal the panel missed.
+- **feature-planning-core, gdd-core, taste-profile:** the interactive taste-profile judge runs only on
+  rounds with a question that's the owner's by nature. The separate concept drafter runs only when the
+  session has read more than the Never lines. `check_gdd.py` and `check_ledger.py` check GDD markers
+  and ledger ↔ plan decision ids before the builder's read and the two-way review, which keep the
+  meaning half.
+- **team-lead, team-lead-handsoff:** the art director runs only for asset types the style guide
+  doesn't cover. Coupled packages go to developers one after another, never split into feature, test
+  and review agents. Report and PR drafters are optional. Every role has a capability floor, the
+  report names the model that filled it, and a hands-off run with no reviewer at or above the floor
+  leaves its PRs for the owner instead of merging.
+- **adversarial-reviewer, team-lead:** `codex_review.py` finds a working Codex route, runs the review
+  read-only and prints the verdict. It exits non-zero instead of falling back silently.
+- **Model tiers:** "a tier below" means the same model when there's none below. "Never above the
+  session's model" still holds for Claude subagents, but roles with a floor (reviewers, critics) may
+  use another vendor's stronger model.
+- **prototype, playtest:** the ten-second check is part of the cold playtester, and real-window play
+  covers the leading variation only. Hands-off retries re-test only the revised variation.
+  `blind_setup.py` builds the playtester's folder and refuses one with project instructions in or
+  above it.
+- **art-direction, comfyui-art:** the separate seed critic runs only when a stronger or
+  other-vendor model is there to judge; otherwise seeds are picked by the critic brief as a strict
+  rubric.
+
 ## 0.8.1 — 2026-11-03
 
 The hands-off skills load in GitHub Copilot, and reading the taste profile costs no extra agent.
