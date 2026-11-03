@@ -65,7 +65,7 @@ only one of two runs), and keep what scores better.
 decisions. The 2024 "voting" pattern (several independent attempts for confidence) is the nearest
 support for panels. Its value depends on the votes being independent, and same-vendor models given
 the same brief are correlated. The recommendations below that touch panels are an extrapolation,
-and §5 says how to check them.
+and §6 says how to check them.
 
 ## 2. Inventory
 
@@ -243,10 +243,114 @@ default.
 - **`godot-plan`'s dispatch rules.** They already default to single and parallelise only independent
   files.
 
-## 5. How to check a ruling before shipping it
+## 5. On mid-size and small models
+
+Not every user leads with a frontier model. Many run Sonnet- or Haiku-class models, or a smaller
+GPT that Copilot picks for them. This section asks whether the recommendations above still hold
+there.
+
+### What the evidence says
+
+- **Folding works because models got stronger.** The Oct 2026 article gives that as its reason:
+  models from Opus 4.5 on hold far more in one loop. It names three signs that a subagent is still
+  needed: measurable degradation from context bloat, trouble choosing tools, and conflicting
+  instructions. A smaller model shows all three sooner.
+- **Verifiers matter more under a weaker lead.** The Jan 2026 guidance says a capable orchestrator
+  can often check subagent work itself, while a separate verifier helps when the orchestrator is
+  weaker.
+- **Teams helped most where the single agent was weakest.** In Vals, the only significant gain
+  (+7.3 points) was the cheaper configuration (Sol at medium effort). The strongest single agents
+  gained nothing. This is one benchmark with one run per setup, so it is a pointer, not a rule.
+- **Strong judgment on top, smaller models on bounded work.** Anthropic's research system paired an
+  Opus lead with Sonnet workers, and *Building effective agents* routes easy tasks to small models.
+
+None of the sources tests a small model running a long playbook like `team-lead`. That a small
+model follows long instructions less reliably is a general observation, not a finding measured
+here. The changes below are written so they don't depend on it being true.
+
+**The pattern:** a small model struggles with the **lead's** job: a long playbook, many rules,
+coordination and judgment calls. It copes with a **short, bounded brief that has a checkable
+output**. So on a weaker model, splitting by context helps more. Splitting by role still doesn't,
+because coordination costs a weak lead more. The biggest risk is how long the lead's instructions
+are, not how many agents there are.
+
+### Does each recommendation change?
+
+| Rec. | On a weaker model | Verdict |
+|---|---|---|
+| R1, R2 (panels → one reviewer) | The lead's own judgment is weaker, so the outside reviewer matters more. Persona panelists on even smaller models add noise, not independence | **Holds.** Keep the one reviewer at the strongest model available (another vendor first) |
+| R3 (fewer playtester passes) | Real-window play needs vision and a long horizon; small models play badly and confuse the report | **Holds.** Prefer headless playtesters below the floor (table below) |
+| R4 (judge only on taste rounds) | The owner is present either way | **Holds** |
+| R5 (art director only for new asset kinds) | No change | **Holds** |
+| R6 (call Codex directly) | A weak lead fumbles a multi-step route search | **Changes form:** move the route search into a script (W2), which any model can call |
+| R7 (no seed critic within a direction) | A small generator judging its own seeds by rubric is worse than a separate eye | **Weakens.** Keep the separate seed critic when it can run on a stronger or other-vendor model; otherwise R7 holds |
+| R8 (drafter only if the session saw the profile) | No change | **Holds** |
+| R9 (single builder for coupled packages) | A fresh, small context per package helps a weak model more than one long context does | **Revise to the robust form:** one developer per package, run **in sequence** when packages are coupled, never split by work type. This saves less, but holds on every model |
+| R10 (drafters optional) | Drafting from a log is mechanical | **Holds** |
+
+**Two rules that break down on a small session:**
+- "**A tier below the session's model**" (fix agents, narrow work) has no meaning when the session is
+  already the smallest model. It should read "a tier below, or the same model when there is none".
+- "**Never above the session's model**" caps every judge at the session's level. On a small session,
+  that caps the skeptic, the critics and the reviewer at the small model, and those are exactly the
+  roles that need strength. Keep the cap for Claude spawns (it protects usage limits), but let roles
+  with a capability floor use another vendor's model above it when one is available.
+
+### Capability floor per role
+
+| Needs a strong model (frontier preferred, mid-size at minimum) | Mid-size is enough | Small is enough |
+|---|---|---|
+| The lead's rulings in `team-lead-handsoff` (declines, merges after two cycles); the round reviewer / skeptic (R1, R2); the adversarial reviewer; the two-way ledger ↔ plan reviewer; the art-direction critic; the taste-profile judge | Developers on a new system; the builder's read; blind playtesters (real window especially); the visual critic; the concept drafter | Research agents (findings must carry links); fix agents given the finding, the file and a failing test; PR, report and story drafters; `bug-intake` triage reproduction; the ten-second check |
+
+**W1. Put the floor in the roles table, and say when it wasn't met.** `team-lead` §3 already has a
+roles table in relative terms. Add a floor column, and have the run report which model filled each
+role, as the reviewer's fallback already must. Proposed in addition: when the session that would
+rule on merges is below the floor and no stronger reviewer ran, `team-lead-handsoff` leaves its
+PRs for the owner (plain `team-lead` behaviour) instead of merging on its own ruling. That is the
+one place a weak judgment ships to `main` unseen.
+
+### Rules that rely on obedience, and could be a tool
+
+A long instruction is a request; a script or hook is a guarantee, on every model. Already done this
+way: the taste-profile Never extract (one command, `taste-profile` §1), the merge guard (verdict,
+head sha, CI, lead ruling), `guard_bash` and `protect_paths`, the prototype's `?blind` flag, and
+`proto_cli.mjs`.
+
+| Now an instruction | Could be | Where |
+|---|---|---|
+| Grep the staged diff for every agent name before each commit (`team-lead` §2) | A pre-commit check that reads the session's name list from a scratchpad file | Project hooks |
+| No profile text or paraphrase in committed files (`taste-profile` §3) | A local pre-commit check that compares staged text with the profile's entries and prints only labels, never the text. Paraphrase stays the judge's job | Plugin script + project hook |
+| Start each blind playtester "from a folder with no project instruction files" (`playtest` §2, `prototype` §3) | **W3.** A script that makes an empty temporary folder, copies only the build or page and a fresh save, checks that no `AGENTS.md`/`CLAUDE.md` sits above it, and prints the launch command | `playtest` script |
+| The adversarial reviewer's five-step Codex route search | **W2.** A script that finds a working Codex, runs the review read-only, writes the findings to a file, extracts the verdict line, and exits non-zero on fallback so it can't be silent | `adversarial-reviewer` script |
+| Never use bare `git stash` (`team-developer`) | A deny in `guard_bash` (it doesn't check stash today) | Project hooks |
+| Every GDD section carries a marker; every ledger decision appears in the plan and the plan has none of its own | **W4.** A check script for the mechanical half: markers present, decision IDs matching both ways. The two-way reviewer keeps the meaning half | `gdd-core`, `feature-planning-core` script |
+| Run and stop only your own game instance; one windowed run at a time | A shipped run-lock script in the project template, instead of "the project's lock if it has one" | Project template |
+
+### One set of skills, or one per model?
+
+**One set, written to hold on weaker models.** Don't fork skills per model:
+
+- The evidence doesn't call for it. Anthropic's own remedy is one loop with **skills and progressive
+  disclosure**: short top-level steps, with details loaded only when a step needs them. That helps a
+  small model most, and costs a large one nothing.
+- Forks multiply with the clients the package already supports: Claude Code, Codex and Copilot,
+  each with its own model mix. Every rule fix would land three or more times, and the forks would
+  drift.
+- The differences that matter are per **role**, not per skill, and the floor table (W1) covers
+  them.
+
+**W5. Make the long skills easier for small models**, without changing what they ask:
+- Keep each `SKILL.md` to its steps, and move edge cases into references.
+- Move every mechanical rule into the scripts above.
+- Run section 6's check once on a mid-size model as well. `team-lead` (with its templates),
+  `gdd-core`, `feature-planning-core` and `taste-profile` are each over 200 lines, and they are the
+  first to test.
+
+## 6. How to check a ruling before shipping it
 
 Following Anthropic's method: for each change the owner approves, run the affected skill before and
 after on two or three small fixtures of different genres, **twice each**. Compare what the skill is
 for (decisions the owner later overturns, blockers the builder's read finds, playtester bar met)
 and the spawns and wall-clock per run. Keep the change if quality holds. R1 and R2 deserve this
-most, since the evidence doesn't cover design panels directly.
+most, since the evidence doesn't cover design panels directly. Run each check on a mid-size model
+too (W5): a change that holds only on a frontier model doesn't hold for every user.
