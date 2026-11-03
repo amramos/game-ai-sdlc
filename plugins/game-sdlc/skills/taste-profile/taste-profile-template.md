@@ -4,8 +4,6 @@ Created <date> from a taste interview. Sources: `stated` = the owner said it, `i
 from their answers and confirmed in playback, `ruled` = from a ruling on real work, added with the
 owner's yes.
 
-**Other vendors:** yes | no — whether agents from another vendor may read this file.
-
 ## How agents use this file
 
 - This file is private. Never quote it in anything committed or shared (GDDs, ledgers, style

@@ -140,7 +140,8 @@ first playable's path, recorded as `panel — assumed`.
    - the skeptic's kill list, one line each;
    - **in the conversation only, never in the file**: which taste-profile entry settled each
      `panel — assumed (profile)` decision, and the rulings proposed for the profile
-     (`taste-profile` §6). With no profile, one line offering to set one up;
+     (`taste-profile` §6). With no profile, one line offering to set one up, under that skill's
+     §5 check;
    - one closing question: *change any of these, or continue to setup?*
 
 Show the summary in the conversation as well. Any assumption the user overturns is edited straight

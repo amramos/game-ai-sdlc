@@ -93,7 +93,7 @@ resembles.
   available (e.g. Codex), otherwise a different model from the one that generated the frames and
   no more expensive than the session's — and
   it gets only the GDD's art and interface sections, its references and pillars, the owner's taste
-  profile when there is one and the profile allows its vendor (`taste-profile` §3), and a review
+  profile when there is one (`taste-profile` §3), and a review
   sheet of the frames. It scores each direction on: fit with the references (their media included) and the
   pillars; readability at game scale, judged at 1:1 (the text-heavy screen included); consistency
   across the four frames; and distinctness from the comparables. Separately, and without scoring it,

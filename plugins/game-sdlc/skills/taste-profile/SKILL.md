@@ -28,18 +28,32 @@ It holds `taste.md` (the profile), and, when they exist, `proposals.md` (additio
 owner's answer, §6) and an empty `no-taste-prompt` file (the owner asked not to be offered a profile
 again, §5).
 
-- **Missing** (the folder or `taste.md` doesn't exist): carry on without a profile. Never an error.
+**Reading it.** The session running a skill never opens `taste.md` itself (§3). It asks a fresh
+**reader** agent, which returns two things: whether the profile exists, and the Never lines word for
+word. Judges read the file themselves.
+
+- **Missing** (the folder or `taste.md` doesn't exist, and there's no snapshot): carry on without a
+  profile. Never an error.
 - **Inaccessible** (the read is denied, as in a sandbox): say so in one line and carry on without
   it. Don't treat it as missing: don't offer the interview, and never write a new profile over one
   you couldn't read.
-- **Can't write** (at the end of an interview, or to add a proposal): show the owner the text and ask
-  where to save it. Never fall back to the project.
+- **Can't write**: with the owner there (the end of an interview), show them the text and ask where
+  to save it. Without the owner (a hands-off run adding a proposal), put the text in the run's report
+  and carry on; ask where to save it when they're back. Never fall back to the project, and never stop
+  a run over it.
 
 Never keep the profile in a plugin's folder (updates replace it) or in a project by default. The one
-exception is a **snapshot**, `docs/taste-snapshot.md`, for a hands-off run in a place with no access
-to the profile folder (a cloud session, CI). Offer it only when the owner is starting such a run,
-only when the repository is private (check, e.g. `gh repo view --json visibility`), and say it will
-be committed. A snapshot is read-only.
+exception is a **snapshot**, `docs/taste-snapshot.md`: a copy of `taste.md` for a hands-off run in
+a place with no access to the profile folder (a cloud session, CI). It is the only committed file
+allowed to hold profile text.
+
+- Offer it only when the owner is starting such a run, and only when the repository is private.
+  Check it (e.g. `gh repo view --json visibility`); if you can't confirm it's private, don't offer
+  it. Say that it will be committed, and create it only on a clear yes.
+- The reader uses it only when the profile folder is missing or inaccessible. It follows the same
+  rules as `taste.md`.
+- It's read-only. Proposals from that run go in its report. Delete the snapshot when the owner says
+  the run is over.
 
 ## 2. What it holds
 
@@ -52,8 +66,8 @@ Start from [taste-profile-template.md](taste-profile-template.md). Four sections
 | **Never** | Things to avoid by default | Breaking one takes a stated reason |
 | **Leanings** | What the owner tends to make | Tiebreakers only |
 
-The header also records **whether agents from another vendor may read it** (`Other vendors: yes` or
-`no`), asked once at the end of the interview (§4).
+Agents from any vendor and any tool read it alike: the profile is only useful if whoever does the
+work can use it. What's restricted is the *kind* of agent (§3), not its vendor.
 
 Each entry is one or two lines and ends with its source and date: `stated` (the owner said it),
 `inferred` (read from their answers and confirmed in playback) or `ruled` (from a ruling on real
@@ -78,34 +92,42 @@ What stays out:
 
 An agent puts whatever it's shown into what it makes. So the profile reaches only agents that
 **judge** finished options, never agents that **make** them, and never the session that runs the
-work, since that session also drafts:
+work, since that session also drafts. Each agent below starts in a fresh context with only what the
+table gives it:
 
 | Agent | Gets |
 |---|---|
 | **The session running the skill** (it writes rounds, options and recommendations, and briefs the drafters) | **Never** only |
 | **Drafters**: whoever writes concepts, art directions or candidate answers | **Never** only, as text in their prompt, never the file's path |
 | **Image and asset generators** (ComfyUI, Codex image generation, Meshy) | nothing; the frames are judged afterwards |
-| **Judges**: hands-off panelists, the hands-off art critic, the interactive recommendation check | the **whole file**, read fresh in their own context |
+| **Judges**: hands-off panelists, the hands-off art critic, the interactive recommendation check | the **whole file**, read in their own context |
 | **Any agent not listed** (research, builders, reviewers, playtesters, `comfyui-art`'s seed critic) | nothing |
 
 How judges use it: they test each option against the **Values**; they look for a way in for the
 **Signature** in options that exist, without asking for new ones; they use **Leanings** only to break
-a tie between options that are otherwise equal. A judge that wants a different option says so; it
-goes back to a drafter.
+a tie between options that are otherwise equal. A judge that wants a different option says so in
+one line, without profile reasons; a drafter writes it.
+
+**What a judge returns** is in two parts, and only the first goes back to the session:
+
+- the **decision**, with a reason that stands on the game alone (its pillars, its GDD, the player).
+  If the only reason is the profile, it says `(profile)` and the entry's **label** (e.g. `Value 3`,
+  `Never 2`), never its text or a paraphrase;
+- the **explanation**: which entry, and why. This goes only in the run's report to the owner.
 
 - **The interactive recommendation check.** Before a round goes to the owner, one judge agent (a
-  cheap model is fine) reads the round and the whole profile, and may change a recommendation. It
-  names the entry it used **in the conversation only**.
-- **Other vendors.** When the header says `Other vendors: no`, a judge from another vendor (a Codex
-  skeptic or critic) gets **nothing** from the profile. A judge from the session's own vendor checks
-  the result against the profile instead.
-- **What gets recorded.** Committed files (GDDs, ledgers, style guides, saved prompts, issues, pull
-  requests, commits) **never quote the profile**. A decision an entry settled is recorded as
+  cheap model is fine) reads the round and the whole profile, and may change a recommendation, citing
+  the label. The owner sees the label; they know their own file.
+- **What gets recorded.** Committed or shared files (GDDs, ledgers, style guides, saved prompts,
+  issues, pull requests, commits) carry **no profile text and no paraphrase of it**: only decisions
+  with reasons that stand on the game alone. A decision an entry settled is recorded as
   `panel — assumed (profile)`: it is an assumption like any other, listed in the same "Assumed by the
-  panel" appendix or section. Which entry decided it, and why, goes in the run's report to the owner
-  in the conversation, so the owner can overturn the entry as well as the decision.
-- **Breaking a Never** is allowed when the game needs it. Say why where the decision is recorded,
-  naming no entry text.
+  panel" appendix or section. The explanation goes only in the run's report to the owner, so the
+  owner can overturn the entry as well as the decision.
+- **After the interview**, start the next skill in a fresh session or context. The one that ran the
+  interview has read the whole profile.
+- **Breaking a Never** is allowed when the game needs it. Give the game's reason where the decision
+  is recorded, with no entry text.
 - **If the profile reached a drafter** (its prompt or context held more than the Never lines),
   discard those options and draft them once more in a fresh context. Say so in the report. Options
   that happen to share a trait aren't proof of a leak; the drafter's inputs are what to check.
@@ -159,8 +181,7 @@ The rounds:
    both, and the answer is in the condition.
 6. **Playback.** The draft profile, every entry tagged `stated` or `inferred`. The owner marks each ✓,
    ✗ or rewrites it. Cut what they're unsure about; a short true profile beats a long plausible one.
-   Expect them to cut inferred content (a genre, an aesthetic) and keep inferred reasons. Then ask
-   the one sharing question: *may judges from another vendor (e.g. Codex) read it?*
+   Expect them to cut inferred content (a genre, an aesthetic) and keep inferred reasons.
 
 Then write `taste.md` in the profile folder (§1), tell the owner where it is and that they can edit
 it by hand, and show the sections once more.
@@ -168,8 +189,9 @@ it by hand, and show the sections once more.
 ## 5. When another skill finds no profile
 
 `gdd`, `gdd-handsoff`, `art-direction`, `feature-planning` and `feature-planning-handsoff` look
-for the profile when they start. If it's **missing** (not inaccessible, §1), there's no
-`no-taste-prompt` in the profile folder, and the owner is there to answer:
+for the profile when they start. Every offer they make, at the start or in a closing summary, goes
+through this check. Offer only when the profile is **missing** (not inaccessible, §1), the profile
+folder has no `no-taste-prompt` (if you can't check, don't offer), and the owner is there to answer:
 
 - offer it once, in one line: what it gives (decisions closer to theirs, fewer corrections after) and
   what it costs (about 20 minutes, once, for every future game);
@@ -193,8 +215,9 @@ otherwise.
   is approved, at the end of an epic (`docs-cleanup`), when the owner reads a hands-off run's report.
   Ask in the conversation, never in a committed file.
 - **When the owner isn't there**, append the candidates to `proposals.md` in the profile folder (one
-  line each, with the date and the project). The next skill that runs from this list with the owner
-  present asks about them first, then empties the file.
+  line each, with the date and the project; if it can't be written, §1). The next skill that runs
+  from this list with the owner present asks about them first. Remove only the items the owner
+  answered or dismissed; keep the rest for the next endpoint.
 - **Three answers for each:** **add to my profile** (written as `ruled`, dated, by the agent the owner
   answered), **this game only** (it goes in the GDD or the ledger, where it belongs), **no**.
 - **Contradictions.** When a ruling goes against an entry: **update the entry**, **an exception for
