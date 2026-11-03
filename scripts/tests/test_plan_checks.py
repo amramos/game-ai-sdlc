@@ -115,13 +115,14 @@ SUMMARY = """# Tide Gardener — GDD summary
 Grow a reef between tides.
 
 ## Pillars
-1. **Slow growth.** *Test: does the reef change each tide?*
+1. **Slow growth.** *Test: does the reef change each tide?* (A1)
+2. **Wide currents.** *Test: does a current carry larvae?*
+3. **One map.** *Test: is the reef the same each run?*
 
 ## Camera and medium
 Top-down, painted 2D (A2).
 
 ## Other assumed decisions
-- (A1) The concept — runner-up: the kelp concept.
 - (A3) Quiet and patient — runner-up: playful.
 - (A4) The tide clock — runner-up: a tide bar.
 
@@ -234,11 +235,25 @@ class CheckGddTests(unittest.TestCase):
                           "start each line with its id, *"])
 
     def test_identity_decisions_are_assumed_unless_the_owner_picked_the_concept(self) -> None:
-        gdd = GDD.replace(" (§1) —", " —").replace(" (§8) —", " —")
+        gdd = GDD.replace(" (§1) —", " —")
         problems, _ = check_gdd.check(gdd, TEMPLATE, handsoff=True)
-        self.assertEqual(len(problems), 2)
+        self.assertEqual(len(problems), 1)
         problems, _ = check_gdd.check(gdd, TEMPLATE, handsoff=True, owner_picked=True)
         self.assertEqual(problems, [])
+        problems, _ = check_gdd.check(gdd.replace(" (§8) —", " —"), TEMPLATE, handsoff=True, owner_picked=True)
+        self.assertEqual(len(problems), 1)
+        self.assertIn("the art style (§8)", problems[0])
+
+    def test_a_profile_addition_outside_the_pillars_is_fine(self) -> None:
+        gdd = GDD.replace("### Pillars", "### Hook\n\nTides bring back an old shell (profile) Signature 1.\n\n### Pillars")
+        problems, _ = check_gdd.check(gdd, TEMPLATE, handsoff=True)
+        self.assertEqual(problems, [])
+
+    def test_the_summary_lists_three_pillars_with_tests(self) -> None:
+        problems = check_gdd.check_summary(SUMMARY.replace("3. **One map.** *Test: is the reef the same each run?*\n",
+                                                           ""), GDD)
+        self.assertEqual(len(problems), 1)
+        self.assertIn("three pillars", problems[0])
 
     def test_a_profile_addition_never_edits_a_pillar(self) -> None:
         problems, _ = check_gdd.check(GDD.replace("one coral. *Test", "one coral (profile) Signature 1. *Test"),

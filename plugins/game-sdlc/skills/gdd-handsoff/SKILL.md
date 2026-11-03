@@ -199,7 +199,7 @@ a runner-up, so it reaches the appendix.
    In this order:
    1. the pitch;
    2. **the three pillars**, each with its test question, since every later skill judges work
-      against them;
+      against them. Here and below, an assumed decision cites its appendix id, `(A<n>)`;
    3. **the camera and medium**. When they depart from what most of the loved games share, say why,
       and what the alternative would cost, so a one-word swap is still possible;
    4. **the five other assumed decisions that shape the game most**, each citing its appendix id

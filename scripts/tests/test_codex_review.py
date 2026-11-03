@@ -272,8 +272,9 @@ class RoundTests(Routes):
                             encoding="utf-8")
         real_run = codex_review.subprocess.run
 
-        def times_out(*args, **kwargs):
-            self.out.write_text("partial === EXPLANATION (owner only) ===\nValue 2\n", encoding="utf-8")
+        def times_out(argv, **kwargs):
+            Path(argv[argv.index("-o") + 1]).write_text("partial === EXPLANATION (owner only) ===\nValue 2\n",
+                                                        encoding="utf-8")
             raise codex_review.subprocess.TimeoutExpired("codex", 1)
 
         codex_review.subprocess.run = times_out
@@ -283,8 +284,20 @@ class RoundTests(Routes):
             codex_review.subprocess.run = real_run
         self.assertEqual(code, codex_review.FAILED)
         self.assertFalse(self.out.exists())
+        self.assertFalse(codex_review.raw_path(self.out).exists())
         self.assertNotIn("Value 2", printed)
         self.assertIn("Value 2", self.owner().read_text(encoding="utf-8"))
+
+    def test_a_round_reply_never_sits_in_the_answers_file_unsplit(self) -> None:
+        self.run_review([self.route("cli")], "round", "plan")
+        call = self.calls()[0]["argv"]
+        self.assertEqual(call[call.index("-o") + 1], str(codex_review.raw_path(self.out)))
+        self.assertFalse(codex_review.raw_path(self.out).exists())
+
+    def test_a_failed_retry_keeps_both_attempts_for_the_owner(self) -> None:
+        code, _ = self.run_review([self.route("cli")], "round-never", "plan")
+        self.assertEqual(code, codex_review.NO_SPLIT)
+        self.assertEqual(self.owner().read_text(encoding="utf-8").count("Value 2 because"), 2)
 
     def test_split_a_saved_judge_reply(self) -> None:
         reply = self.tmp / "judge.md"
@@ -293,6 +306,7 @@ class RoundTests(Routes):
         split = lambda: subprocess.run([sys.executable, str(SCRIPT), "--split", str(reply), "--out",  # noqa: E731
                                         str(self.out)], capture_output=True).returncode
         self.assertEqual(split(), 0)
+        self.assertFalse(reply.exists())
         self.assertEqual(self.out.read_text(encoding="utf-8"), "A: keep\n**VERDICT: approve**\n")
         self.assertEqual(self.owner().read_text(encoding="utf-8"), "Signature 1\n")
         reply.write_text("A: keep\nSignature 1\n", encoding="utf-8")
@@ -306,6 +320,7 @@ class RoundTests(Routes):
                                                str(self.out), *extra], capture_output=True).returncode
         self.assertEqual(split(), 0)
         self.assertEqual(self.out.read_text(encoding="utf-8"), "A: keep\n")
+        reply.write_text("A: keep\n=== EXPLANATION (owner only) ===\nSignature 1\n", encoding="utf-8")
         self.assertEqual(split("--need-verdict"), codex_review.NO_SPLIT)
 
 

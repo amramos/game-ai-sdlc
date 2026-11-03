@@ -26,8 +26,9 @@ VERDICT above it, is asked for once more with the format repeated; when the seco
 A failed route in a round never prints the reviewer's output; whatever it wrote goes to the owner
 file. --print-format prints the reply format, for a Claude reviewer's brief. --split splits a judge's
 reply saved in a file the same way (exit 0, or 4 with no line), so the session never reads past it;
---need-verdict also requires a round's VERDICT above the line. --split never retries: the session
-asks the judge once more.
+--need-verdict also requires a round's VERDICT above the line. --split deletes the saved reply and
+never retries: the session asks the judge once more. A round's reply lands in <out stem>.raw<suffix>
+until it is split, and every attempt's private text is kept in the owner file.
 
 Routes, in order:
 1. the Codex plugin's companion, `codex-companion.mjs`: the newest version at any depth under
@@ -181,6 +182,18 @@ def owner_path(out: Path) -> Path:
     return out.with_name(f"{out.stem}.owner{out.suffix}")
 
 
+def raw_path(out: Path) -> Path:
+    """Where a round's reply lands before it is split, so <out> only ever holds the answers."""
+    return out.with_name(f"{out.stem}.raw{out.suffix}")
+
+
+def to_owner(owner: Path, text: str) -> None:
+    """Append to the owner file: every attempt's private text is kept for the owner."""
+    if text.strip():
+        with owner.open("a", encoding="utf-8") as file:
+            file.write(text if text.endswith("\n") else text + "\n")
+
+
 def split_reply(text: str, need_verdict: bool = True) -> tuple[str, str] | None:
     """(answers, explanation) at the first explanation line; None when it is missing, or when a round's
     VERDICT isn't above it."""
@@ -192,16 +205,16 @@ def split_reply(text: str, need_verdict: bool = True) -> tuple[str, str] | None:
 
 
 def write_split(text: str, out: Path, need_verdict: bool = True) -> bool:
-    """Writes the answers to `out` and the rest to the owner file. False when the reply can't be split."""
+    """Writes the answers to `out` and adds the rest to the owner file. False when the reply can't be split."""
     parts = split_reply(text, need_verdict)
     if parts is None:
         out.write_text(f"NO USABLE REPLY: no {EXPLANATION_LINE} line"
                        + (" with a VERDICT above it" if need_verdict else "")
                        + ". The raw reply is in the owner file; don't open it.\n", encoding="utf-8")
-        owner_path(out).write_text(text, encoding="utf-8")
+        to_owner(owner_path(out), text)
         return False
     out.write_text(parts[0], encoding="utf-8")
-    owner_path(out).write_text(parts[1], encoding="utf-8")
+    to_owner(owner_path(out), parts[1])
     return True
 
 
@@ -215,25 +228,24 @@ def tail(text: str, limit: int = 400) -> str:
     return text if len(text) <= limit else "..." + text[-limit:]
 
 
-def hide(out: Path) -> None:
+def hide(out: Path, owner: Path) -> None:
     """Move whatever a failed private run wrote to <out> into the owner file."""
     if out.exists():
-        text = out.read_text(encoding="utf-8", errors="replace")
-        if text:
-            with owner_path(out).open("a", encoding="utf-8") as owner:
-                owner.write(text)
+        to_owner(owner, out.read_text(encoding="utf-8", errors="replace"))
         out.unlink()
 
 
 def run_route(
     route: Route, repo: Path, prompt_file: Path, out: Path, model: str | None, timeout: float, effort: str | None = None,
-    private: bool = False,
+    owner: Path | None = None,
 ) -> str | None:
     """Run one review. Returns None on success (the findings are in `out`), else the reason it failed.
 
-    A private run (a round review) never quotes the reviewer's output in its reason: on a failure,
-    whatever it wrote moves to the owner file. It leaves the VERDICT check to the round's split.
+    A private run (a round review, with an owner file) never quotes the reviewer's output in its
+    reason: on a failure, whatever it wrote moves to the owner file. It leaves the VERDICT check to
+    the round's split.
     """
+    private = owner is not None
     if out.exists():
         out.unlink()
     if route.kind == "companion":
@@ -257,18 +269,18 @@ def run_route(
             timeout=timeout, stdin=None if stdin is not None else subprocess.DEVNULL,
         )
     except subprocess.TimeoutExpired:
-        if private:
-            hide(out)
+        if owner:
+            hide(out, owner)
         return f"timed out after {timeout:g}s"
     except OSError as error:
-        if private:
-            hide(out)
+        if owner:
+            hide(out, owner)
         return f"could not start: {error}"
     if route.kind == "companion":
         out.write_text(result.stdout, encoding="utf-8")
     findings = out.read_text(encoding="utf-8", errors="replace") if out.exists() else ""
-    if private and (result.returncode != 0 or not findings.strip()):
-        hide(out)
+    if owner and (result.returncode != 0 or not findings.strip()):
+        hide(out, owner)
         return f"exit {result.returncode}" if result.returncode != 0 else "empty result"
     if result.returncode != 0:
         return f"exit {result.returncode}: {tail(result.stderr or result.stdout) or 'no output'}"
@@ -286,14 +298,18 @@ def review(
     if not routes:
         print("NO ROUTE: no Codex companion with node, no codex on PATH, no Codex desktop CLI")
         return NO_ROUTE
-    prompt = prompt_file
+    prompt, target, owner = prompt_file, out, None
     if round_kind:
         # The routes read the prompt from a file, so the one with the format appended sits beside <out>.
         prompt = out.with_name(f"{out.stem}.prompt.md")
         prompt.write_text(prompt_file.read_text(encoding="utf-8").rstrip() + "\n\n" + reply_format(round_kind),
                           encoding="utf-8")
+        target, owner = raw_path(out), owner_path(out)
+        for stale in (out, owner):
+            if stale.exists():
+                stale.unlink()
     for route in routes:
-        reason = run_route(route, repo, prompt, out, model, timeout, effort, private=bool(round_kind))
+        reason = run_route(route, repo, prompt, target, model, timeout, effort, owner)
         if reason is not None:
             print(f"FAILED: {route.label()}: {reason}")
             continue
@@ -301,21 +317,25 @@ def review(
         if not round_kind:
             print(last_verdict(out.read_text(encoding="utf-8", errors="replace")))
             return 0
-        return finish_round(route, repo, prompt, out, model, timeout, effort)
+        return finish_round(route, repo, prompt, target, out, model, timeout, effort)
     return FAILED
 
 
 def finish_round(
-    route: Route, repo: Path, prompt: Path, out: Path, model: str | None, timeout: float, effort: str | None,
+    route: Route, repo: Path, prompt: Path, raw: Path, out: Path, model: str | None, timeout: float,
+    effort: str | None,
 ) -> int:
     """Split a round reply; ask once more with the format repeated when it can't be split."""
-    text = out.read_text(encoding="utf-8", errors="replace")
+    text = raw.read_text(encoding="utf-8", errors="replace")
     if split_reply(text) is None:
         print(f"RETRY: no {EXPLANATION_LINE} line with a VERDICT above it; asking once more")
         prompt.write_text(prompt.read_text(encoding="utf-8") + RETRY, encoding="utf-8")
-        reason = run_route(route, repo, prompt, out, model, timeout, effort, private=True)
+        reason = run_route(route, repo, prompt, raw, model, timeout, effort, owner_path(out))
         if reason is None:
-            text = out.read_text(encoding="utf-8", errors="replace")
+            to_owner(owner_path(out), text)  # the first, unusable reply
+            text = raw.read_text(encoding="utf-8", errors="replace")
+    if raw.exists():
+        raw.unlink()
     if not write_split(text, out):
         print(f"NO USABLE REPLY: decide the round yourself; the raw reply is in {owner_path(out)} (don't open it)")
         return NO_SPLIT
@@ -350,7 +370,11 @@ def main(argv: list[str] | None = None) -> int:
             parser.error("--split needs a saved reply file and --out")
         out = args.out.resolve()
         out.parent.mkdir(parents=True, exist_ok=True)
-        if not write_split(args.split.read_text(encoding="utf-8", errors="replace"), out, args.need_verdict):
+        if owner_path(out).exists():
+            owner_path(out).unlink()
+        text = args.split.read_text(encoding="utf-8", errors="replace")
+        args.split.unlink()  # the full reply now lives only in the answers and the owner file
+        if not write_split(text, out, args.need_verdict):
             print(f"NO USABLE REPLY: no {EXPLANATION_LINE} line; don't read {args.split}. Ask the judge once more "
                   "with the format; if that fails too, decide without it")
             return NO_SPLIT

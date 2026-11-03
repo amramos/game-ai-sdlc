@@ -24,20 +24,20 @@ call.
 - the Provisional line above the first section;
 - the appendix of assumed decisions lists only `panel — assumed` and `panel — assumed (profile)`
   decisions, each as `**A<n>**` with its section and a runner-up;
-- the identity decisions are among them: tone (§7) and the interface (§9), and the pitch, hook and
-  pillars (§1) and the art, camera and medium (§8) unless the owner picked the concept
-  (--owner-picked);
-- no pillar line carries a `(profile)` addition;
+- the identity decisions are among them: tone (§7), the art style (§8) and the interface (§9), and
+  the pitch, hook and pillars (§1) unless the owner picked the concept (--owner-picked);
+- no pillar line (one with its *Test:*) carries a `(profile)` addition;
 - the platform and business section cites the research behind its price model (a link).
 
---summary also checks GDD-summary.md: eight parts, none empty or left as a placeholder; up to five
+--summary also checks GDD-summary.md: eight parts, none empty or left as a placeholder; three
+pillars with their *Test:*; up to five
 other assumed decisions cited by appendix id with their runner-ups (fewer only when the appendix has
 no more); three kill list items; and the closing question word for word. Parts are found by their
 place, not their titles, so a summary in another language checks too.
 
 The labels it reads stay in English in a GDD of any language: `*Check:*`, `options:`,
-`Recommendation:`, `runner-up:`, `**Provisional**`, the `panel — assumed` labels, the `A<n>` ids and
-`§14, item <n>`. The template says so.
+`Recommendation:`, `runner-up:`, `*Test:*`, `**Provisional**`, the `panel — assumed` labels, the
+`A<n>` ids and `§14, item <n>`. The template says so. What the parts say stays the reviewer's call.
 
 Exits 1 on any problem, 0 otherwise. Standard library only.
 """
@@ -75,10 +75,12 @@ CLOSING_QUESTION = ("Change any of these, or continue to setup-godot with every 
 SUMMARY_PARTS = ("the pitch", "the pillars", "the camera and medium", "the other assumed decisions",
                  "the housekeeping baseline", "the playtesters' verdict", "the reviewer's kill list",
                  "the closing question")
-# Identity decisions (gdd-handsoff §3) by the template section that holds them. The concept carries the
-# first two (its pitch, hook and pillars; its camera and medium), so the owner settles them by picking it.
-CONCEPT_IDENTITY = {"1": "the pitch, hook and pillars", "8": "the camera and medium"}
-OTHER_IDENTITY = {"7": "tone", "9": "the interface"}
+# Identity decisions (gdd-handsoff §3) by the template section that holds them. The concept carries its
+# pitch, hook and pillars, so the owner settles §1 by picking it; the art style beyond the concept's
+# camera and medium (§8) is assumed either way.
+CONCEPT_IDENTITY = {"1": "the pitch, hook and pillars"}
+OTHER_IDENTITY = {"7": "tone", "8": "the art style", "9": "the interface"}
+PILLAR_TEST = re.compile(r"\*Test:", re.IGNORECASE)
 
 
 @dataclass
@@ -302,7 +304,7 @@ def check_handsoff(gdd: str, found: list[Section], rules: Rules, owner_picked: b
     if pitch:
         for line, title, body in pitch.subsections():
             for number, text in body:
-                if "(profile)" in text:
+                if "(profile)" in text and PILLAR_TEST.search(text):
                     problems.append(f"line {number}: §1 {title}: a `(profile)` addition never edits a pillar; "
                                     "put it in its own section as a game change")
     business = by_number.get("10")
@@ -345,6 +347,9 @@ def check_summary(summary: str, gdd: str) -> list[str]:
         if left:
             problems.append(f"summary: {assumed.title}: {len(set(cited))} decision(s), but the appendix also has "
                             + ", ".join(left) + "; list up to five")
+    pillars = parts[1]
+    if sum(1 for _, line in pillars.body if ITEM.match(line) and PILLAR_TEST.search(line)) != 3:
+        problems.append(f"summary line {pillars.line}: {pillars.title}: the three pillars, each with its *Test:*")
     for index, part in enumerate(parts[:len(SUMMARY_PARTS)]):
         if is_empty(part):
             problems.append(f"summary line {part.line}: {part.title}: empty; part {index + 1} is {SUMMARY_PARTS[index]}")
