@@ -106,7 +106,9 @@ def check_handsoff(ledger: str) -> list[str]:
         if not RUNNER_UP.search(listed[found][1]):
             problems.append(f"line {listed[found][0]}: {found}: no runner-up")
     match = OPEN_QUESTIONS.search(without_comments(ledger))
-    if match and match.group(1).strip().rstrip(".").lower() != "none":
+    if not match:
+        problems.append("the approval record has no **Open questions:** line; in hands-off mode it reads none")
+    elif match.group(1).strip().rstrip(".").lower() != "none":
         problems.append("the approval record's open questions must be none: an owner's question is answered and "
                         "assumed, never left open")
     return problems

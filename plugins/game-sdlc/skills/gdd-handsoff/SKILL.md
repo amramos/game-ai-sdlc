@@ -112,7 +112,8 @@ Then **one round reviewer**, a fresh agent per round, answers it.
 - **Exit 2 or 3:** no other vendor's model. Use a Claude model a tier below the session's (the same
   model when there's none below, or the one below is smaller than mid-size, and say so). End its
   brief with `--print-format gdd`'s output and "Write your reply to `<reply file>` and return only
-  the word `written`", then run `codex_review.py --split <reply file> --out <file>`.
+  the word `written`", then run `codex_review.py --split <reply file> --need-verdict --out <file>`.
+  On exit 4, ask it once more with the format before deciding the round yourself.
 
 **Resolve each question:**
 

@@ -58,7 +58,8 @@ these: `Q<n>: agree`, `Q<n>: different: <answer>`, `Player (Q<n>)`, `Q<n> additi
     Then say in the report that the review had no independence of model.
   - A Claude subagent is never above the session's model; another vendor's model may be stronger.
   - End its brief with the printed format and: "Write your reply to `<reply file>` and return only
-    the word `written`." Then run `codex_review.py --split <reply file> --out <file>`.
+    the word `written`." Then run `codex_review.py --split <reply file> --need-verdict --out <file>`.
+    On exit 4, ask the reviewer once more with the format before taking exit 4 below.
 
 **What the exit code means.**
 

@@ -9,9 +9,10 @@ Reads the template next to this skill for the rules, so the two never drift:
   of the same number does. Sections the template leaves unmarked (the pitch, the glossary…) are
   matched by number, or by title when unnumbered, so a GDD in another language still checks;
 - any other bracketed capital word (`[TBD]`, `[TODO]`) is an unknown marker;
-- every numbered section of the template is there and not empty;
-- an `[OPEN]` written outside the open-questions section points at its item there (`§14`), and each
-  item there gives options and a recommendation;
+- every numbered section of the template is there and not empty, and no template placeholder
+  (`<…>`, `<Name>`) is left in it;
+- an `[OPEN]` written outside the open-questions section points at an item there that exists
+  (`§14, item 2`), and each item there gives options and a recommendation;
 - every subsection of the mechanics section has a `*Check:*` line, except the ones the template
   gives none (when rules meet).
 
@@ -29,9 +30,14 @@ call.
 - no pillar line carries a `(profile)` addition;
 - the platform and business section cites the research behind its price model (a link).
 
---summary also checks GDD-summary.md: its eight parts in order, up to five other assumed decisions
-cited by appendix id with their runner-ups (fewer only when the appendix has no more), three kill
-list items, and the closing question word for word.
+--summary also checks GDD-summary.md: eight parts, none empty or left as a placeholder; up to five
+other assumed decisions cited by appendix id with their runner-ups (fewer only when the appendix has
+no more); three kill list items; and the closing question word for word. Parts are found by their
+place, not their titles, so a summary in another language checks too.
+
+The labels it reads stay in English in a GDD of any language: `*Check:*`, `options:`,
+`Recommendation:`, `runner-up:`, `**Provisional**`, the `panel — assumed` labels, the `A<n>` ids and
+`§14, item <n>`. The template says so.
 
 Exits 1 on any problem, 0 otherwise. Standard library only.
 """
@@ -59,6 +65,10 @@ APPENDIX_ID = re.compile(r"\*\*(A\d+)\*\*")
 CITED_ID = re.compile(r"\bA\d+\b")
 OPTIONS = re.compile(r"\boption|\bopci|\bopç", re.IGNORECASE)
 RECOMMENDATION = re.compile(r"recom", re.IGNORECASE)
+OPEN_REF = re.compile(r"§\s*(\d+),?\s*item\s*(\d+)", re.IGNORECASE)
+NUMBERED = re.compile(r"^\s*(\d+)\.\s")
+# A template placeholder: <…>, <Name>, <what the player does>; not an HTML tag such as <br>.
+PLACEHOLDER = re.compile(r"<(?![!/])(?=[^<>\n]*(?:\s|…|^[A-Z]))[^<>\n]+>|<[A-Z…][^<>\n]*>")
 FIRST_PLAYABLE = "first playable"
 CLOSING_QUESTION = ("Change any of these, or continue to setup-godot with every recommendation (the project "
                     "will run hands-off)?")
@@ -148,6 +158,29 @@ def template_rules(text: str) -> Rules:
     return rules
 
 
+def placeholders(section: Section) -> list[tuple[int, str]]:
+    """(line, placeholder) for every template placeholder left in the section, comments excluded."""
+    found, in_comment = [], False
+    for number, line in section.body:
+        visible = ""
+        rest = line
+        while rest:
+            if in_comment:
+                end = rest.find("-->")
+                if end < 0:
+                    rest = ""
+                    break
+                rest, in_comment = rest[end + 3:], False
+            else:
+                start = rest.find("<!--")
+                if start < 0:
+                    visible, rest = visible + rest, ""
+                else:
+                    visible, rest, in_comment = visible + rest[:start], rest[start + 4:], True
+        found += [(number, match.group(0)) for match in PLACEHOLDER.finditer(INLINE_CODE.sub("", visible))]
+    return found
+
+
 def is_empty(section: Section) -> bool:
     return not any(line.strip() and line.strip() != "---" for line in section.text().splitlines())
 
@@ -160,6 +193,9 @@ def check(gdd: str, template: str, handsoff: bool = False, owner_picked: bool = 
     open_items: list[str] = []
     found = sections(gdd)
     by_number = {s.number: s for s in found if s.number}
+    open_section = by_number.get(rules.open_section) if rules.open_section else None
+    open_numbers = {m.group(1) for _, line in (open_section.body if open_section else [])
+                    if (m := NUMBERED.match(line))}
     for number, title in rules.numbered.items():
         if number not in by_number:
             problems.append(f"§{number} {title}: missing; every section of the template is written")
@@ -175,6 +211,8 @@ def check(gdd: str, template: str, handsoff: bool = False, owner_picked: bool = 
                             + ", ".join(f"[{m}]" for m in sorted(known)))
         if section.number in rules.numbered and is_empty(section):
             problems.append(f"line {section.line}: {name}: empty")
+        for number, placeholder in placeholders(section):
+            problems.append(f"line {number}: {name}: unfilled template placeholder {placeholder[:60]}")
         in_first_playable = FIRST_PLAYABLE in section.title.lower()
         heading_open = "OPEN" in section.markers
         in_open_section = section.number is not None and section.number == rules.open_section
@@ -187,10 +225,15 @@ def check(gdd: str, template: str, handsoff: bool = False, owner_picked: bool = 
             if "OPEN" in words or (heading_open and item):
                 where = " (in the first playable's section)" if in_first_playable else ""
                 open_items.append(f"line {number}: {name}{where}: {line.strip()[:160]}")
-            if "OPEN" in words and not in_open_section and rules.open_section and \
-                    f"§{rules.open_section}" not in line.replace("§ ", "§"):
-                problems.append(f"line {number}: {name}: [OPEN] with no item in §{rules.open_section}; add it there "
-                                f"with options and a recommendation, and point at it here (§{rules.open_section}, item n)")
+            if "OPEN" in words and not in_open_section and rules.open_section:
+                refs = [item for section_ref, item in OPEN_REF.findall(line) if section_ref == rules.open_section]
+                if not refs:
+                    problems.append(f"line {number}: {name}: [OPEN] with no item in §{rules.open_section}; add it "
+                                    f"there with options and a recommendation, and point at it here "
+                                    f"(§{rules.open_section}, item n)")
+                for item in refs:
+                    if item not in open_numbers:
+                        problems.append(f"line {number}: {name}: §{rules.open_section} has no item {item}")
             if in_open_section and item and line[:1].isdigit() and not (OPTIONS.search(line) and RECOMMENDATION.search(line)):
                 problems.append(f"line {number}: {name}: an open question gives its options and a recommendation")
         if section.number and section.number == rules.mechanics:
@@ -296,11 +339,14 @@ def check_summary(summary: str, gdd: str) -> list[str]:
         if left:
             problems.append(f"summary: {assumed.title}: {len(set(cited))} decision(s), but the appendix also has "
                             + ", ".join(left) + "; list up to five")
+    for index, part in enumerate(parts[:len(SUMMARY_PARTS)]):
+        if is_empty(part) and index != len(SUMMARY_PARTS) - 1:
+            problems.append(f"summary line {part.line}: {part.title}: empty; part {index + 1} is {SUMMARY_PARTS[index]}")
+        for number, placeholder in placeholders(part):
+            problems.append(f"summary line {number}: {part.title}: unfilled placeholder {placeholder[:60]}")
     kill_list = parts[6]
     if sum(1 for _, line in kill_list.body if ITEM.match(line)) < 3:
         problems.append(f"summary: {kill_list.title}: three items, one line each")
-    if is_empty(parts[5]):
-        problems.append(f"summary: {parts[5].title}: empty; say what the playtesters found, or that they didn't run")
     if normalized(CLOSING_QUESTION) not in normalized(summary):
         problems.append(f"summary: the closing question isn't word for word: \"{CLOSING_QUESTION}\"")
     return problems

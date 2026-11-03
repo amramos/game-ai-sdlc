@@ -16,6 +16,11 @@ decision deliberately not made yet — it needs an answer from the owner, never 
 *(tune)* marks a value that is set but provisional. Any value a rule needs that is neither stated nor
 marked is a mistake in this document: report it.
 
+<!-- In a GDD written in another language, keep these labels in English, since check_gdd.py reads
+them: *Check:*, options:, Recommendation:, runner-up:, **Provisional**, the `panel — assumed` labels,
+the A1, A2… ids and "§14, item <n>". A translated "When rules meet" subsection still has a
+*Check:* line ("none — the order rules apply in"). -->
+
 ---
 
 ## 1. Pitch

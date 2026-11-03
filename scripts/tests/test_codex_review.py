@@ -46,6 +46,8 @@ body = {
     "round-late": ROUND if calls > 1 else "Q1: agree\nVERDICT: approve\nValue 2 because...\n",
     "round-never": "Q1: agree\nVERDICT: approve\nValue 2 because...\n",
     "round-verdict-below": "Q1: agree\n=== EXPLANATION (owner only) ===\nVERDICT: approve\n",
+    "round-no-verdict-late": ROUND if calls > 1 else "Q1: agree\n=== EXPLANATION (owner only) ===\nValue 2\n",
+    "round-crash": ROUND,
     "approve": "- a.py:3 minor nit\n\n**VERDICT: approve**\n",
     "changes": "VERDICT: approve\n- a.py:9 crash on empty list, blocking\nVERDICT: request-changes\n",
     "no-verdict": "Looks fine to me.\n",
@@ -56,6 +58,8 @@ if args[0] == "task":
 else:
     with open(args[args.index("-o") + 1], "w", encoding="utf-8") as out:
         out.write(body)
+if mode == "round-crash":
+    sys.exit(1)
 '''
 
 
@@ -247,6 +251,22 @@ class RoundTests(Routes):
                 self.assertTrue(self.owner().read_text(encoding="utf-8").startswith("Q1: agree"))
                 self.assertIn("NO USABLE REPLY", printed)
 
+    def test_a_reply_with_no_verdict_gets_the_retry_too(self) -> None:
+        code, printed = self.run_review([self.route("cli")], "round-no-verdict-late", "plan")
+        self.assertEqual(code, 0)
+        self.assertEqual(len(self.calls()), 2)
+        self.assertIn("RETRY:", printed)
+
+    def test_a_failed_round_never_shows_the_reply(self) -> None:
+        for kind in ("companion", "cli"):
+            with self.subTest(kind=kind):
+                code, printed = self.run_review([self.route(kind)], "round-crash", "plan")
+                self.assertEqual(code, codex_review.FAILED)
+                self.assertNotIn("Value 2", printed)
+                self.assertFalse(self.out.exists())
+                self.assertIn("Value 2", self.owner().read_text(encoding="utf-8"))
+                self.owner().unlink()
+
     def test_split_a_saved_judge_reply(self) -> None:
         reply = self.tmp / "judge.md"
         reply.write_text("A: keep\n**VERDICT: approve**\n**=== EXPLANATION (owner only) ===**\nSignature 1\n",
@@ -259,6 +279,15 @@ class RoundTests(Routes):
         reply.write_text("A: keep\nSignature 1\n", encoding="utf-8")
         self.assertEqual(split(), codex_review.NO_SPLIT)
         self.assertNotIn("Signature", self.out.read_text(encoding="utf-8"))
+
+    def test_a_judge_reply_needs_no_verdict_unless_asked(self) -> None:
+        reply = self.tmp / "judge.md"
+        reply.write_text("A: keep\n=== EXPLANATION (owner only) ===\nSignature 1\n", encoding="utf-8")
+        split = lambda *extra: subprocess.run([sys.executable, str(SCRIPT), "--split", str(reply), "--out",  # noqa: E731
+                                               str(self.out), *extra], capture_output=True).returncode
+        self.assertEqual(split(), 0)
+        self.assertEqual(self.out.read_text(encoding="utf-8"), "A: keep\n")
+        self.assertEqual(split("--need-verdict"), codex_review.NO_SPLIT)
 
 
 class CommandLineTests(unittest.TestCase):

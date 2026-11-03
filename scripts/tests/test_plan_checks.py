@@ -142,9 +142,16 @@ Change any of these, or continue to `setup-godot` with every recommendation (the
 
 
 class CheckGddTests(unittest.TestCase):
-    def test_the_template_itself_passes(self) -> None:
+    def test_the_unfilled_template_fails_only_on_its_placeholders(self) -> None:
         problems, _ = check_gdd.check(TEMPLATE, TEMPLATE)
-        self.assertEqual(problems, [])
+        self.assertTrue(problems)
+        self.assertEqual([p for p in problems if "unfilled template placeholder" not in p], [])
+
+    def test_placeholders_count_but_comments_code_and_tags_dont(self) -> None:
+        gdd = GDD.replace("Quiet and patient.", "Quiet <!-- <tone> --> and `<b>` patient,<br> <what it feels like>.")
+        problems, _ = check_gdd.check(gdd, TEMPLATE)
+        self.assertEqual(problems, [problems[0]])
+        self.assertIn("unfilled template placeholder <what it feels like>", problems[0])
 
     def test_a_marked_gdd_passes_and_lists_its_open_items(self) -> None:
         problems, open_items = check_gdd.check(GDD, TEMPLATE)
@@ -196,6 +203,9 @@ class CheckGddTests(unittest.TestCase):
         problems, _ = check_gdd.check(GDD.replace(" — options: one tile, two. Recommendation: one.", ""), TEMPLATE)
         self.assertEqual(len(problems), 1)
         self.assertIn("options and a recommendation", problems[0])
+        problems, _ = check_gdd.check(GDD.replace("(§14, item 1): one tile", "(§14, item 3): one tile"), TEMPLATE)
+        self.assertEqual(len(problems), 1)
+        self.assertIn("§14 has no item 3", problems[0])
 
     def test_every_mechanic_but_when_rules_meet_has_a_check_line(self) -> None:
         problems, _ = check_gdd.check(GDD.replace("*Check:* reading", "Reading"), TEMPLATE)
@@ -245,6 +255,11 @@ class CheckGddTests(unittest.TestCase):
         for expected in ("no runner-up", "A9 is not an assumed decision", "also has A4", "three items",
                          "word for word"):
             self.assertIn(expected, joined)
+
+    def test_an_empty_summary_part_fails(self) -> None:
+        problems = check_gdd.check_summary(SUMMARY.replace("Not run.\n", ""), GDD)
+        self.assertEqual(len(problems), 1)
+        self.assertIn("the playtesters' verdict", problems[0])
 
     def test_exits_1_on_problems(self) -> None:
         with tempfile.TemporaryDirectory() as work:
@@ -361,6 +376,11 @@ class CheckLedgerTests(unittest.TestCase):
         problems = check_ledger.check(HANDSOFF_LEDGER.replace("**Open questions:** none", "**Open questions:** D2?"), PLAN)
         self.assertEqual(len(problems), 1)
         self.assertIn("open questions must be none", problems[0])
+
+    def test_a_handsoff_ledger_needs_its_open_questions_line(self) -> None:
+        problems = check_ledger.check(HANDSOFF_LEDGER.replace("- **Open questions:** none\n", ""), PLAN)
+        self.assertEqual(len(problems), 1)
+        self.assertIn("no **Open questions:** line", problems[0])
 
     def test_a_handsoff_ledger_without_a_dissent_column_fails(self) -> None:
         self.assertEqual(len(check_ledger.check(LEDGER.replace("# Night market", "**Mode:** hands-off\n# N"), PLAN)), 1)
