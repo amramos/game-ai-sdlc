@@ -8,6 +8,13 @@ must be cited somewhere in the plan, and the plan must cite no id the ledger lac
 elsewhere in the ledger (its list of assumed decisions, say) must be in the table too. Whether each
 decision keeps its meaning in the plan stays the reviewer's job.
 
+In a hands-off ledger (`**Mode:** hands-off`) it also checks what feature-planning-handsoff §3 asks:
+- every row's Decided by is one of the template's labels, and its Dissent cell is filled (the
+  rejected answer, or `—` when the reviewer agreed);
+- every `panel — assumed` row is in the "Assumed by the panel" list with a runner-up, and the list
+  holds only those rows;
+- the approval record's open questions are `none`.
+
 Exits 1 on any mismatch or when the ledger has no decision rows, 0 otherwise. Standard library only.
 """
 
@@ -20,6 +27,11 @@ import sys
 
 ROW = re.compile(r"^\s*\|\s*\**(D\d+)\**\s*\|")
 CITED = re.compile(r"\bD\d+\b")
+HANDSOFF = re.compile(r"^\*\*Mode:\*\*\s*hands-off\b", re.MULTILINE)
+LABELS = {"owner", "owner (rec)", "panel", "panel — assumed", "panel — assumed (profile)"}
+ASSUMED_LIST = re.compile(r"^\*\*Assumed by the panel\*\*")
+RUNNER_UP = re.compile(r"runner-up:?\**\s*\S", re.IGNORECASE)
+OPEN_QUESTIONS = re.compile(r"^\s*-\s*\*\*Open questions:\*\*\s*(.*)$", re.MULTILINE)
 
 
 def without_comments(text: str) -> str:
@@ -45,6 +57,61 @@ def citations(text: str) -> dict[str, int]:
     return cited
 
 
+def cells(line: str) -> list[str]:
+    return [cell.strip().strip("*`").strip() for cell in line.strip().strip("|").split("|")]
+
+
+def check_handsoff(ledger: str) -> list[str]:
+    """What feature-planning-handsoff §3 asks of a hands-off ledger."""
+    problems: list[str] = []
+    lines = without_comments(ledger).splitlines()
+    header = next((cells(line) for line in lines if line.lstrip().startswith("|") and "Decided by" in line), None)
+    if header is None or "Dissent" not in header:
+        return ["the Decisions table has no Dissent column (ledger-template.md)"]
+    decided, dissent = header.index("Decided by"), header.index("Dissent")
+    assumed: dict[str, int] = {}
+    for number, line in enumerate(lines, 1):
+        match = ROW.match(line)
+        if not match:
+            continue
+        row = cells(line)
+        label = " ".join(row[decided].replace(" - ", " — ").split()) if len(row) > decided else ""
+        if label not in LABELS:
+            problems.append(f"line {number}: {match.group(1)}: Decided by is {label!r}; use one of "
+                            + ", ".join(sorted(LABELS)))
+        if len(row) <= dissent or not row[dissent]:
+            problems.append(f"line {number}: {match.group(1)}: empty Dissent; the rejected answer, or — when the "
+                            "reviewer agreed")
+        if "assumed" in label:
+            assumed.setdefault(match.group(1), number)
+    listed: dict[str, tuple[int, str]] = {}
+    in_list = False
+    for number, line in enumerate(lines, 1):
+        if ASSUMED_LIST.match(line):
+            in_list = True
+            continue
+        if in_list and (line.startswith("#") or (line.strip() and not line.lstrip().startswith(("-", "*"))
+                                                 and not line.startswith(" "))):
+            in_list = False
+        if in_list and line.lstrip().startswith("-"):
+            ids = CITED.findall(line)
+            if ids:
+                listed.setdefault(ids[0], (number, line))
+    for missing in by_number(set(assumed) - set(listed)):
+        problems.append(f"{missing} (line {assumed[missing]}) is assumed but not in the \"Assumed by the panel\" list")
+    for extra in by_number(set(listed) - set(assumed)):
+        problems.append(f"line {listed[extra][0]}: {extra} is in the \"Assumed by the panel\" list but its row isn't "
+                        "assumed")
+    for found in by_number(set(listed) & set(assumed)):
+        if not RUNNER_UP.search(listed[found][1]):
+            problems.append(f"line {listed[found][0]}: {found}: no runner-up")
+    match = OPEN_QUESTIONS.search(without_comments(ledger))
+    if match and match.group(1).strip().rstrip(".").lower() != "none":
+        problems.append("the approval record's open questions must be none: an owner's question is answered and "
+                        "assumed, never left open")
+    return problems
+
+
 def by_number(ids) -> list[str]:
     return sorted(ids, key=lambda i: int(i[1:]))
 
@@ -61,6 +128,8 @@ def check(ledger: str, plan: str) -> list[str]:
         problems.append(f"plan line {in_plan[invented]} cites {invented}, which the ledger doesn't have")
     for stray in by_number(set(citations(ledger)) - set(defined)):
         problems.append(f"ledger line {citations(ledger)[stray]} cites {stray}, which has no row in its Decisions table")
+    if HANDSOFF.search(ledger):
+        problems += check_handsoff(ledger)
     return problems
 
 

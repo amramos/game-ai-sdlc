@@ -39,7 +39,13 @@ with open(os.environ["FAKE_CODEX_LOG"], "a", encoding="utf-8") as log:
 if mode == "auth-error":
     sys.stderr.write("401 Unauthorized: not logged in\n")
     sys.exit(1)
+ROUND = "Q1: agree — fits the board\nVERDICT: approve\n=== EXPLANATION (owner only) ===\nValue 2 because...\n"
+calls = sum(1 for _ in open(os.environ["FAKE_CODEX_LOG"], encoding="utf-8"))
 body = {
+    "round": ROUND,
+    "round-late": ROUND if calls > 1 else "Q1: agree\nVERDICT: approve\nValue 2 because...\n",
+    "round-never": "Q1: agree\nVERDICT: approve\nValue 2 because...\n",
+    "round-verdict-below": "Q1: agree\n=== EXPLANATION (owner only) ===\nVERDICT: approve\n",
     "approve": "- a.py:3 minor nit\n\n**VERDICT: approve**\n",
     "changes": "VERDICT: approve\n- a.py:9 crash on empty list, blocking\nVERDICT: request-changes\n",
     "no-verdict": "Looks fine to me.\n",
@@ -80,11 +86,12 @@ class Routes(unittest.TestCase):
     def route(self, kind: str) -> codex_review.Route:
         return codex_review.Route(kind, self.fake, [sys.executable, str(self.fake)])
 
-    def run_review(self, routes, mode: str = "approve") -> tuple[int, str]:
+    def run_review(self, routes, mode: str = "approve", round_kind: str | None = None) -> tuple[int, str]:
         os.environ["FAKE_CODEX"] = mode
         printed = io.StringIO()
         with contextlib.redirect_stdout(printed):
-            code = codex_review.review(routes, self.repo, self.prompt, self.out, "some-model", 60, "medium")
+            code = codex_review.review(routes, self.repo, self.prompt, self.out, "some-model", 60, "medium",
+                                       round_kind)
         return code, printed.getvalue()
 
     def calls(self) -> list[dict]:
@@ -197,6 +204,61 @@ class ReviewTests(Routes):
         code, printed = self.run_review([])
         self.assertEqual(code, codex_review.NO_ROUTE)
         self.assertIn("NO ROUTE", printed)
+
+
+class RoundTests(Routes):
+    def owner(self) -> Path:
+        return self.out.with_name("review.owner.md")
+
+    def test_a_round_gets_the_format_and_is_split_at_the_explanation_line(self) -> None:
+        code, printed = self.run_review([self.route("cli")], "round", "gdd")
+        self.assertEqual(code, 0)
+        self.assertEqual(self.out.read_text(encoding="utf-8"), "Q1: agree — fits the board\nVERDICT: approve\n")
+        self.assertEqual(self.owner().read_text(encoding="utf-8"), "Value 2 because...\n")
+        self.assertIn("VERDICT: approve", printed)
+        self.assertIn(f"OWNER ONLY: {self.owner()}", printed)
+        prompt = self.calls()[0]["prompt"]
+        self.assertTrue(prompt.startswith("Review a.py."))
+        self.assertIn("=== EXPLANATION (owner only) ===", prompt)
+        self.assertIn("Kill list:", prompt)
+        self.assertEqual(self.prompt.read_text(encoding="utf-8"), "Review a.py. End with a VERDICT line.")
+
+    def test_only_the_gdd_format_has_a_kill_list(self) -> None:
+        self.assertNotIn("Kill list:", codex_review.reply_format("plan"))
+        self.assertIn("Kill list:", codex_review.reply_format("gdd"))
+
+    def test_a_reply_without_the_line_is_asked_for_once_more(self) -> None:
+        code, printed = self.run_review([self.route("cli")], "round-late", "plan")
+        self.assertEqual(code, 0)
+        self.assertEqual(len(self.calls()), 2)
+        self.assertIn("RETRY:", printed)
+        self.assertIn("not in the reply format", self.calls()[1]["prompt"])
+        self.assertNotIn("Value 2", self.out.read_text(encoding="utf-8"))
+
+    def test_two_replies_without_the_line_exit_4_and_the_session_gets_none_of_it(self) -> None:
+        for mode in ("round-never", "round-verdict-below"):
+            with self.subTest(mode=mode):
+                if self.log.exists():
+                    self.log.unlink()
+                code, printed = self.run_review([self.route("cli")], mode, "plan")
+                self.assertEqual(code, codex_review.NO_SPLIT)
+                self.assertEqual(len(self.calls()), 2)
+                self.assertTrue(self.out.read_text(encoding="utf-8").startswith("NO USABLE REPLY"))
+                self.assertTrue(self.owner().read_text(encoding="utf-8").startswith("Q1: agree"))
+                self.assertIn("NO USABLE REPLY", printed)
+
+    def test_split_a_saved_judge_reply(self) -> None:
+        reply = self.tmp / "judge.md"
+        reply.write_text("A: keep\n**VERDICT: approve**\n**=== EXPLANATION (owner only) ===**\nSignature 1\n",
+                         encoding="utf-8")
+        split = lambda: subprocess.run([sys.executable, str(SCRIPT), "--split", str(reply), "--out",  # noqa: E731
+                                        str(self.out)], capture_output=True).returncode
+        self.assertEqual(split(), 0)
+        self.assertEqual(self.out.read_text(encoding="utf-8"), "A: keep\n**VERDICT: approve**\n")
+        self.assertEqual(self.owner().read_text(encoding="utf-8"), "Signature 1\n")
+        reply.write_text("A: keep\nSignature 1\n", encoding="utf-8")
+        self.assertEqual(split(), codex_review.NO_SPLIT)
+        self.assertNotIn("Signature", self.out.read_text(encoding="utf-8"))
 
 
 class CommandLineTests(unittest.TestCase):

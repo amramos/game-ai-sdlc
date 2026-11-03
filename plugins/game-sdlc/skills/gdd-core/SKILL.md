@@ -248,9 +248,10 @@ Use [gdd-template.md](gdd-template.md). Put it at `docs/GDD.md` if a repository 
 **First, the mechanical check.** Run `python <gdd-core>/scripts/check_gdd.py <path to the GDD>`
 (`py -3` on Windows when `python` isn't found).
 
-- It exits non-zero when a section lacks the marker the template gives it or carries an unknown one.
+- It exits non-zero on a missing or unknown marker, a missing or empty section, a mechanic with no
+  `*Check:*` line, or an `[OPEN]` with no item in the open questions.
 - It lists every `[OPEN]` item with its section.
-- Fix the markers until it exits 0, before the read, so the reader spends itself on meaning.
+- Fix what it lists until it exits 0, before the read, so the reader spends itself on meaning.
 - Which `[OPEN]` items sit on the first playable's path stays your call.
 
 A GDD written section by section hides what only shows when someone builds from the whole: a gap

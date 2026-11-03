@@ -55,7 +55,8 @@ builder might simplify away. Use glossary terms exactly.>
 | <Value> | <Amount> |
 |---|---|
 
-*Check:* <what must be true for this mechanic to earn its place, and how it is tested>.
+*Check:* <the move or decision this mechanic gives the player that they wouldn't have without it,
+and the test that would show it missed when removed>.
 
 ### 3.<N> When rules meet
 <If rules can act at the same moment: the order they apply in, and how conflicts resolve — something
@@ -72,7 +73,7 @@ never does. A game with no economy says so in one line.>
 
 <One short stretch of the core loop, played concretely: what the player sees and knows, a choice and
 why, how the game resolves it (every value, when the rules use numbers), and the consequence. Name
-any [OPEN] rule it leaves out.>
+any open rule it leaves out (§14).>
 
 ## 6. Content **[DESIGNED]**
 
@@ -126,7 +127,7 @@ Engine <…>, platforms <…>, input <…>, session length <…>, price model an
 ## 12. First playable **[DESIGNED]**
 
 <The least content that lets someone judge the core loop: what it includes, what it stubs, and any
-temporary rule standing in for an [OPEN] one.>
+temporary rule standing in for an open one (§14, item n).>
 
 **Go/no-go:** <the one thing this build must show, or nothing after it matters>.
 
@@ -149,7 +150,8 @@ temporary rule standing in for an [OPEN] one.>
 
 ## Appendix: Assumed by the panel
 
-<!-- Hands-off only (gdd-handsoff §6); delete in interactive mode. Needs no marker. One line each,
-the owner reads these first: -->
+<!-- Hands-off only (gdd-handsoff §6); delete in interactive mode. Needs no marker. Only the
+assumed decisions, never a plain `panel` one; one line each, numbered A1, A2…; the owner reads these
+first: -->
 
-- <decision> (§<section>) — `panel — assumed` / `panel — assumed (profile)` — runner-up: <…>
+- **A1** <decision> (§<section>) — `panel — assumed` / `panel — assumed (profile)` — runner-up: <…>

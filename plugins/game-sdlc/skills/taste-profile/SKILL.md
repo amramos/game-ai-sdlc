@@ -123,7 +123,9 @@ table gives it:
   writes it.
 
 **What a judge returns** is in two parts, split by a line that reads exactly
-`=== EXPLANATION (owner only) ===`. The session reads the reply only up to that line.
+`=== EXPLANATION (owner only) ===`. The session never reads past that line: the judge writes its
+reply to a file, and `team-lead/scripts/codex_review.py --split <reply> --out <answers>` keeps only
+the decisions in `<answers>`.
 
 1. **Above the line, the decisions.** Each has a reason that stands on the game alone (its pillars,
    its GDD, the player).
