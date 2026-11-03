@@ -14,8 +14,8 @@ exists to prevent.
 The method is the same in both modes. Only **who answers the rounds** differs:
 
 - **interactive** (`feature-planning`): the owner answers;
-- **hands-off** (`feature-planning-handsoff`): a panel of agents answers, and the owner reads the
-  result later.
+- **hands-off** (`feature-planning-handsoff`): you answer with one outside reviewer per round, and
+  the owner reads the result later.
 
 Two documents come out of it, for two readers:
 
@@ -28,7 +28,7 @@ Two documents come out of it, for two readers:
 by its §3. You, writing the rounds, keep only its Never lines. Interactive: before a round that
 holds a question the owner's by nature (the pillars, tone, art style, the hook, interface identity)
 goes out, a judge with the whole profile checks its recommendations; other rounds go out without
-it. Hands-off: the panel judges with it, every round. The ledger and the plan never quote it. When
+it. Hands-off: the round reviewer judges with it, every round. The ledger and the plan never quote it. When
 the ledger is approved, ask about rulings that look like taste rather than this game. Hands-off,
 add them to the profile's pending proposals (its §6).
 
@@ -156,8 +156,8 @@ one of:
 
 - `owner` — the owner chose;
 - `owner (rec)` — the owner accepted the recommendation;
-- `panel` — hands-off panel decided something within the plan's latitude;
-- `panel — assumed` — hands-off panel answered a question that is **the owner's by nature** (taste,
+- `panel` — hands-off: the lead and the round reviewer decided something within the plan's latitude;
+- `panel — assumed` — hands-off: they answered a question that is **the owner's by nature** (taste,
   scope, reversing a past decision, the pillars, anything the project's `AGENTS.md` reserves to the
   owner). Written `panel — assumed (profile)` when an entry in the owner's taste profile settled
   it; the entry itself goes only in the report to the owner, never in the ledger.

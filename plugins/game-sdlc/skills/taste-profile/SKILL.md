@@ -124,7 +124,7 @@ table gives it:
 | **The session running the skill** (it writes rounds, options and recommendations, and briefs the drafters) | **Never** only |
 | **Drafters**: whoever writes concepts, art directions or candidate answers | **Never** only, as text in their prompt, never the file's path |
 | **Image and asset generators** (ComfyUI, Codex image generation, Meshy) | nothing; the frames are judged afterwards |
-| **Judges**: hands-off panelists, the hands-off art critic, the interactive recommendation check | the **whole file**, read in their own context |
+| **Judges**: the hands-off round reviewer, the hands-off art critic, the interactive recommendation check | the **whole file**, read in their own context |
 | **Any agent not listed** (research, builders, reviewers, playtesters, `comfyui-art`'s seed critic) | nothing |
 
 How judges use it: they test each option against the **Values**; they look for a way in for the
@@ -144,8 +144,9 @@ one line, without profile reasons; a drafter writes it.
   agent reads the round and the whole profile, and may change a recommendation, citing the label.
   The owner sees the label; they know their own file. Mechanical, scope and technical rounds skip
   it: the owner answers them directly and corrects what the profile would have nudged.
-- **Hands-off panelists** (`feature-planning-handsoff`, `gdd-handsoff`) are the judges for their
-  rounds; no separate judge runs.
+- **The hands-off round reviewer** (`feature-planning-handsoff`, `gdd-handsoff`) is the judge for
+  its rounds; no separate judge runs. A Signature opening goes among its answers, never only in
+  the explanation, since the session reads only the answers.
 - **Judges' models.** A Claude judge runs on the session's model or a tier below it: never above
   it, and never below a mid-size model (on a mid-size session, the same model). Another vendor's
   model may be stronger than the session's.
