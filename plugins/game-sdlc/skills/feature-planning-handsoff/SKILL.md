@@ -55,6 +55,7 @@ GDD sections and docs, and this brief:
   Player (Q<n>): sees <…> / misreads <…> / frustrated by <…>
   Q<n> addition: <the change in game terms> (profile) <label>
   Skeptic: <what fails, what's missing, what's expensive>
+  Kill list: <only when the calling skill asks for one, e.g. gdd-handsoff §4: three reasons it fails, each with a mitigation>
   VERDICT: approve | request-changes
   === EXPLANATION (owner only) ===
   <which entry, and why, for each (profile) line>

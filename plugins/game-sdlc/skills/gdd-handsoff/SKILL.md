@@ -103,7 +103,7 @@ Then **one round reviewer**, a fresh agent per round, answers it.
 - Brief it as `feature-planning-handsoff` §2 describes, reply format included: a skeptic (what fails,
   what's too big, what's a copy) and the profile judge, reading the whole taste profile itself.
 - It agrees with each recommendation or gives a different answer with one line of reason.
-- Read its reply only up to the `=== EXPLANATION (owner only) ===` line. Ask it to put its kill list
+- Read its reply only up to the `=== EXPLANATION (owner only) ===` line. Ask for its kill list
   (§4) above that line.
 - **Its model:** another vendor's model when one is available, run with
   `team-lead/scripts/codex_review.py`; otherwise a Claude model chosen as
