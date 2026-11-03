@@ -38,8 +38,8 @@ Round format when written as markdown:
 
 Roughly in this order, though the frontier decides. Skip what doesn't apply.
 
-1. **Seed** — the idea in one line; why make it; who the player is; ambition (jam, small release,
-   commercial); team size; rough timeline.
+1. **Seed** — the idea in one line; why make it; who the player is; scope (game jam, prototype,
+   small release, commercial); team size; rough timeline.
 2. **Genre and comparables** — genre(s) and 3–5 comparable games, each with *the one thing borrowed*.
 3. **Pitch** — two sentences a stranger understands; the fantasy; the hook.
 4. **Pillars** — the three feelings the whole game is built to give, settled right after the pitch
@@ -80,7 +80,8 @@ Roughly in this order, though the frontier decides. Skip what doesn't apply.
     store (itch.io, Steam…).
 13. **Scope boundary** — the first playable: the least content that lets someone judge the core loop,
     with one go/no-go sentence, and a temporary rule written out wherever it stands in for an open
-    one. Then what is explicitly out, and ideas parked for later.
+    one. Then what is explicitly out, and ideas parked for later. The scope also settles the
+    **housekeeping baseline** (see below).
 14. **Risks and open questions** — what could make this not fun, how long the content plan takes,
     and what is still undecided.
 
@@ -106,6 +107,24 @@ leaves someone behind. *Test: could the player do everything here without giving
 
 When two pillars pull apart later, the owner decides at that moment, in the feature's ledger; no rule
 is written in advance. Changing a pillar after the GDD exists goes through `design-change`.
+
+### The housekeeping baseline
+
+Save and continue, no silent progress loss, a main menu, settings that persist, control rebinding,
+pause, and skip for dialogue and cutscenes: the features almost every shipped game needs. They're
+quality baseline, not a design question, so they never enter the rounds as "does this game want a
+settings screen?". The scope decides instead, by the table in
+[housekeeping-baseline.md](housekeeping-baseline.md), which also holds what each item must do:
+
+- **game jam or prototype**: offer the list, recommended not built, with the backlog as the second
+  answer;
+- **small release**: offer it, recommended build;
+- **commercial**: build it, showing the list so the owner can strike items.
+
+In hands-off mode the panel applies the scope's default without asking and records it as
+`panel — assumed`. Either way, mark each item whose condition the game doesn't meet as n/a (no
+dialogue, nothing carried over), and write the result as the GDD's **Housekeeping baseline** line
+(§13). How each item looks and is reached stays open for `feature-planning`.
 
 ### Each mechanic earns its place
 

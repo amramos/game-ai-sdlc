@@ -24,7 +24,8 @@ Ask for all of it at once, in one message or one multiple-choice call, with defa
 1. **The idea** in one line — or "surprise me".
 2. **Two or three games they love**, and **one they find boring**. The boring one tells as much
    about taste as the favourites.
-3. **Scope**: game jam, small release, or commercial. Default: small release.
+3. **Scope**: game jam, prototype, small release, or commercial. Default: small release. It also
+   decides the housekeeping baseline (gdd-core §2), so nothing more is asked about it.
 4. *(Optional)* platform. Default: desktop and web, through itch.io.
 
 ## 2. Three concepts; the user picks
@@ -124,6 +125,8 @@ first playable's path, recorded as `panel — assumed`.
      and what the alternative would cost, so a one-word swap is still possible;
    - **the five other assumed decisions that shape the game most**, each with its runner-up
      alternative;
+   - **the housekeeping baseline** the scope gave (gdd-core §2), with its one-word swap: "backlog"
+     or "build" after a jam or prototype, "strike <item>" after a release;
    - the playtesters' verdict in two lines (including any failed bar);
    - the skeptic's kill list, one line each;
    - one closing question: *change any of these, or continue to setup?*
