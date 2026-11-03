@@ -47,10 +47,11 @@ Stop only for what can't be settled: no CI workflow at all (nothing could ever p
 
 ## 1. Review, verdict, and a limit
 
-For each pull request (one per checkpoint, as `team-lead` delivers them), the `adversarial-reviewer`
-reviews it as in `team-lead`; its report ends with `VERDICT: approve` or `VERDICT: request-changes`.
+For each pull request (one per checkpoint, as `team-lead` delivers them), the reviewer reviews it as
+in `team-lead`: the Codex runner, or the `adversarial-reviewer` agent as fallback. Its verdict is
+`VERDICT: approve` or `VERDICT: request-changes`.
 
-Post the report on the PR **verbatim**, as one comment (`gh pr comment <n> --body-file <file>`),
+Post the review on the PR **verbatim** (the runner's out file, or the agent's report), as one comment (`gh pr comment <n> --body-file <file>`),
 ending with the machine-readable verdict for the head commit that was reviewed:
 
 ```text
@@ -95,12 +96,22 @@ Merge only when every line is true, and post the checklist on the PR as a commen
 - [ ] CI is green on the PR's latest commit. *(the merge guard checks)*
 - [ ] The latest verdict approves the current head commit, or, after two cycles, your ruling
       covers it. *(the merge guard checks)*
+- [ ] This session's model is at or above the merge floor, or a reviewer at or above it approved
+      this head commit (below).
 - [ ] The **exported build** passes its smoke test, run on this branch.
 - [ ] `main` is tagged `pre-merge/<feature-slug>-<yyyymmdd>`, pushed.
 
 Then `gh pr merge <n> --merge --delete-branch`. Never `--admin`. A merge commit keeps each feature
 revertable as one unit; deleting the branch lets GitHub retarget the next PR in the stack. If the
 merge guard refuses, read its reason and fix that — never route around it through the API.
+
+**Below the floor, don't merge.** Ruling on merges needs a strong model (`team-lead` §3's floor:
+mid-size at minimum). If this session's model is below it and no reviewer at or above it ran on this
+PR (another vendor's model counts; a fallback below the floor doesn't), don't merge, and don't post
+a ruling marker. Leave the PR open for the owner, as plain `team-lead` does, move its features to
+`In Review`, and comment on the PR why it waits: the session's model, and the reviewer that ran. A
+merge on your own ruling after two cycles (§1) rests on your judgment alone, so below the floor it
+waits for the owner too.
 
 ## 3. After each merge
 
@@ -118,4 +129,6 @@ provisional until then.
 The `team-lead` report and story page, plus: whether agent merges were adopted in this run (and the
 ADR), which protection was in force (branch protection or the merge guard), every PR merged with its
 tag, every PR merged on your ruling with the findings you declined or deferred (the owner checks
-those first when playing), every PR left `needs-owner` and why, and any revert.
+those first when playing), every PR left `needs-owner` and why, every PR left for the owner because
+the session was below the floor (with the session's model and the reviewer that ran), and any
+revert.
