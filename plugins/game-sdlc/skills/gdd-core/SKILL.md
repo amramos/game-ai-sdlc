@@ -17,9 +17,11 @@ never asked.
 
 **The owner's taste profile.** Before the first round, look for it (`taste-profile` §1;
 `game-sdlc:taste-profile` when installed as a plugin) and offer it if it's missing (its §5). Use it
-by its §3: whoever recommends or answers a round judges with the whole profile and names the entry
-that decided; whatever drafts options gets only its Never section; research agents don't get it. At
-the end, ask about the rulings that look like taste, not this game (its §6).
+by its §3. You, running the rounds, and every drafter keep only its Never lines. Before each round
+goes out, a judge with the whole profile checks the recommendations (interactive), or the panel
+judges with it (hands-off). Research agents get nothing from it. A decision it settled is
+`panel — assumed (profile)`, and the GDD never quotes it. At the end, ask about rulings that look
+like taste rather than this game (its §6).
 
 ## 1. Rounds over the frontier
 

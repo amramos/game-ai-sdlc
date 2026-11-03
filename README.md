@@ -103,8 +103,9 @@ and what spoils a game for you. Then you correct a playback of what it inferred.
 file in your home folder (`~/.game-sdlc/taste.md`) that every project reads: your values, the
 signature you want across your games, your hard limits and some weak leanings. It holds reasons, not
 content, so it doesn't pick genres for you. Agents that draft options see only your hard limits;
-agents that judge between options see all of it, and say which entry decided. Later skills ask before
-adding anything to it. `gdd`, `art-direction` and `feature-planning` offer it when it's missing; say
+only agents that judge finished options see all of it, and they tell you which entry decided. It's
+private: nothing committed quotes it, and you choose whether other vendors' models may read it. Later
+skills ask before adding anything to it. `gdd`, `art-direction` and `feature-planning` offer it when it's missing; say
 no and they carry on as before.
 
 **1. Design it — `/game-sdlc:gdd`**

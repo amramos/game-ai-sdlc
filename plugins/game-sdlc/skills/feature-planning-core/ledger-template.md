@@ -28,14 +28,10 @@ below; the plan cites these ids, and a reviewer checks that it holds every decis
 
 | Id | Question | Answer | Decided by | Date |
 |---|---|---|---|---|
-| D1 | <…> | <…> | owner / owner (rec) / panel / panel — assumed / panel — from profile (<entry>) | <…> |
+| D1 | <…> | <…> | owner / owner (rec) / panel / panel — assumed / panel — assumed (profile) | <…> |
 
 **Assumed by the panel** (hands-off only — the owner skims these first):
 - D<n>: <one line each>
-
-**Proposed for your taste profile** (only when a ruling looks like taste, not this game; add / this
-game only / no):
-- D<n>: <the entry it would become>
 
 ## The experience, walked through
 

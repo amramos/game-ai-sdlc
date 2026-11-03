@@ -44,9 +44,10 @@ Draft **three deliberately different concepts**, each built from the intake. Eac
 - three comparables, each with the one thing borrowed;
 - one line on how it reflects the games they love and avoids the one they find boring.
 
-Drafting the concepts is generating, so the drafter gets only the taste profile's Never section
-(`taste-profile` §3). The rest of the profile is for choosing between them, and a concept that
-already fits one of its Signature items says so in its last line.
+With a taste profile, a separate drafter agent writes the three concepts from the intake, the market
+search and the profile's Never lines only (`taste-profile` §3). Then a judge with the whole profile
+reads the finished concepts and adds one line to each concept that has room for a Signature item.
+The judge doesn't rewrite them.
 
 "Different" means a different core verb or structure (e.g. one about routing, one about
 deck-building, one about real-time juggling), not three tunings of one idea. Run a quick market search
@@ -137,9 +138,9 @@ first playable's path, recorded as `panel — assumed`.
      or "build" after a jam or prototype, "strike <item>" after a release;
    - the playtesters' verdict in two lines (including any failed bar);
    - the skeptic's kill list, one line each;
-   - **from your taste profile**: the decisions an entry settled (`panel — from profile`), and any
-     rulings proposed for it (`taste-profile` §6), or one line offering to set one up if there's
-     none;
+   - **in the conversation only, never in the file**: which taste-profile entry settled each
+     `panel — assumed (profile)` decision, and the rulings proposed for the profile
+     (`taste-profile` §6). With no profile, one line offering to set one up;
    - one closing question: *change any of these, or continue to setup?*
 
 Show the summary in the conversation as well. Any assumption the user overturns is edited straight
