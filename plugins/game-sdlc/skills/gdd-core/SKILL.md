@@ -10,7 +10,8 @@ Turns an idea into a GDD that agents can build from. The method is the same in b
 **who answers the rounds** differs:
 
 - **interactive** (`gdd`): the user answers every round;
-- **hands-off** (`gdd-handsoff`): a panel of agents answers, and the user reacts to a short summary.
+- **hands-off** (`gdd-handsoff`): you answer with one outside reviewer per round, and the user
+  reacts to a short summary.
 
 Either way, decisions are made by whoever answers the round. Facts are looked up by research agents,
 never asked.
@@ -20,7 +21,7 @@ never asked.
 by its §3. You, running the rounds, and every drafter keep only its Never lines. Interactive:
 before a round that holds a question the owner's by nature (the pillars, tone, art style, the hook,
 interface identity) goes out, a judge with the whole profile checks its recommendations; other
-rounds go out without it. Hands-off: the panel judges with it, every round. Research agents get
+rounds go out without it. Hands-off: the round reviewer judges with it, every round. Research agents get
 nothing from it. A decision it settled is `panel — assumed (profile)`, and the GDD never quotes
 it. At the end, ask about rulings that look like taste rather than this game (its §6).
 

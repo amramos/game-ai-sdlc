@@ -1,13 +1,13 @@
 ---
 name: gdd-handsoff
-description: Design a game with almost no input — the user gives a one-line idea (or "surprise me"), a few games they love and one they find boring, and a scope; picks one of three concepts; and an agent panel writes the GDD, checked by quality gates and by blind AI playtesters on a quick prototype, ending with a one-page summary of what the panel assumed. Use when the user wants a GDD without answering a design interview — when they invoke it, or ask for one in their own words. Never pick it on your own initiative.
+description: Design a game with almost no input — the user gives a one-line idea (or "surprise me"), a few games they love and one they find boring, and a scope; picks one of three concepts; and the session writes the GDD with one outside reviewer per round, checked by quality gates and by blind AI playtesters on a quick prototype, ending with a one-page summary of what the panel assumed. Use when the user wants a GDD without answering a design interview — when they invoke it, or ask for one in their own words. Never pick it on your own initiative.
 argument-hint: "A one-line game idea, or \"surprise me\""
 ---
 
 # GDD (hands-off)
 
 Load the **`gdd-core`** skill (`game-sdlc:gdd-core` when installed as a plugin) and follow it in
-**hands-off mode**: a panel of agents answers the rounds instead of the user.
+**hands-off mode**: you and one round reviewer answer the rounds instead of the user.
 
 The risk of a design nobody steered is the *average* game: competent and forgettable. Agents write
 well; what they lack is taste. So this skill collects the few inputs that carry taste as cheaply as
@@ -61,30 +61,37 @@ concept uses it; another may depart, saying why and what that saves or costs. Ne
 from the nearest mechanical comparable alone.
 
 Ask the user to **pick one**, or to say "you pick". Picking a concept picks its pillars too. If they
-pick, record both as `owner`. If they don't, the panel (§3) votes, and the concept and its pillars
-are recorded as `panel — assumed`.
+pick, record both as `owner`. If they don't, you pick with the round reviewer (§3), and the concept
+and its pillars are recorded as `panel — assumed`, with the runner-up concept.
 
-## 3. The panel works the tree
+## 3. You and the round reviewer work the tree
 
-Four panelists, each a separate agent with its own brief, answering every round of gdd-core's design
-tree independently:
+**You are the designer.** Work gdd-core's design tree in rounds, with a recommendation per question
+grounded in the chosen concept and its pillars, and consistent with the rest of the game. Two
+questions go to what measures them better than an opinion:
 
-| Panelist | Point of view | Model |
-|---|---|---|
-| **Designer** | the chosen concept and its pillars; consistency | the session's model |
-| **Player advocate** | a first-time player: clarity, fun, frustration | a different model from the designer's |
-| **Market analyst** | comparables, prices, what sells in this niche; backed by research agents (gdd-core §3) | any |
-| **Skeptic** | what fails, what's too big, what's a copy | a model from another vendor when available (e.g. Codex through its Claude Code plugin); otherwise another model |
+- **The market.** When a question turns on comparables, prices or what sells in this niche,
+  dispatch a research agent on it (gdd-core §3) and recommend from its findings: decisions, never
+  facts.
+- **The first-time player.** Clarity, fun and frustration are measured by the blind playtesters of
+  §5, not guessed; what a round can't settle without them goes to the prototype as a question.
 
-Every panelist's model is set explicitly. A Claude panelist is never above the session's model: "a
-different model" means a tier below, or the same model when there's none below. The skeptic may use
-another vendor's model even when it is stronger than the session's.
+Then **one round reviewer**, a fresh agent per round, answers it, briefed as
+`feature-planning-handsoff` §2 describes: a skeptic (what fails, what's too big, what's a copy) and
+the profile judge, reading the whole taste profile itself. It agrees with each recommendation or
+gives a different answer with one line of reason. **Its model:** another vendor's model when one
+is available, run with `team-lead/scripts/codex_review.py`; otherwise a Claude model chosen as
+`feature-planning-handsoff` §2 says. A Claude subagent is never above the session's model; another
+vendor's model may be stronger.
 
-Resolve each question: **unanimous** → take it; **split** → you decide, with one line naming the
-dissent. Decisions that shape the game's identity — the pillars, tone, art style, the interface
+Resolve each question: **it agrees** → take it; **it disagrees** → you decide, with one line naming
+the dissent; **it proposes a `(profile)` addition** → take it when the game has room for it, as
+`panel — assumed (profile)`. Decisions that shape the game's identity — the pillars, tone, art style, the interface
 choices (gdd-core's interface branch), the hook, anything left open by the intake — are recorded as
-`panel — assumed` even when unanimous. Keep a
-running list of every decision with who made it; the summary (§6) draws on it.
+`panel — assumed` even when it agrees, each **with a runner-up**: the reviewer's answer when it
+disagreed, otherwise the strongest option you rejected. Keep a running list of every decision with
+who made it; the summary (§6) draws on it. ("The panel" in markers and summaries means you and
+the reviewer together.)
 
 ## 4. Quality gates
 
@@ -102,10 +109,10 @@ fails:
 - **A scope budget.** Count systems and content against the intake's scope (a jam game has one core
   system and minutes of content; a small release, two or three systems and a few hours). Hands-off
   design over-reaches; cut to fit and move the rest to *parked*.
-- **The hook is real.** The market analyst confirms the concept isn't a reskin of its first
-  comparable.
-- **The skeptic's kill list.** The three most likely reasons this game fails, each with a mitigation
-  in the design or an `[OPEN]` question.
+- **The hook is real.** A research agent compares the concept with its first comparable and
+  confirms it isn't a reskin.
+- **The reviewer's kill list.** The three most likely reasons this game fails, each with a
+  mitigation in the design or an `[OPEN]` question.
 
 ## 5. Proof by play
 
@@ -128,8 +135,8 @@ throw the prototypes away.
 First run the builder's read (gdd-core §6) on the written GDD. The panel settles what it finds on the
 first playable's path, recorded as `panel — assumed`.
 
-1. **The GDD** (gdd-core §5), with this under the title: "**Provisional** — written by an agent
-   panel from a short intake; the decisions marked *assumed* in the appendix are the owner's to
+1. **The GDD** (gdd-core §5), with this under the title: "**Provisional** — written by agents
+   from a short intake; the decisions marked *assumed* in the appendix are the owner's to
    confirm." Add an appendix, **Assumed by the panel**, listing every `panel — assumed` decision.
 2. **A one-page summary**, `GDD-summary.md` next to the GDD, for a user who won't read the GDD:
    - the pitch;
@@ -142,7 +149,7 @@ first playable's path, recorded as `panel — assumed`.
    - **the housekeeping baseline** the scope gave (gdd-core §2), with its one-word swap: "backlog"
      or "build" after a jam or prototype, "strike <item>" after a release;
    - the playtesters' verdict in two lines (including any failed bar);
-   - the skeptic's kill list, one line each;
+   - the reviewer's kill list, one line each;
    - **in the conversation only, never in the file**: which taste-profile entry settled each
      `panel — assumed (profile)` decision, and the rulings proposed for the profile
      (`taste-profile` §6). With no profile, one line offering to set one up, under that skill's
