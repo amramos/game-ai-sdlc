@@ -17,11 +17,12 @@ never asked.
 
 **The owner's taste profile.** Before the first round, look for it (`taste-profile` §1;
 `game-sdlc:taste-profile` when installed as a plugin) and offer it if it's missing (its §5). Use it
-by its §3. You, running the rounds, and every drafter keep only its Never lines. Before each round
-goes out, a judge with the whole profile checks the recommendations (interactive), or the panel
-judges with it (hands-off). Research agents get nothing from it. A decision it settled is
-`panel — assumed (profile)`, and the GDD never quotes it. At the end, ask about rulings that look
-like taste rather than this game (its §6).
+by its §3. You, running the rounds, and every drafter keep only its Never lines. Interactive:
+before a round that holds a question the owner's by nature (the pillars, tone, art style, the hook,
+interface identity) goes out, a judge with the whole profile checks its recommendations; other
+rounds go out without it. Hands-off: the panel judges with it, every round. Research agents get
+nothing from it. A decision it settled is `panel — assumed (profile)`, and the GDD never quotes
+it. At the end, ask about rulings that look like taste rather than this game (its §6).
 
 ## 1. Rounds over the frontier
 
@@ -211,6 +212,12 @@ Use [gdd-template.md](gdd-template.md). Put it at `docs/GDD.md` if a repository 
 - Write in the language the user writes in, unless they ask otherwise.
 
 ## 6. The builder's read
+
+First run the mechanical check, `python <gdd-core>/scripts/check_gdd.py <path to the GDD>` (`py -3`
+on Windows when `python` isn't found). It exits non-zero when a section lacks the marker the
+template gives it or carries an unknown one, and lists every `[OPEN]` item with its section. Fix
+the markers before the read, so the reader spends itself on meaning; which `[OPEN]` items sit on
+the first playable's path stays your call.
 
 A GDD written section by section hides what only shows when someone builds from the whole: a gap
 that reads as settled, two sections that disagree. Before handing it over, start **one fresh agent

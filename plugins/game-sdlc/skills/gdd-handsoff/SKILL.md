@@ -44,10 +44,12 @@ Draft **three deliberately different concepts**, each built from the intake. Eac
 - three comparables, each with the one thing borrowed;
 - one line on how it reflects the games they love and avoids the one they find boring.
 
-With a taste profile, a separate drafter agent writes the three concepts from the intake, the market
-search and the profile's Never lines only (`taste-profile` §3). Then a judge with the whole profile
-reads the finished concepts and adds one line to each concept that has room for a Signature item.
-The judge doesn't rewrite them.
+With a taste profile, the three concepts are drafted from the intake, the market search and the
+profile's Never lines only (`taste-profile` §3). When that is all this session has read of the
+profile, draft them yourself. When it has read more (it just ran the taste-profile interview, say),
+spawn a separate drafter with only those inputs. Then a judge with the whole profile reads the
+finished concepts and adds one line to each concept that has room for a Signature item. The judge
+doesn't rewrite them.
 
 "Different" means a different core verb or structure (e.g. one about routing, one about
 deck-building, one about real-time juggling), not three tunings of one idea. Run a quick market search
@@ -74,8 +76,9 @@ tree independently:
 | **Market analyst** | comparables, prices, what sells in this niche; backed by research agents (gdd-core §3) | any |
 | **Skeptic** | what fails, what's too big, what's a copy | a model from another vendor when available (e.g. Codex through its Claude Code plugin); otherwise another model |
 
-Every panelist's model is set explicitly, and none is more expensive than the session's: "a
-different model" means a cheaper one here.
+Every panelist's model is set explicitly. A Claude panelist is never above the session's model: "a
+different model" means a tier below, or the same model when there's none below. The skeptic may use
+another vendor's model even when it is stronger than the session's.
 
 Resolve each question: **unanimous** → take it; **split** → you decide, with one line naming the
 dissent. Decisions that shape the game's identity — the pillars, tone, art style, the interface
@@ -110,10 +113,12 @@ Run the **`prototype`** skill in its hands-off form on the core loop: two variat
 core mechanic, played by **blind AI playtesters only** (no user play), compared on their reports.
 
 The bar: the playtesters who had the tutorial can state the goal correctly, and their median "want
-another round" is at least 6/10. The cold playtester and the ten-second check don't count toward
-it; what they misread goes in the summary. If neither variation clears it, the panel revises the core loop using the reports and
-tries again — **at most twice**. If it still fails, say so plainly in the summary and recommend the
-user try the prototype themselves before going further; don't paper over it.
+another round" is at least 6/10. The cold playtester (and its ten-second read) doesn't count
+toward it; what it misread goes in the summary. If neither variation clears it, the panel revises
+the core loop using the reports and tries again — **at most twice**. A retry re-tests only the
+revised variation; the other keeps its reports from the pass before. If it still fails, say so
+plainly in the summary and recommend the user try the prototype themselves before going further;
+don't paper over it.
 
 Write the winning variation back into the GDD as `prototype` §4 describes (never its web layout);
 throw the prototypes away.

@@ -30,8 +30,9 @@ Three panelists, each a separate agent with its own brief, so their views stay i
 | **Player advocate** | a player meeting this for the first time: clarity, fun, frustration | a different model from the designer's |
 | **Skeptic** | what fails, what's missing, what's expensive, what contradicts a past decision | a model from another vendor when available (e.g. Codex through its Claude Code plugin); otherwise a third model |
 
-Every panelist's model is set explicitly, and none is more expensive than the session's: "a
-different model" means a cheaper one here.
+Every panelist's model is set explicitly. A Claude panelist is never above the session's model: "a
+different model" means a tier below, or the same model when there's none below. The skeptic may use
+another vendor's model even when it is stronger than the session's.
 
 Each panelist gets the same round (the frontier, with your recommendation per question), the
 relevant GDD sections and docs, and answers every question with a choice and one line of reason.
