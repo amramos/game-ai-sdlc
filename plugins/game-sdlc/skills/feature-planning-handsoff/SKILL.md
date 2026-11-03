@@ -64,7 +64,8 @@ GDD sections and docs, and this brief:
     the profile; its explanation goes below the line.
   - `VERDICT: approve` when it agrees with every recommendation, `request-changes` otherwise.
 
-  A `Q<n>` line ending in `(profile)` and a label is recorded as `panel — assumed (profile)` (§3).
+  A `Q<n>` line ending in `(profile)` and a label, when you take its answer, is recorded as
+  `panel — assumed (profile)`; when you don't, it goes in the Dissent column (§3).
 
 **Read the reply only up to the `=== EXPLANATION (owner only) ===` line**, never by opening the
 whole file:
