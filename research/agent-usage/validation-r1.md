@@ -108,7 +108,8 @@ will.
 
 **Recommendation to the owner:** ship R1 with the fix, and R2 with the same brief, if one re-run is
 enough; otherwise run the fixed version on a second fixture of a different genre (§6 asks for two
-or three) on Sonnet first. The fixed R1/R2 text is on its own branch so either ruling is one step.
+or three) on Sonnet first. The fixed R1/R2 text is one commit on the branch `feat/single-round-reviewer`, so either
+ruling is one step.
 
 ## Limits
 
