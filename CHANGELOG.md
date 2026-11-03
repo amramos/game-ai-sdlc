@@ -3,6 +3,18 @@
 What changed in each version of the `game-sdlc` and `game-sdlc-godot` plugins, newest first. Both
 plugins are released together under one version.
 
+## 0.8.1 — 2026-11-03
+
+The hands-off skills load in GitHub Copilot.
+
+- **gdd-handsoff, feature-planning, feature-planning-handsoff, team-lead-handsoff:** their
+  descriptions had an unquoted `: `, which is invalid YAML. Claude Code reads it anyway; Copilot CLI
+  parses frontmatter strictly and dropped all four skills without a word. They're reworded.
+- **check_package.py:** flags an unquoted `: ` or ` #` in skill and agent frontmatter, so this can't
+  come back.
+- **README:** installing with GitHub Copilot CLI, and what it doesn't run (the project hooks, the
+  merge guard included).
+
 ## 0.8.0 — 2026-11-03
 
 Your taste, carried between games, and the housekeeping every shipped game needs, decided by scope.

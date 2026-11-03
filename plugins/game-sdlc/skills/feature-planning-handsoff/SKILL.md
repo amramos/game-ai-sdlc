@@ -1,6 +1,6 @@
 ---
 name: feature-planning-handsoff
-description: Plan a feature without the owner in the loop — a panel of agents (a designer, a player advocate and a skeptic from another model vendor) answers every round of questions, decisions that belong to the owner are marked as assumed, and the plan comes out provisionally approved, optionally going straight on to be built. Use when the owner wants a feature planned (and possibly built) while they are away: when they invoke it, ask for hands-off planning in their own words, or accept it as the next step offered in the project's hands-off working style. Never pick it on your own initiative.
+description: Plan a feature without the owner in the loop — a panel of agents (a designer, a player advocate and a skeptic from another model vendor) answers every round of questions, decisions that belong to the owner are marked as assumed, and the plan comes out provisionally approved, optionally going straight on to be built. Use when the owner wants a feature planned (and possibly built) while they are away — when they invoke it, ask for hands-off planning in their own words, or accept it as the next step offered in the project's hands-off working style. Never pick it on your own initiative.
 argument-hint: "The feature or change to plan"
 ---
 

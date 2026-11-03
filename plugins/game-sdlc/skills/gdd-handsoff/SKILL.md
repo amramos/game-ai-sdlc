@@ -1,6 +1,6 @@
 ---
 name: gdd-handsoff
-description: Design a game with almost no input — the user gives a one-line idea (or "surprise me"), a few games they love and one they find boring, and a scope; picks one of three concepts; and an agent panel writes the GDD, checked by quality gates and by blind AI playtesters on a quick prototype, ending with a one-page summary of what the panel assumed. Use when the user wants a GDD without answering a design interview: when they invoke it, or ask for one in their own words. Never pick it on your own initiative.
+description: Design a game with almost no input — the user gives a one-line idea (or "surprise me"), a few games they love and one they find boring, and a scope; picks one of three concepts; and an agent panel writes the GDD, checked by quality gates and by blind AI playtesters on a quick prototype, ending with a one-page summary of what the panel assumed. Use when the user wants a GDD without answering a design interview — when they invoke it, or ask for one in their own words. Never pick it on your own initiative.
 argument-hint: "A one-line game idea, or \"surprise me\""
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: team-lead-handsoff
-description: Run team-lead with no owner in the loop — a reviewer from another model vendor (or a fallback model) reviews each pull request, its verdict is posted on the PR, and once CI, the verdict and an exported-build smoke test all pass, the lead merges it to main itself, tagging main first so any merge can be reverted. It doesn't stop for setup questions: it adopts agent merges with an ADR if the project hasn't yet, and relies on the project's merge guard where GitHub branch protection isn't available. Use only when the owner chose a hands-off build that merges: by invoking it, by picking it in feature-planning-handsoff's up-front question, or by asking for it in their own words. Never pick it on your own initiative.
+description: Run team-lead with no owner in the loop — a reviewer from another model vendor (or a fallback model) reviews each pull request, its verdict is posted on the PR, and once CI, the verdict and an exported-build smoke test all pass, the lead merges it to main itself, tagging main first so any merge can be reverted. It doesn't stop for setup questions; it adopts agent merges with an ADR if the project hasn't yet, and relies on the project's merge guard where GitHub branch protection isn't available. Use only when the owner chose a hands-off build that merges — by invoking it, by picking it in feature-planning-handsoff's up-front question, or by asking for it in their own words. Never pick it on your own initiative.
 argument-hint: "The epic, feature or plan to build and merge"
 ---
 
