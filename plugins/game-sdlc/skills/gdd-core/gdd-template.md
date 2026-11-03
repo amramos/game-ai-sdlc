@@ -4,6 +4,10 @@
 **Amendments:** none yet. <!-- Each later reversal is dated here with its ADR, newest last:
 "<date> — **<what changed> (§<section>, ADR-XXXX)**" -->
 
+<!-- Hands-off only (gdd-handsoff §6); delete in interactive mode: -->
+**Provisional** — written by agents from a short intake; the decisions marked *assumed* in the
+appendix are the owner's to confirm.
+
 This is the **single source of truth for design and scope**; the code wins for *what exists today*.
 Changing a decision goes through `design-change`.
 
@@ -142,3 +146,10 @@ temporary rule standing in for an [OPEN] one.>
 
 - <What could make this not fun, and how a prototype or playtest would show it.>
 - <How long the content plan takes, for this team.>
+
+## Appendix: Assumed by the panel
+
+<!-- Hands-off only (gdd-handsoff §6); delete in interactive mode. Needs no marker. One line each,
+the owner reads these first: -->
+
+- <decision> (§<section>) — `panel — assumed` / `panel — assumed (profile)` — runner-up: <…>

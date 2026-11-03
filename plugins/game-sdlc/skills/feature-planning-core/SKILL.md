@@ -23,14 +23,18 @@ Two documents come out of it, for two readers:
   sketches and approval record. **This is what the owner approves.**
 - the **plan** — long, for agents: requirements, architecture, work packages, traceability.
 
-**The owner's taste profile.** Before the first round, look for it (`taste-profile` §1;
-`game-sdlc:taste-profile` when installed as a plugin) and offer it if it's missing (its §5). Use it
-by its §3. You, writing the rounds, keep only its Never lines. Interactive: before a round that
-holds a question the owner's by nature (the pillars, tone, art style, the hook, interface identity)
-goes out, a judge with the whole profile checks its recommendations; other rounds go out without
-it. Hands-off: the round reviewer judges with it, every round. The ledger and the plan never quote it. When
-the ledger is approved, ask about rulings that look like taste rather than this game. Hands-off,
-add them to the profile's pending proposals (its §6).
+**The owner's taste profile.** Before the first round, read it by `taste-profile` §1
+(`game-sdlc:taste-profile` when installed as a plugin):
+
+- **Never open `taste.md` yourself; run §1's command**, which prints only the Never lines. You write
+  the rounds, so the Never lines are all you keep.
+- If it prints `MISSING`, offer the profile (its §5).
+- Interactive: before a round that holds a question the owner's by nature (the pillars, tone, art
+  style, the hook, interface identity) goes out, a judge with the whole profile checks its
+  recommendations. Other rounds go out without it.
+- Hands-off: the round reviewer judges with it, every round.
+- The ledger and the plan never quote it (its §3).
+- Rulings that look like taste rather than this game are handled in §10's last step.
 
 ## 1. Planning state
 
@@ -52,14 +56,23 @@ Before any question about how, write a short intent record into the ledger:
 - non-goals and parked work;
 - the cost: decisions, specs, tests, content and code this invalidates.
 
-If the request reverses an accepted decision, use the `design-change` skill's stance: past documents
-are evidence about the past, not constraints on the owner.
+**Reversals.** If the request reverses an accepted decision or a parked item, use the
+`design-change` skill's stance: past documents are evidence about the past, not constraints on the
+owner.
+
+- When the owner's request itself asks for the reversal, the reversal is the owner's ruling: record
+  it as `owner`.
+- Whatever the request leaves open about it is a question for the rounds, and the owner's by nature.
 
 **Pillars first.** Read the GDD's pillars. If it has none, the first round settles them, under
-`gdd-core`'s pillar rules: three, each a name, one line and a test question; plain; for the whole
-game, with no interface rules and no plot; the owner's own words kept beside any tidied wording. The
-owner decides (in hands-off mode, the panel decides and marks them assumed). No other skill rewrites
-them.
+`gdd-core`'s pillar rules:
+
+- three, each a name, one line and a test question;
+- plain; for the whole game; no interface rules and no plot;
+- the owner's own words kept beside any tidied wording.
+
+The owner decides; in hands-off mode, the panel decides and marks them assumed. No other skill
+rewrites them.
 
 ## 3. Rounds over the frontier
 
@@ -76,41 +89,73 @@ Model the feature as a **design tree**: each decision unlocks the ones that depe
   and keep asking the rest of the frontier while it runs.
 - When a broad principle comes up ("it should feel fair"), test it on two or three concrete
   scenarios before turning it into a requirement.
-- **Test every recommendation against the pillars**, using their test questions. When two pillars
-  pull apart, that is its own question in the round, and the owner's by nature.
+- **Test every recommendation against the pillars.** Under each recommendation, write `Pillar
+  test:` and the pillar's test question it passes, so the check can be read later.
+- When two pillars pull apart, that is its own question in the round, and the owner's by nature.
 - Stop when the frontier is empty: every branch visited, nothing silently assumed.
+
+For example:
+
+```
+**Q3. Where does the next wave's preview appear?** In a side panel, or at the path's entrance?
+→ Recommended: at the path's entrance, three seconds before the wave, so planning happens on the map.
+  Pillar test: "Can the player plan before the pressure arrives?" — yes.
+```
 
 Every answer becomes a ledger row the moment it is given (§7).
 
 ## 4. The experience, before the implementation
 
 For player-facing work, write a **walkthrough** of the smallest complete loop, screen by screen or
-turn by turn: entry and first chance to act; discovering information; choosing and committing;
-anticipation and timing; success; **at least one failure**; the visible consequence; cancellation
-or an unavailable action; and the return to the ordinary loop. For a system with no screen, write
-the equivalent operational scenario with a failure and its recovery.
+turn by turn. It covers:
+
+1. entry and the first chance to act;
+2. discovering information;
+3. choosing and committing;
+4. anticipation and timing;
+5. success;
+6. **at least one failure**;
+7. the visible consequence;
+8. cancellation or an unavailable action;
+9. the return to the ordinary loop.
+
+For a system with no screen, write the equivalent operational scenario with a failure and its
+recovery.
 
 For a high-impact or novel feature, ask the owner (interactive) to describe one sequence in their own
 words and compare it with the walkthrough. A mismatch returns the plan to DISCOVERY.
 
-The walkthrough also says **where each pillar is felt**, and every mechanic gets a line on **how the
+The walkthrough also says **where each pillar is felt**. Every mechanic gets a line on **how the
 player sees it**, with a sketch: a mechanic the interface can't show clearly is simplified, not
 patched with UI.
 
-**Every new or changed screen gets a screen spec**, from the `game-ui` skill's template: the player's
-activity, each element with its pillar or the decision it supports, what's deliberately absent and
-why, the word budget, the earlier rulings it overturns, the words the player doesn't know yet, and
-its motion. The plan links each spec.
+**Screen specs.** A screen needs a spec when it is new, or when its elements, layout or motion
+change. New lines in an existing text element don't count. Write each from the `game-ui` skill's
+template:
+
+- the player's activity;
+- each element with its pillar or the decision it supports;
+- what's deliberately absent and why;
+- the word budget;
+- the earlier rulings it overturns;
+- the words the player doesn't know yet;
+- its motion.
+
+The plan links each spec. When no screen needs one, say so in one line in the ledger, with the
+reason.
 
 ### Show it, don't describe it — layout decisions only
 
-When a decision is about **how something looks or is laid out**, prose can't be judged. Before asking:
+A **layout fork** is any question whose options differ in what appears on screen, or where. Prose
+can't be judged for these, so every layout fork gets one sketch, with "no change" among the options.
+Before asking:
 
 - state the pain with a number where there is one (presses, seconds, words, items);
 - capture the real game and draw the options over the capture, in the game's palette and fonts, as
-  an HTML page or a generated image — never a described layout; include the cheapest fix as one of
-  them. For a first feature, with no game to capture yet, draw over the art direction's style frames
-  or the prototype's screens;
+  an HTML page or a generated image — never a described layout;
+  - include the cheapest fix as one of them;
+  - for a first feature, with no game to capture yet, draw over the art direction's style frames or
+    the prototype's screens;
 - judge each option at the full content (the longest text, the most items) and for the real input
   devices;
 - if an option overturns an earlier design, find out why that design was chosen first;
@@ -119,23 +164,39 @@ When a decision is about **how something looks or is laid out**, prose can't be 
   (with no way to fetch screenshots, name the game and the exact screen instead);
 - then ask which.
 
-One sketch per material fork, not per answer.
+One sketch per layout fork, not per answer. When the feature has no layout fork, say so in one line
+in the ledger.
 
-**The housekeeping baseline holds.** When the feature adds something a baseline item protects (the
-first progress that carries over, a new action, a setting, dialogue or a cutscene), that item's *done
-when* ([housekeeping-baseline.md](../gdd-core/housekeeping-baseline.md)) is a requirement, not a
-question: a new action is rebindable, new progress is saved by the game's rules, a new line can be
-skipped. Only the items the GDD's line includes apply; how they look stays the round's to decide.
+**The housekeeping baseline holds.** When the feature adds something a baseline item protects, that
+item's *done when* ([housekeeping-baseline.md](../gdd-core/housekeeping-baseline.md)) is a
+requirement, not a question. Examples:
+
+- the first progress that carries over is saved by the game's rules;
+- a new action is rebindable;
+- a new setting persists;
+- a new line of dialogue or a cutscene can be skipped.
+
+Which items apply:
+
+- **The GDD has a Housekeeping baseline line**: only the items it includes.
+- **The GDD has no such line**: every baseline item the feature touches.
+
+How they look stays the round's to decide.
 
 ## 5. How it could pass and still fail
 
 List the most plausible ways the build could meet every written requirement and still be wrong:
-familiar mechanics redone in a different interaction language; feedback that exists but isn't
-perceptible in play; tutorials covering for unclear affordances; timing that starts before the
-player can act; prose explaining what the interface should show; a screen that tells the player what
-the pillars want withheld; a pillar never felt anywhere in the walkthrough; a new mode where an
-extension of the existing loop was meant. Turn each real one into a requirement, an acceptance check
-or an early checkpoint.
+
+- familiar mechanics redone in a different interaction language;
+- feedback that exists but isn't perceptible in play;
+- tutorials covering for unclear affordances;
+- timing that starts before the player can act;
+- prose explaining what the interface should show;
+- a screen that tells the player what the pillars want withheld;
+- a pillar never felt anywhere in the walkthrough;
+- a new mode where an extension of the existing loop was meant.
+
+Turn each real one into a requirement, an acceptance check or an early checkpoint.
 
 ## 6. A playable slice first
 
@@ -144,40 +205,55 @@ that proves the core experience — real input, timing, resolution and feedback.
 checkpoint follows it, and the plan says which work pauses until then. Tests don't replace this gate.
 
 A feature that adds a mechanic also shows it **earns its place** (`gdd-core` §2): it enables a move
-or a decision the player wouldn't have without it, checked by a solver, a simulation with a bot, or
-blind playtesters, whichever is cheapest for the genre. Give the two-way reviewer (§9) that evidence,
-not just the documents.
+or a decision the player wouldn't have without it. Name the check: a solver, a simulation with a bot,
+or blind playtesters, whichever is cheapest for the genre.
+
+- Give the two-way reviewer (§9) that evidence, not just the documents.
+- Before a build, there is no evidence yet: give the reviewer the planned check and its pass
+  threshold (for example, "the bot's win rate drops by at least 10 points without the mechanic").
 
 ## 7. The decisions ledger
 
 Keep [ledger-template.md](ledger-template.md) current during the rounds, not reconstructed at the
-end. Each row: id (D1, D2…), the question, the answer, **who decided**, and the date. Who decided is
-one of:
+end. Each row: id (D1, D2…), the question, the answer, **who decided**, the dissent (hands-off), and
+the date. Who decided is one of:
 
 - `owner` — the owner chose;
 - `owner (rec)` — the owner accepted the recommendation;
 - `panel` — hands-off: the lead and the round reviewer decided something within the plan's latitude;
 - `panel — assumed` — hands-off: they answered a question that is **the owner's by nature** (taste,
   scope, reversing a past decision, the pillars, anything the project's `AGENTS.md` reserves to the
-  owner). Written `panel — assumed (profile)` when an entry in the owner's taste profile settled
-  it; the entry itself goes only in the report to the owner, never in the ledger.
+  owner);
+- `panel — assumed (profile)` — the same, when an entry in the owner's taste profile settled it. The
+  row holds the concrete game change and the entry's label at most; the entry itself goes only in
+  the report to the owner.
 
 The ledger also holds the intent record, the walkthrough, the sketches (or links to them) and, at
 the end, the approval record.
 
 ## 8. The plan
 
-Write [plan-template.md](plan-template.md) once the frontier is empty: goals and non-goals;
-requirements as observable behavior; architecture placement and a concrete existing pattern to
-follow; a **preserve / adapt / replace / remove** inventory; data and content migration; ordered work
-packages with dependencies; validation; checkpoints; parked questions. The traceability table cites
-**decision ids** from the ledger, so every requirement can be traced to the decision behind it.
+Write [plan-template.md](plan-template.md) once the frontier is empty:
+
+- goals and non-goals;
+- requirements as observable behavior;
+- architecture placement and a concrete existing pattern to follow;
+- a **preserve / adapt / replace / remove** inventory;
+- data and content migration;
+- ordered work packages with dependencies;
+- validation;
+- checkpoints;
+- parked questions.
+
+The traceability table cites **decision ids** from the ledger, so every requirement can be traced
+to the decision behind it.
 
 Acceptance criteria describe evidence a player, owner, test, log or artifact can show — never "the
 component exists" or "the signal fires". Interface criteria come from the `game-ui` checks.
 
 **Visual acceptance is never an open-ended pass bar.** A plan doesn't invent one ("every item at least
 4 out of 5"); judging how screens look follows this pattern:
+
 - one scoring round by a critic that didn't build it (a model from another vendor when available),
   then at most one confirmation pass on the items that were fixed;
 - motion and sound are judged from harness timings or short frame sequences, or left to the owner's
@@ -188,34 +264,69 @@ component exists" or "the signal fires". Interface criteria come from the `game-
 ## 9. The two-way check (big plans)
 
 A plan is **big** when it adds a new system, reverses a past decision, has more than three work
-packages, or the owner says so. Before approval, run the mechanical half first:
-`python <feature-planning-core>/scripts/check_ledger.py <ledger.md> <plan.md>` (`py -3` on Windows
-when `python` isn't found). It exits non-zero and lists the decision ids that appear on only one
-side; fix those first. Then a reviewer — a model from another vendor when one is available (for
-example Codex through its Claude Code plugin), otherwise a Claude model a tier below the session's,
-or the same model when there's none below — checks the meaning in both directions:
+packages, or the owner says so. Before approval:
 
-1. **Every decision in the ledger appears in the plan**, with the same meaning.
-2. **The plan contains no decision missing from the ledger.** A choice the plan makes that nobody
-   decided is an invented decision: it goes back into the rounds as a question.
+1. **The mechanical half.** Run `python <feature-planning-core>/scripts/check_ledger.py <ledger.md>
+   <plan.md>` (`py -3` on Windows when `python` isn't found). It exits non-zero and lists the
+   decision ids that appear on only one side. Fix those first.
+2. **The meaning, in both directions**, checked by a fresh reviewer (never the round reviewer):
+   - a model from another vendor when one is available (for example Codex through its Claude Code
+     plugin);
+   - otherwise a Claude model a tier below the session's, or the same model when there's none below.
 
-Also ask the reviewer to challenge the plan itself (what would fail first, what is missing), and
-answer each point in the ledger.
+   It checks:
+   - **every decision in the ledger appears in the plan**, with the same meaning;
+   - **the plan contains no decision missing from the ledger.**
+
+   Also ask it to challenge the plan itself (what would fail first, what is missing), and answer
+   each point in the ledger.
+3. **Invented decisions.** A choice the plan makes that nobody decided goes one of two ways, and the
+   ledger's Review section says which for each:
+   - **back to the rounds** as a question, when it changes what the player sees or does, or anything
+     §3 says to ask about;
+   - **removed from the plan** and left to the builder, when it is an implementation detail inside
+     the plan's latitude.
+4. **One confirmation pass, then stop.** After the fixes, rerun `check_ledger.py` until it exits 0,
+   and give the same reviewer one pass on the changed rows only.
+   - Points it still raises go in the Review section with your answer.
+   - Don't run a third pass.
 
 ## 10. Approval record and the hand-off
 
-End the ledger with a compact approval record: the experience authorized; what is preserved and
-what is removed; the cost; the slice checkpoint; and the open questions, which must be **empty**.
+End the ledger with a compact approval record:
+
+- the experience authorized;
+- what is preserved and what is removed;
+- the cost;
+- the slice checkpoint;
+- the open questions, which must be **empty**. In hands-off mode, assumed decisions are answered, not
+  open: they are listed under "Assumed by the panel".
 
 Then hand off, in this order:
 
-1. record the rulings where they live (the GDD for mechanics, an ADR for a new rule or reversal);
-2. turn the plan into an **epic** with the `issue-tracking` skill: one feature per work package, the
-   approval record as the epic's description, the ledger as its first comment;
-3. build it with `team-lead` (or `team-lead-handsoff`). Offer it **in the working style**: the `Working style` line in the project's `AGENTS.md`, or, before a project exists, the mode of the skill that just ran (`gdd-handsoff` means hands-off). Hands-off: offer the `-handsoff` variant first. Interactive: offer the interactive skill, and mention the hands-off variant once. Start the build
-fresh: it needs only the plan, the ledger and the GDD, not this planning conversation. Where the
-client can start a new session, hand it over with a short brief, or ask the owner for a compaction
-when they're present.
+1. **Record the rulings where they live**: the GDD for mechanics, an ADR for a new rule or reversal.
+   - Interactive: edit them now.
+   - Hands-off: don't edit the GDD or write ADRs; they wait for the owner's read. The plan carries
+     them as a work package ("Record D3 and D7 in the GDD; ADR for the reversal in D5").
+2. **Taste rulings.** Look through the rulings for any that would hold for the owner's other games
+   too (`taste-profile` §6).
+   - Interactive: ask about them now.
+   - Hands-off: append them to `proposals.md`, or say in the report that there are none.
+3. **Stop here when the owner chose to stop at the plan** (hands-off option 1): no epic, no build,
+   nothing pushed.
+4. Turn the plan into an **epic** with the `issue-tracking` skill:
+   - one feature per work package;
+   - the approval record as the epic's description;
+   - the ledger as its first comment.
+5. **Build it** with `team-lead` (or `team-lead-handsoff`). Offer it **in the working style**:
+   - the `Working style` line in the project's `AGENTS.md`, or, before a project exists, the mode of
+     the skill that just ran (`gdd-handsoff` means hands-off);
+   - hands-off: offer the `-handsoff` variant first;
+   - interactive: offer the interactive skill, and mention the hands-off variant once.
+
+   Start the build fresh: it needs only the plan, the ledger and the GDD, not this planning
+   conversation. Where the client can start a new session, hand it over with a short brief, or ask
+   the owner for a compaction when they're present.
 
 Save both documents in the repository, e.g. `docs/plans/<feature>-ledger.md` and
 `docs/plans/<feature>-plan.md`.
