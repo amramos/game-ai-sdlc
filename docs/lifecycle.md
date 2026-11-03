@@ -40,6 +40,14 @@ listed for the owner on one page.
   from an early SDLC GDD found prototype history in the mechanics and the scoring values in a file
   they didn't have. The unmarked gaps read as settled. The GDD now states rules with one sentence of
   why, and calls a missing value a mistake to report.
+- **A taste profile, kept apart from the generators.** Games built hands-on and hands-off came out
+  very differently: the hands-off ones needed more correction and felt more generic, because the
+  owner's opinions only reached a run through a short intake. `taste-profile` writes those opinions
+  down once, for every project. Its first test shaped it. Choosing between two things the owner
+  liked mostly got "both", and the real answer was in the conditions; dealbreakers said more than any
+  other round. In playback the owner kept the inferred *reasons* and cut every inferred *genre or
+  aesthetic*. So the profile holds reasons only, asks before every addition, and only the agents that
+  judge see all of it: an agent that drafts options puts whatever it's shown into every option.
 - **A builder's read before handover.** Sections written one at a time can contradict each other in
   ways no single section shows. One blind agent builds from the GDD alone and logs every decision it
   had to invent; nothing on the first playable's path may stay open.

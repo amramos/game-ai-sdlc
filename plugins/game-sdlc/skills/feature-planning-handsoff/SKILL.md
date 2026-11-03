@@ -17,7 +17,8 @@ Before the owner leaves, ask a single question — what happens after the plan:
 2. **Build it with `team-lead`** (recommended) — PRs wait for the owner to merge.
 3. **Build it with `team-lead-handsoff`** — reviewed PRs merge to `main` without the owner.
 
-Everything after that runs without asking. If the owner is already gone, take option 1.
+Everything after that runs without asking. If the owner is already gone, take option 1. If there's no
+taste profile, offer it with this question, while the owner is still there (`taste-profile` §5).
 
 ## 2. The panel
 

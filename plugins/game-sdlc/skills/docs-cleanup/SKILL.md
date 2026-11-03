@@ -55,5 +55,8 @@ the report.
 ## 5. Report
 
 A few lines: what was corrected, what was deleted, which taste rules are flagged for the owner, and
-any contradiction between code and an ADR that needs a decision. Commit the cleanup on the epic's
+any contradiction between code and an ADR that needs a decision. If the epic's owner rulings include
+any that would hold for the owner's other games too, list them as proposals for their taste profile,
+each to be answered add / this game only / no (`taste-profile` §6). Never write to the profile from
+here. Commit the cleanup on the epic's
 branch, as its own commit.

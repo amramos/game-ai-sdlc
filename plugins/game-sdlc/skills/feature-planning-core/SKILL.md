@@ -23,6 +23,12 @@ Two documents come out of it, for two readers:
   sketches and approval record. **This is what the owner approves.**
 - the **plan** — long, for agents: requirements, architecture, work packages, traceability.
 
+**The owner's taste profile.** Before the first round, look for it (`taste-profile` §1;
+`game-sdlc:taste-profile` when installed as a plugin) and offer it if it's missing (its §5). Use it
+by its §3: whoever recommends or answers a round judges with the whole profile and names the entry
+that decided; whatever drafts options gets only its Never section. When the ledger is approved (or,
+hands-off, when the owner reads it), ask about rulings that look like taste, not this game (its §6).
+
 ## 1. Planning state
 
 The plan is always in one of three states, written at its top:
@@ -150,7 +156,9 @@ one of:
 - `panel` — hands-off panel decided something within the plan's latitude;
 - `panel — assumed` — hands-off panel answered a question that is **the owner's by nature** (taste,
   scope, reversing a past decision, the pillars, anything the project's `AGENTS.md` reserves to the
-  owner).
+  owner);
+- `panel — from profile (<entry>)` — such a question, settled by an entry in the owner's taste
+  profile. Listed with the assumptions, so the owner can overturn the entry as well as the decision.
 
 The ledger also holds the intent record, the walkthrough, the sketches (or links to them) and, at
 the end, the approval record.

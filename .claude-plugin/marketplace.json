@@ -11,7 +11,7 @@
     {
       "name": "game-sdlc",
       "source": "./plugins/game-sdlc",
-      "description": "The engine-agnostic process: GDD interview, prototypes, art direction, feature planning, tracking, agent teams, playtests, releases, bug intake and keeping docs true.",
+      "description": "The engine-agnostic process: taste profile, GDD interview, prototypes, art direction, feature planning, tracking, agent teams, playtests, releases, bug intake and keeping docs true.",
       "category": "development",
       "keywords": ["gamedev", "sdlc", "planning", "agents", "playtesting"]
     },

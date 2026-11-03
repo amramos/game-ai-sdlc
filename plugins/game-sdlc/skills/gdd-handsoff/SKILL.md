@@ -28,6 +28,10 @@ Ask for all of it at once, in one message or one multiple-choice call, with defa
    decides the housekeeping baseline (gdd-core §2), so nothing more is asked about it.
 4. *(Optional)* platform. Default: desktop and web, through itch.io.
 
+This is also the moment to offer the taste profile if there isn't one (gdd-core, "The owner's taste
+profile"): the user is here now and may not be later. With a profile, still ask for the loved games:
+they say what *this* game is reaching for, which the profile doesn't.
+
 ## 2. Three concepts; the user picks
 
 Draft **three deliberately different concepts**, each built from the intake. Each has:
@@ -39,6 +43,10 @@ Draft **three deliberately different concepts**, each built from the intake. Eac
 - a camera and medium (for example first-person low-poly 3D, top-down pixel art, side-view painted);
 - three comparables, each with the one thing borrowed;
 - one line on how it reflects the games they love and avoids the one they find boring.
+
+Drafting the concepts is generating, so the drafter gets only the taste profile's Never section
+(`taste-profile` §3). The rest of the profile is for choosing between them, and a concept that
+already fits one of its Signature items says so in its last line.
 
 "Different" means a different core verb or structure (e.g. one about routing, one about
 deck-building, one about real-time juggling), not three tunings of one idea. Run a quick market search
@@ -129,6 +137,9 @@ first playable's path, recorded as `panel — assumed`.
      or "build" after a jam or prototype, "strike <item>" after a release;
    - the playtesters' verdict in two lines (including any failed bar);
    - the skeptic's kill list, one line each;
+   - **from your taste profile**: the decisions an entry settled (`panel — from profile`), and any
+     rulings proposed for it (`taste-profile` §6), or one line offering to set one up if there's
+     none;
    - one closing question: *change any of these, or continue to setup?*
 
 Show the summary in the conversation as well. Any assumption the user overturns is edited straight
