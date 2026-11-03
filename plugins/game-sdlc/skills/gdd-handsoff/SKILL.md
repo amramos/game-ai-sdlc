@@ -128,8 +128,14 @@ Then **one round reviewer**, a fresh agent per round, answers it.
 - the hook;
 - anything the intake left open.
 
-Each identity decision has a **runner-up**: the reviewer's answer when it disagreed, otherwise the
-strongest option you rejected. Every other decision is recorded as `panel`.
+Each identity decision has a **runner-up**: the answer you didn't take. When the reviewer disagreed,
+that is its answer if you kept yours, or your original recommendation if you adopted its answer.
+When it agreed, it is the strongest option you rejected.
+
+Every other decision is recorded as `panel`, with two exceptions that are always assumed:
+
+- a decision a profile entry settled is always `panel — assumed (profile)`, identity or not;
+- a decision the panel settles after the builder's read (§6) is `panel — assumed`.
 
 Keep a running list of every decision with who made it; the summary (§6) draws on it. ("The panel" in
 markers and summaries means you and the reviewer together.)
@@ -176,8 +182,8 @@ throw the prototypes away.
 ## 6. Output
 
 **First, the builder's read** (gdd-core §6) on the written GDD. The panel settles what it finds on
-the first playable's path. Record each settlement by §3's rule: `panel — assumed` when it is an
-identity decision, otherwise `panel`.
+the first playable's path. Record every such settlement as `panel — assumed` (§3's exceptions), with
+a runner-up, so it reaches the appendix.
 
 1. **The GDD** (gdd-core §5).
    - Under the title, the template's Provisional line: "**Provisional** — written by agents from a

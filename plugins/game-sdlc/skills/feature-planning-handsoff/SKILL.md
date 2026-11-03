@@ -49,7 +49,7 @@ GDD sections and docs, and this brief:
 - **The reply's format**, given in the brief word for word:
 
   ```
-  Q<n>: agree | different: <answer> — <one line of reason>
+  Q<n>: agree | different: <answer> — <one line of reason from the game, never from the profile>
   Player (Q<n>): sees <…> / misreads <…> / frustrated by <…>
   Q<n> addition: <the change in game terms> (profile) <label>
   Skeptic: <what fails, what's missing, what's expensive>
@@ -60,14 +60,21 @@ GDD sections and docs, and this brief:
 
   `VERDICT: approve` when it agrees with every recommendation, `request-changes` otherwise.
 
-**Read the reply only up to the `=== EXPLANATION (owner only) ===` line.** The rest goes into the
-report to the owner unread. A reply with no such line: read only the `Q<n>`, `Player` and `Skeptic`
-lines and the verdict, and say in the report that the format slipped.
+**Read the reply only up to the `=== EXPLANATION (owner only) ===` line**, never by opening the
+whole file:
+
+- check that the line is there: `grep -c "^=== EXPLANATION (owner only) ===" <out>`;
+- read up to it: `sed -n '1,/^=== EXPLANATION (owner only) ===/p' <out>`;
+- the rest goes into the report to the owner unread.
+
+**A reply with no such line**: don't read it. Run the reviewer once more with the same round and the
+format repeated. If the second reply has no line either, decide the round yourself, record its
+answers as `panel — assumed`, and say in the report that the round had no usable review.
 
 An example of the part you read, for a round about a cooking game's new order board:
 
 ```
-Q1: agree
+Q1: agree — the board already reads left to right, as the GDD's kitchen layout does
 Q2: different: show three orders, not five — five orders cover the stove at 1280×720
 Player (Q2): sees the timer before the dish / misreads the colour bar as heat / frustrated by an order expiring off-screen
 Q3 addition: the regular customer's order returns on the third day with a changed side dish, unannounced (profile) Signature 1
@@ -101,9 +108,14 @@ For each question:
 - **Its answer carries profile text** (a quote or a paraphrase above the line) → take only the
   decision and the label, word the row yourself, and note the slip in the report.
 - **The owner's by nature** → still answered by the steps above, but recorded as `Decided by:
-  panel — assumed`. It is listed in the ledger's "Assumed by the panel" section **with a runner-up**:
-  the reviewer's answer when it disagreed, otherwise the strongest option you rejected. The owner's
-  by nature means:
+  panel — assumed` (or `panel — assumed (profile)` when a profile entry settled it: that label
+  always wins). It is listed in the ledger's "Assumed by the panel" section **with a runner-up**,
+  the answer you didn't take:
+  - when the reviewer disagreed, its answer if you kept yours, or your original recommendation if
+    you adopted its answer;
+  - when it agreed, the strongest option you rejected.
+
+  The owner's by nature means:
   - taste;
   - scope;
   - reversing a past decision;

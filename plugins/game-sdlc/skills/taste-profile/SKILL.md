@@ -73,8 +73,9 @@ again, §5).
 
 - Never keep the profile in a plugin's folder (updates replace it) or in a project by default.
 - The one exception is `docs/taste-snapshot.md`, a committed copy for a hands-off run with no access
-  to the profile folder. When to offer it and how it's handled is in
-  [references/updates.md](references/updates.md), "A snapshot".
+  to the profile folder (a cloud session, CI). **When the owner is starting such a run**, read
+  [references/updates.md](references/updates.md), "A snapshot", before it starts: that's where the
+  offer and its rules are.
 
 ## 2. What it holds
 

@@ -268,8 +268,8 @@ Then fix the GDD:
 - resolve each contradiction;
 - take each missing decision to a round (§1), or mark it `[OPEN]`;
 - a decision on the first playable's path can't stay `[OPEN]`. The user settles it in interactive
-  mode; in hands-off mode the panel does, recorded by `gdd-handsoff` §3's rule (`panel — assumed`
-  for identity decisions, otherwise `panel`).
+  mode; in hands-off mode the panel does, always recorded as `panel — assumed` (`panel — assumed
+  (profile)` when a profile entry settled it).
 
 **When to stop.**
 

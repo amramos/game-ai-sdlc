@@ -1,8 +1,9 @@
 # Keeping the profile current
 
 Read this at an endpoint where the owner is present and there are candidates to ask about, or
-`proposals.md` has items, or the owner asked for a review. A hands-off run with the owner away needs
-only `taste-profile` §6.
+`proposals.md` has items, or the owner asked for a review. Also read its last section when the owner
+is starting a hands-off run with no access to the profile folder. A hands-off run with the owner
+away needs only `taste-profile` §6.
 
 ## The one rule
 

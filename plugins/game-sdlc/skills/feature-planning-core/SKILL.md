@@ -34,7 +34,7 @@ Two documents come out of it, for two readers:
   recommendations. Other rounds go out without it.
 - Hands-off: the round reviewer judges with it, every round.
 - The ledger and the plan never quote it (its §3).
-- Rulings that look like taste rather than this game are handled in §10's last step.
+- Rulings that look like taste rather than this game are handled in §10, step 2.
 
 ## 1. Planning state
 
@@ -129,8 +129,9 @@ The walkthrough also says **where each pillar is felt**. Every mechanic gets a l
 player sees it**, with a sketch: a mechanic the interface can't show clearly is simplified, not
 patched with UI.
 
-**Screen specs.** A screen needs a spec when it is new, or when its elements, layout or motion
-change. New lines in an existing text element don't count. Write each from the `game-ui` skill's
+**Screen specs.** A screen needs a spec when it is new, or when its elements, layout, look (colour,
+type, size) or motion change. New lines in an existing text element, with nothing else changed,
+don't count. Write each from the `game-ui` skill's
 template:
 
 - the player's activity;
@@ -146,7 +147,8 @@ reason.
 
 ### Show it, don't describe it — layout decisions only
 
-A **layout fork** is any question whose options differ in what appears on screen, or where. Prose
+A **layout fork** is any question whose options differ in what appears on screen, where, or how it
+looks (colour, type, size, motion). Prose
 can't be judged for these, so every layout fork gets one sketch, with "no change" among the options.
 Before asking:
 
@@ -302,12 +304,16 @@ End the ledger with a compact approval record:
 - the open questions, which must be **empty**. In hands-off mode, assumed decisions are answered, not
   open: they are listed under "Assumed by the panel".
 
-Then hand off, in this order:
+Save both documents in the repository, e.g. `docs/plans/<feature>-ledger.md` and
+`docs/plans/<feature>-plan.md`. Then hand off, in this order:
 
 1. **Record the rulings where they live**: the GDD for mechanics, an ADR for a new rule or reversal.
-   - Interactive: edit them now.
-   - Hands-off: don't edit the GDD or write ADRs; they wait for the owner's read. The plan carries
-     them as a work package ("Record D3 and D7 in the GDD; ADR for the reversal in D5").
+   - Interactive, or hands-off going on to a build: edit them now, before the build. In hands-off
+     mode, mark the GDD edits and ADRs from assumed decisions as assumed, so the owner's read finds
+     them.
+   - Hands-off stopping at the plan: don't edit the GDD or write ADRs; they wait for the owner's
+     read. The plan carries them as a work package ("Record D3 and D7 in the GDD; ADR for the
+     reversal in D5").
 2. **Taste rulings.** Look through the rulings for any that would hold for the owner's other games
    too (`taste-profile` §6).
    - Interactive: ask about them now.
@@ -327,6 +333,3 @@ Then hand off, in this order:
    Start the build fresh: it needs only the plan, the ledger and the GDD, not this planning
    conversation. Where the client can start a new session, hand it over with a short brief, or ask
    the owner for a compaction when they're present.
-
-Save both documents in the repository, e.g. `docs/plans/<feature>-ledger.md` and
-`docs/plans/<feature>-plan.md`.
