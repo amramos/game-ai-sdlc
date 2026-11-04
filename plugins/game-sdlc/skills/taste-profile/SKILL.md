@@ -110,7 +110,7 @@ table gives it:
 |---|---|
 | **The session running the skill** (it writes rounds, options and recommendations, and briefs the drafters) | **Never** only, through §1's command |
 | **Drafters**: whoever writes concepts, art directions or candidate answers | **Never** only, as text in their prompt, never the file's path |
-| **Image and asset generators** (ComfyUI, Codex image generation, Meshy) | nothing; the frames are judged afterwards |
+| **Image and asset generators** (ComfyUI, an agent's built-in image tool, image APIs, Meshy) | nothing; the frames are judged afterwards |
 | **Judges**: the hands-off round reviewer, the hands-off art critic, the interactive recommendation check | the **whole file**, read in their own context |
 | **Any agent not listed** (research, builders, reviewers, playtesters, `comfyui-art`'s seed critic) | nothing |
 

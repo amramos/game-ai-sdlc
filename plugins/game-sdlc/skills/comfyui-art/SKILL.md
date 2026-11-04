@@ -1,6 +1,6 @@
 ---
 name: comfyui-art
-description: Generate game art locally with ComfyUI and Z-Image Turbo — concept paintings, character portraits, pixel-art sprites and sprite sheets, props, placeholder art — then clean it onto a project's palette and canvas. Use this whenever the user asks to create, draw, generate, iterate on or explore images or art for a game or project ("make a portrait for the old sailor", "we need a sprite for the cook", "try some style variations", "generate placeholder art for the event"), even if they don't mention ComfyUI. Handles starting ComfyUI, the concept → pixel-art → palette pipeline, and both guided iteration (the user picks each round) and unattended iteration (a critic agent picks).
+description: Generate game art locally with ComfyUI and Z-Image Turbo — concept paintings, character portraits, pixel-art sprites and sprite sheets, props, placeholder art — then clean it onto a project's palette and canvas. Use when ComfyUI is the generator — the project's style guide (docs/art/art-direction.md) names it, art-direction picked it, or the user asks for ComfyUI — and they want images or art created, drawn, iterated on or explored ("make a portrait for the old sailor", "we need a sprite for the cook", "try some style variations"). With no generator chosen yet, art-direction §2 first checks what is already set up. Handles starting ComfyUI, the concept → pixel-art → palette pipeline, and both guided iteration (the user picks each round) and unattended iteration (a critic agent picks); its palette cleanup also works on images from other generators.
 ---
 
 # ComfyUI art
@@ -20,6 +20,11 @@ replace it.
 
 ## 0. One-time setup (the user's machine)
 
+ComfyUI is a free app that runs open image models on the user's own computer: images stay private
+and cost nothing per picture, but it needs a capable graphics card and roughly 15 GB of downloads.
+Say that in those words before asking anyone to install it, and only after `art-direction` §2 found
+nothing already set up that fits.
+
 - ComfyUI **portable** installed; `COMFYUI_ROOT` set to its folder (the one holding
   `python_embeded/` and `ComfyUI/`). `COMFYUI_URL` defaults to `http://127.0.0.1:8188`.
 - Z-Image Turbo model files in ComfyUI's model folders: `z_image_turbo_int8_convrot.safetensors`
@@ -27,9 +32,10 @@ replace it.
   (`vae`). Other files work through `comfy.py`'s `--unet/--clip/--vae` flags.
 - A GPU with about 12 GB of video memory for those files; less works with smaller models, slower.
 
-If any of this is missing, list what's missing with its source and ask the user before
-downloading anything. If the user doesn't want a local install, fall back to the next generator
-the `art-direction` skill names (Codex image generation, then Meshy).
+If any of this is missing, list what's missing with its source and size, and ask the user before
+downloading anything (`art-direction`'s `scripts/image_sources.py` lists the missing model files).
+If the user doesn't want a local install, go back to the sources `art-direction` §2 found. In
+hands-off mode never install: use another source that is set up, or stop and say what's missing.
 
 ## 1. Decide the mode first
 
