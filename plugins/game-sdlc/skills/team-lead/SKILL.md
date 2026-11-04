@@ -70,7 +70,7 @@ tier (Haiku-class).
 | Adversarial review | the Codex runner (§4.1, §4.4); the `adversarial-reviewer` agent as fallback | A model from **another vendor** when the environment has one; otherwise a different model from the developers' | Strong |
 | Visual critic | a separate agent | Another vendor's model when available; otherwise a different model | Mid-size |
 | Art direction | another vendor's model, or a different model; only for asset kinds the style guide doesn't cover (§4.2) | At most two rounds; one preferred | Mid-size |
-| 2D art | `comfyui-art` (local) → Codex image generation → Meshy | In that order of availability | — |
+| 2D art | the generator the style guide names; with no style guide, `art-direction` §2's check of what is set up | Never install one mid-build; paid calls confirmed | — |
 | 3D art | Meshy, low poly, rigged if a character | Credit ledger in the scratchpad; confirm every paid call | — |
 
 **Say in the report which model filled each role**, which reviewer actually ran (and why, if it was

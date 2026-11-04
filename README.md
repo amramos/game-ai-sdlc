@@ -179,8 +179,9 @@ and you pick one. Directions differ in more than colour: if the GDD's style was 
 `gdd-handsoff` does), they're in different media — say pixel art, vector and low-poly 3D, with one
 keeping the GDD's style. If you chose the style yourself, they stay in it and differ in rendering. If
 a different medium wins, the GDD and the project's display settings are updated to match. The frames, palette, sizes and the exact prompt are saved in `docs/art/`, and every
-later asset is generated against them. It uses local ComfyUI (`comfyui-art`) first, then Codex image
-generation, then Meshy.
+later asset is generated against them. It first checks what can already make images: the agent's own
+image tool (Codex has one), connected image tools, an installed ComfyUI. It offers to set one up only
+when nothing fits, explaining what each option needs.
 
 In a hands-off project, a critic agent picks the direction instead. The pick is marked *assumed*, and
 you're shown the chosen direction next to the runners-up: reply with another direction's name to swap.
@@ -298,7 +299,7 @@ Agents: `team-developer` and `adversarial-reviewer` (in `game-sdlc`); `setup-god
 | [Codex CLI](https://github.com/openai/codex) and its Claude Code plugin | adversarial review, the round reviewer in hands-off planning, image generation | a different Claude model reviews instead, and says so |
 | [GitHub CLI](https://cli.github.com/) | PRs, releases, bug intake | the skills tell you the manual steps |
 | Linear connector | issue-tracking, bug intake | GitHub Issues, or the plan in the repo |
-| [ComfyUI](https://github.com/comfyanonymous/ComfyUI) + Z-Image Turbo | comfyui-art, art-direction | Codex images, then Meshy |
+| [ComfyUI](https://github.com/comfyanonymous/ComfyUI) + Z-Image Turbo: a free app that runs image models on your own GPU | comfyui-art, art-direction | whatever else is set up: the agent's own image tool, the Codex CLI, an image API through MCP, Meshy |
 | [Meshy](https://www.meshy.ai/) (paid) | 3D art | 2D only; every paid call is confirmed first |
 | [pixelforge](https://github.com/amramos/pixelforge) | palette and canvas lint for pixel art | no automatic palette check |
 | [butler](https://itch.io/docs/butler/) | release (in CI, installed automatically) | — |

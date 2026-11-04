@@ -45,17 +45,51 @@ chose it, as in the interactive `gdd`. That decides how far apart the directions
 ## 2. Pick the generator
 
 A style frame is a still image whatever the medium — a low-poly 3D direction needs a rendered-looking
-image, not real models, at this stage. Choose per direction, using the first one available that
-renders that medium well, and say which:
+image, not real models, at this stage.
 
-1. **Local ComfyUI** through the `comfyui-art` skill — free and private; strong at pixel art and
-   painted concepts, weaker at rendered-looking 3D.
-2. **Codex image generation**, when the Codex CLI is installed — good for painted concepts and for
-   rendered-looking 3D frames (low poly, toon-shaded). Run it in a scratch folder; it writes images on
-   request.
-3. **Meshy** (paid) makes real 3D models: use it after a 3D direction is chosen (§4 and later
-   assets), or for frames only when nothing else can render the medium. Show the cost of every call
-   and get a credit budget before the first one; keep a ledger of credits spent.
+**Use what's already set up before suggesting any install.** Take stock first:
+
+1. **Your own tools.** Read your tool list for anything that generates or edits images: a built-in
+   image tool (some agents, Codex among them, have one) or an MCP server's image tool (an image
+   model's API, or an image tool inside another service). Note each one's name and whether it is
+   paid per call; its description or its server's instructions usually say.
+2. **The machine.** Run `python <this skill>/scripts/image_sources.py`. Without installing or
+   starting anything, it reports ComfyUI (running, installed but stopped, or absent, with any
+   missing model files), agent CLIs on PATH that make images, and which image-service API keys are
+   set, by name only.
+3. **Say what you found** in one short block: each source, what it's good at, what it costs. In
+   hands-off mode it goes in the run's report.
+
+Then choose per direction, using the first available source that renders that medium well, and say
+which:
+
+- **Already set up and free, or already paid for:** your own image tool; local ComfyUI through the
+  `comfyui-art` skill when it is installed (strong at pixel art and painted concepts, weaker at
+  rendered-looking 3D); the Codex CLI's image tool when you are not Codex yourself (good for painted
+  concepts and rendered-looking 3D frames such as low poly or toon-shaded; run it in a scratch
+  folder). For a source not described here, judge it by one test frame of the direction.
+- **Paid per call** (an image API through MCP, Meshy's image tools): show the cost of every call and
+  get a budget before the first one; keep a ledger of what was spent. **Meshy**'s real 3D models come
+  after a 3D direction is chosen (§4 and later assets).
+- **An API key with no tool to use it:** mention it as an option that needs a small setup (an MCP
+  server for that service). Never wire it up unasked.
+
+**If nothing set up renders the medium well, offer setups; don't install.** Explain each one in
+plain words, with what it costs, and ask which the user wants, if any:
+
+- **ComfyUI**: a free app that runs open image models on your own computer, so images are private
+  and cost nothing per picture. It needs a graphics card with about 12 GB of video memory (less
+  works, slower) and roughly 15 GB of downloads for the app and models. `comfyui-art` §0 has the
+  steps.
+- **An agent with built-in image generation**, such as the Codex CLI on a plan that includes it.
+- **An image service connected to this agent** through an MCP server: no local hardware, paid per
+  image.
+
+In hands-off mode never install or connect anything: use what's set up.
+
+**Record the choice.** The generator and model go into the style guide's prompt core (§5), and every
+later asset uses the same one: a different generator draws a different look. Changing generator
+later is a style-guide change, so make the frames again with the new one and compare them first.
 
 **The generator never chooses the medium.** If nothing available renders a direction well, show it
 anyway, with the closest frame you can make and screenshots of the reference games it follows, and
