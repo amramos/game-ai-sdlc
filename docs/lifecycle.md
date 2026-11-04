@@ -135,6 +135,11 @@ Two refinements came later:
   skip. Where the result can be checked in a file, a script checks it now and the skill says only
   "run it and fix what it lists". What happens before any file exists, like the order of the
   concept steps, stays in the text.
+- **Each moment, not one screen.** The sketches of one game's main view started out strong and then
+  grew, round by round, into one screen that tried to show every mechanic at once. The rules already
+  said to build each screen from the moment, but nothing asked which moments a view serves or when
+  each element appears. Screen specs now list the moments, and every element says which ones it's
+  shown in.
 
 ## 6. Track — `issue-tracking`
 

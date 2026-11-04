@@ -3,6 +3,31 @@
 What changed in each version of the `game-sdlc` and `game-sdlc-godot` plugins, newest first. Both
 plugins are released together under one version.
 
+## 0.12.0 — 2026-11-04
+
+Design each moment of the loop, not one screen for all of them. In a planning run, the sketches of a
+game's main view started out strong, then drifted round by round into one composite screen. Every
+mechanic got its own always-visible panel, scores were shown as spelled-out formulas, nothing
+committed a selection, and two colour codes shared one set of colours. `game-ui` already said to
+build each screen from the moment, but nothing made the agent list a view's moments or say when each
+element is shown.
+
+- **game-ui:** a view that serves several moments of the loop is designed per moment: each element
+  is shown only in the moments that need it, and the sketch shows each moment that looks different.
+  Things the player can act on look actionable, and a selection shows the control that commits it.
+  Results are shown, and the working plays out as motion; a formula is spelled out only when the
+  player plans with its parts. A number sits on what it measures, and recurring kinds get an icon
+  before a word. A new check catches two colour codes on one screen that reuse colours for
+  different meanings.
+- **Screen-spec template:** the activity's moments, a **Shown in** column for each element ("all"
+  only when every moment needs it; what the player looks up is opened on request), and an
+  **Actions** row.
+- **feature-planning-core:** the spec list follows the template, and a sketch says where it
+  simplifies the approved art.
+
+**Existing projects:** nothing to change. Screen specs written before this keep working; add the new
+fields when a screen is next changed.
+
 ## 0.11.0 — 2026-11-04
 
 Use the image generators that are already there. Art direction used to pick generators in a fixed
