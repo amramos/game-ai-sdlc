@@ -30,9 +30,10 @@ each contributes), palette mood and tone. If the references are thin, run one ro
 In hands-off mode the critic answers that round from the GDD instead, and each answer is recorded as
 assumed.
 
-Look for the owner's **taste profile** too (`taste-profile` §1; `game-sdlc:taste-profile` when
-installed as a plugin), and offer it if it's missing and the owner is there (its §5). Use it by its
-§3. You, choosing the directions, keep only its Never lines. Image generators get nothing from it,
+Look for the owner's **taste profile** too, by `taste-profile` §1 (`game-sdlc:taste-profile` when
+installed as a plugin): **never open `taste.md` yourself; run §1's command**, which prints only the
+Never lines. Offer the profile if it's missing and the owner is there (its §5). Use it by its §3.
+You, choosing the directions, keep only its Never lines. Image generators get nothing from it,
 and neither do saved prompts or the style guide. Only the judge reads it whole: the critic in
 hands-off mode, or a recommendation check before the owner picks. The profile never picks a medium
 or an art style: those come from the GDD.

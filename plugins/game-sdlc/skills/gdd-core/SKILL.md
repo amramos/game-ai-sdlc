@@ -16,14 +16,22 @@ Turns an idea into a GDD that agents can build from. The method is the same in b
 Either way, decisions are made by whoever answers the round. Facts are looked up by research agents,
 never asked.
 
-**The owner's taste profile.** Before the first round, look for it (`taste-profile` §1;
-`game-sdlc:taste-profile` when installed as a plugin) and offer it if it's missing (its §5). Use it
-by its §3. You, running the rounds, and every drafter keep only its Never lines. Interactive:
-before a round that holds a question the owner's by nature (the pillars, tone, art style, the hook,
-interface identity) goes out, a judge with the whole profile checks its recommendations; other
-rounds go out without it. Hands-off: the round reviewer judges with it, every round. Research agents get
-nothing from it. A decision it settled is `panel — assumed (profile)`, and the GDD never quotes
-it. At the end, ask about rulings that look like taste rather than this game (its §6).
+**The owner's taste profile.** Before the first round, read it by `taste-profile` §1
+(`game-sdlc:taste-profile` when installed as a plugin):
+
+- **Never open `taste.md` yourself; run §1's command**, which prints only the Never lines. Do this
+  before reading anything else about the profile.
+- If it prints `MISSING`, offer the profile (its §5).
+- You, running the rounds, and every drafter keep only the Never lines.
+- Interactive: before a round that holds a question the owner's by nature (the pillars, tone, art
+  style, the hook, interface identity) goes out, a judge with the whole profile checks its
+  recommendations. Other rounds go out without it.
+- Hands-off: the round reviewer judges with it, every round.
+- Research agents get nothing from it.
+- Hands-off: a decision it settled is `panel — assumed (profile)`. Interactive: the owner's answer
+  stays `owner` or `owner (rec)`, even when the check changed the recommendation.
+- The GDD never quotes it (its §3).
+- At the end, ask about rulings that look like taste rather than this game (its §6).
 
 ## 1. Rounds over the frontier
 
@@ -72,20 +80,25 @@ Roughly in this order, though the frontier decides. Skip what doesn't apply.
    here, never in the pillars.
 10. **Art and audio direction** — style, camera and resolution, 2–5 reference games or images with
     what each contributes, palette mood, audio mood and what music and sound do as play changes.
-    This feeds `art-direction` later. **Camera and
-    medium are their own question,** asked early, since everything downstream inherits them: offer
-    the options the user's references suggest (count their cameras and media; if most share one,
-    start there), and when scope argues against an option, state its actual cost (the assets, tools
-    and time a first-person 3D version adds, say), not a rule of thumb.
-11. **Interface** — how information reaches the player: density (minimal unless the genre or a pillar
-    asks for more); where words live (in the world or on a HUD); how much reading the game asks,
-    which pillar wants it and in whose voice; what the player is never told, including how summaries
-    treat their choices; the loudest moment and the space kept for it; the feedback for each key
-    moment (what the player sees and hears, how big and how long); accessibility options, and a
-    second cue for anything colour carries alone; the smallest readable size; how the comparables
-    present information. This decides what reaches the player and why; how it
-    looks is `art-direction`'s job. The `game-ui` skill holds the defaults these choices confirm or
-    override.
+    This feeds `art-direction` later.
+    - **Camera and medium are their own question,** asked early, since everything downstream
+      inherits them.
+    - Offer the options the user's references suggest: count their cameras and their media
+      separately, and if most share one, start there.
+    - When scope argues against an option, state its actual cost (the assets, tools and time a
+      first-person 3D version adds, say), not a rule of thumb.
+11. **Interface** — how information reaches the player. This decides what reaches the player and
+    why; how it looks is `art-direction`'s job. The `game-ui` skill holds the defaults these choices
+    confirm or override. Cover:
+    - density: minimal unless the genre or a pillar asks for more;
+    - where words live: in the world or on a HUD;
+    - how much reading the game asks, which pillar wants it and in whose voice;
+    - what the player is never told, including how summaries treat their choices;
+    - the loudest moment and the space kept for it;
+    - the feedback for each key moment: what the player sees and hears, how big and how long;
+    - accessibility options, and a second cue for anything colour carries alone;
+    - the smallest readable size;
+    - how the comparables present information.
 12. **Platform and business** — engine, platforms, input devices, session length, price model and
     store (itch.io, Steam…).
 13. **Scope boundary** — the first playable: the least content that lets someone judge the core loop,
@@ -131,10 +144,14 @@ settings screen?". The scope decides instead, by the table in
 - **small release**: offer it, recommended build;
 - **commercial**: build it, showing the list so the owner can strike items.
 
-In hands-off mode the panel applies the scope's default without asking and records it as
-`panel — assumed`. Either way, mark each item whose condition the game doesn't meet as n/a (no
-dialogue, nothing carried over), and write the result as the GDD's **Housekeeping baseline** line
-(§13). How each item looks and is reached stays open for `feature-planning`.
+In hands-off mode, apply the scope's default without putting it in any round, the round reviewer's
+included, and record it as `panel — assumed`.
+
+Either way:
+
+- mark each item whose condition the game doesn't meet as n/a (no dialogue, nothing carried over);
+- write the result as the GDD's **Housekeeping baseline** line (§13);
+- leave how each item looks and is reached open for `feature-planning`.
 
 ### Each mechanic earns its place
 
@@ -154,12 +171,18 @@ game to make it easier to check**: a grid is easy to search, but that's no reaso
 the game can't be searched, use the bot or the playtesters.
 
 The GDD keeps each mechanic's check as a test still to run, one line beside the mechanic. Results of
-checks already run go in the prototype report, not the GDD.
+checks already run stay out of the GDD:
+
+- in the prototype report, when there is one;
+- otherwise in a short `checks.md` beside the GDD (a solver run before any prototype, say).
 
 ## 3. Research agents
 
 Dispatch research in the background as soon as a branch needs facts, and keep working the rest of the
 frontier while it runs. Only questions downstream of a running search wait for it.
+
+- In hands-off mode, start the after-pitch and after-pillars searches before round 1 goes to the
+  reviewer.
 
 Typical moments:
 - after **genre and comparables**: how each comparable handles its core loop, what players praise
@@ -171,9 +194,14 @@ Typical moments:
   the interface branch;
 - on a **mechanic**: how two or three shipped games solved the same design problem.
 
-Brief each agent with the exact question, sources to prefer (store pages, reviews, postmortems, GDC
-talks, wikis), and the return format: at most 300 words, each finding with a link and phrased as
-"borrow …" or "avoid …". Without web access, say so once and mark findings from memory as unverified.
+Brief each agent with:
+
+- the exact question;
+- sources to prefer: store pages, reviews, postmortems, GDC talks, wikis;
+- the return format: at most 300 words, each finding with a link and phrased as "borrow …" or
+  "avoid …".
+
+Without web access, say so once and mark findings from memory as unverified.
 
 Bring findings into the next round as context or as the reason for a recommendation, never as a wall
 of text.
@@ -208,17 +236,22 @@ Use [gdd-template.md](gdd-template.md). Put it at `docs/GDD.md` if a repository 
 - The **worked example** plays one short stretch of the core loop concretely: what the player sees
   and knows, a choice, how the game resolves it (every value, when the rules use numbers), and the
   consequence. It names any `[OPEN]` rule it leaves out. Writing it is a check: a gap it runs into
-  becomes a value or an `[OPEN]` item.
+  becomes a value or an `[OPEN]` item. For example, in a sliding-block puzzle: "The player has 3
+  moves left and the red block is two cells from the exit. Pushing the grey box left frees the lane
+  (move 1); the red block slides until it hits the wall, 2 cells (move 2), and exits. 1 move is
+  left over, which raises the level's grade from B to A (§3.2: A at 1 or more spare moves)."
 - No file paths, class names or code. The GDD says what the game is, not how it is built.
 - Write in the language the user writes in, unless they ask otherwise.
 
 ## 6. The builder's read
 
-First run the mechanical check, `python <gdd-core>/scripts/check_gdd.py <path to the GDD>` (`py -3`
-on Windows when `python` isn't found). It exits non-zero when a section lacks the marker the
-template gives it or carries an unknown one, and lists every `[OPEN]` item with its section. Fix
-the markers before the read, so the reader spends itself on meaning; which `[OPEN]` items sit on
-the first playable's path stays your call.
+**First, the mechanical check.** Run `python <gdd-core>/scripts/check_gdd.py <path to the GDD>`
+(`py -3` on Windows when `python` isn't found).
+
+- It exits non-zero when a section lacks the marker the template gives it or carries an unknown one.
+- It lists every `[OPEN]` item with its section.
+- Fix the markers until it exits 0, before the read, so the reader spends itself on meaning.
+- Which `[OPEN]` items sit on the first playable's path stays your call.
 
 A GDD written section by section hides what only shows when someone builds from the whole: a gap
 that reads as settled, two sections that disagree. Before handing it over, start **one fresh agent
@@ -231,11 +264,23 @@ files) and ask it to write, as a technical lead would before building:
 - a log of every decision it had to invent, each marked blocker, design-changing or minor, with its
   section, and every contradiction it found.
 
-Then fix the GDD: rewrite what the agent misread, resolve each contradiction, and take each missing
-decision to a round (§1) or mark it `[OPEN]`. A decision on the first playable's path can't stay
-`[OPEN]`: the user settles it in interactive mode, and the panel in hands-off mode, recorded as
-`panel — assumed`. When the fixes were large, run a second read. Done when a read logs no blocker on
-the first playable's path and recomputes the worked example exactly.
+Then fix the GDD:
+
+- rewrite what the agent misread;
+- resolve each contradiction;
+- take each missing decision to a round (§1), or mark it `[OPEN]`;
+- a decision on the first playable's path can't stay `[OPEN]`. The user settles it in interactive
+  mode; in hands-off mode the panel does, always recorded as `panel — assumed` (`panel — assumed
+  (profile)` when a profile entry settled it).
+
+**When to stop.**
+
+- **Done** when a read logs no blocker on the first playable's path and recomputes the worked
+  example exactly.
+- When the fixes were large (a rule rewritten, a section added), run another read, each time with a
+  fresh agent.
+- **Three reads at most.** If the third still logs a blocker, settle it as above without another
+  read, and say so in the handover (in hands-off mode, the summary).
 
 ## 7. Next steps to offer
 

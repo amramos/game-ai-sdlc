@@ -18,7 +18,7 @@ meet is marked *n/a* with the GDD line that shows it; that's a fact, not a strik
 | # | Item | Applies when | Done when |
 |---|---|---|---|
 | H1 | **Save and continue** | anything carries over between sessions (GDD §4) | progress is saved by the game's own rules, and the next launch offers to continue where those rules left the player |
-| H2 | **No silent progress loss** | H1 applies, or a session lasts long enough to lose something | quitting from the menu, closing the window and the platform's quit all either save or warn before discarding; a failed save is reported, never swallowed |
+| H2 | **No silent progress loss** | H1 applies, or quitting mid-session would discard anything the player made or earned, session-only progress included | quitting from the menu, closing the window and the platform's quit all either save or warn before discarding; a failed save is reported, never swallowed |
 | H3 | **Main menu** | always | the first screen after launch starts or continues the game, reaches settings, and quits on platforms that have a quit |
 | H4 | **Settings that persist** | always | separate volumes for music and effects (and voice, if any), window or fullscreen and scale where the platform offers a choice, text size, subtitles if any line is spoken, language if the game ships more than one; every change survives a restart |
 | H5 | **Control rebinding** | the game takes keyboard or gamepad input | every action on every supported device can be rebound, a conflict is shown, defaults can be restored, and every on-screen prompt shows the current binding |
