@@ -91,6 +91,11 @@ assumed the medium from the GDD's main reference, and art direction only varied 
 directions must differ in medium when the style was assumed, so the first time you see the game's
 look, you also see what else it could have been.
 
+Art direction used to reach for a local ComfyUI install first, even when the agent running it could
+generate images itself or the user had an image service connected, and it asked for the install
+without saying what ComfyUI was. Now it lists what can already make images, the agent's own tools
+and what's on the machine, before suggesting anything, and explains each install it offers.
+
 ## 5. Plan — `feature-planning`
 
 **Produces:** a decisions ledger (yours) and a plan (the agents').

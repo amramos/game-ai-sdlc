@@ -3,6 +3,30 @@
 What changed in each version of the `game-sdlc` and `game-sdlc-godot` plugins, newest first. Both
 plugins are released together under one version.
 
+## 0.11.0 — 2026-11-04
+
+Use the image generators that are already there. Art direction used to pick generators in a fixed
+order, local ComfyUI first, without checking what the agent running it could already do, and offered
+a ComfyUI install without saying what ComfyUI is. An agent with a built-in image tool, or a user with
+an image service already connected, was pointed at a local install anyway.
+
+- **art-direction:** before choosing a generator, the agent reads its own tool list for image tools
+  (built-in, like Codex's, or from an MCP server) and runs the new `scripts/image_sources.py`, which
+  reports ComfyUI's state and missing model files, image CLIs on PATH and image-service API keys by
+  name, without installing or starting anything. It says what it found, uses what's set up (free or
+  already-paid sources first, paid ones with a budget), and offers installs only when nothing fits,
+  each explained in plain words with what it costs. Hands-off runs never install. The chosen
+  generator goes into the style guide, and later assets keep it. Inside Codex, the skill no longer
+  tells Codex to call the Codex CLI.
+- **comfyui-art:** triggers when ComfyUI is the chosen generator, not on every art request. Its setup
+  section says what ComfyUI is before asking anyone to install it; when the user declines, it goes
+  back to the sources art direction found.
+- **team-lead:** 2D art uses the style guide's generator and never installs one mid-build.
+- **Style-guide template, taste-profile, README:** no longer name a fixed list of generators.
+
+**Existing projects:** nothing to change. A style guide written before this keeps its generator.
+Codex users re-run `python scripts/install_codex.py` to get the new script.
+
 ## 0.10.0 — 2026-11-04
 
 Hands-off rules that hold on smaller models. An adherence test ran both hands-off planning skills
