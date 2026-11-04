@@ -123,6 +123,13 @@ Two refinements came later:
   runner-up. The first version lost a taste-profile opening on the mid-size model, because the
   reviewer put it in a note the lead never read; it now goes among the reviewer's answers. The test
   is in `research/agent-usage/`.
+- **Clear text for unclear rules, scripts for skipped ones.** An adherence test of the hands-off
+  skills on three model tiers sorted every miss into one of two kinds. Unclear or silent rules
+  tripped every model, and rewriting them fixed that. Clear rules buried in long sentences were
+  skipped by the smaller models, and more prose only made the skills longer for the models that
+  skip. Where the result can be checked in a file, a script checks it now and the skill says only
+  "run it and fix what it lists". What happens before any file exists, like the order of the
+  concept steps, stays in the text.
 
 ## 6. Track — `issue-tracking`
 
