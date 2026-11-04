@@ -58,10 +58,12 @@ precision it needs.
   patterns consistent across screens; let layout differ.
 - When the mode changes, the previous mode's live data and controls go; a dimmed, inert backdrop may
   stay for a sense of place. What matters only sometimes appears only then.
+- A view that serves several moments of the loop is designed per moment: each element is shown only
+  in the moments that need it, and the sketch shows each moment that looks different.
 - Exact numbers where the player compares or calculates; meters or words where they should feel.
 
-*Check:* the spec names the activity; each number names the comparison it serves; no live data or
-control survives from a previous mode.
+*Check:* the spec names the activity and its moments; each element names the moments it's shown in;
+each number names the comparison it serves; no live data or control survives from a previous mode.
 
 ### 3. Designed with the mechanic
 
@@ -97,11 +99,14 @@ never the highest-contrast thing on screen.
 - A label sits beside its value; a meter beside what it measures.
 - Look-alike means act-alike: the same shape or colour means the same behaviour, one icon has one
   meaning, and empty looks empty.
+- What the player can act on looks actionable, unlike what they only read; a selection shows the
+  control that commits it.
 - One grid, consistent edges, one frame style. Centred text alone is not a menu. Align with layout,
   never with spaces.
 
-*Check:* on the capture: label-to-value gaps, grid alignment, one frame style; a spelling and grammar
-pass over every string.
+*Check:* on the capture: label-to-value gaps, grid alignment, one frame style; two colour codes on one
+screen don't reuse the same colours for different meanings unless something else (shape, icon,
+placement) tells them apart; a spelling and grammar pass over every string.
 
 ### 6. Fits the hands and the full content
 
@@ -140,6 +145,11 @@ colour's job is listed.
   non-diegetic, spatial or meta, with the reason for this game's tone.
 - Never restate what the screen already shows elsewhere (a comparison row may repeat its terms). A
   label names; it doesn't explain. Highlight the words that matter.
+- Show the result, and let the working play out as motion when it resolves. Spell out a formula or
+  its outcomes in advance ("120 if it lands, 30 if blocked") only when the player plans with its
+  parts, as in a game about building combos.
+- A number sits on what it measures, never inside something else's box. Kinds that recur get an icon
+  before a word: agents lean to spelling things out.
 - Text-heavy play is right only when a pillar asks for it: a game about drowning in bureaucracy can
   bury the player in paperwork; an action game can't. When text belongs, give it the voice the pillars
   choose (an oracle's riddles, a song, a ledger), not a form.
@@ -187,7 +197,8 @@ capture of confusable glyphs at the smallest size.
 ## Designing a screen
 
 Before building a screen, write its spec from [screen-spec-template.md](screen-spec-template.md): the
-player's activity, every element with its pillar or decision and its read, what's deliberately absent,
+player's activity and its moments, every element with its pillar or decision, its read and the
+moments it's shown in, the actions and their controls, what's deliberately absent,
 the word budget, the input devices and full content size, how the screen pushes things back and brings
 things forward, and its motion.
 

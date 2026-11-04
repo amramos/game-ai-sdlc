@@ -1,9 +1,10 @@
 # <Screen name> — screen spec
 
-**The player's activity:** <what they are doing at this moment, in one line>
+**The player's activity:** <what they are doing, in one line> · **Its moments:** <the steps of the loop this view serves, from the walkthrough>
 **Pillars it serves:** <pillar names, as the GDD writes them>
 **Input:** <mouse / keyboard / pad> · **Full content:** <the worst case: longest text, most items>
 **Word budget:** <words on screen at most>
+**Actions:** <each action, its control, and the moments it's available in>
 **Pushed back by:** <darker, washed out, blurred…> · **Brought forward by:** <brightness, size, weight…>
 **Accent colour's job:** <its one job, from the interface style sheet>
 **Motion:** <what moves, for how long, and its end state when motion is reduced>
@@ -11,9 +12,11 @@
 
 ## Elements
 
-| Element | Pillar or player decision | Read (1, 2, 3) | Diegesis | Notes |
-|---|---|---|---|---|
-| <element> | <why it exists> | <1> | <diegetic / non-diegetic / spatial / meta> | <…> |
+| Element | Pillar or player decision | Read (1, 2, 3) | Shown in | Diegesis | Notes |
+|---|---|---|---|---|---|
+| <element> | <why it exists> | <1> | <the moments it appears in; "all" only when every moment needs it> | <diegetic / non-diegetic / spatial / meta> | <…> |
+
+Anything the player looks up rather than acts on is opened on request, not shown in every moment.
 
 ## Deliberately absent
 

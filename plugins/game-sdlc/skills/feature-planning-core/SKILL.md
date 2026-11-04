@@ -134,8 +134,9 @@ type, size) or motion change. New lines in an existing text element, with nothin
 don't count. Write each from the `game-ui` skill's
 template:
 
-- the player's activity;
-- each element with its pillar or the decision it supports;
+- the player's activity and its moments, from the walkthrough;
+- each element with its pillar or the decision it supports, and the moments it's shown in;
+- the actions and their controls;
 - what's deliberately absent and why;
 - the word budget;
 - the earlier rulings it overturns;
@@ -158,6 +159,8 @@ Before asking:
   - include the cheapest fix as one of them;
   - for a first feature, with no game to capture yet, draw over the art direction's style frames or
     the prototype's screens;
+  - say on the sketch where it simplifies the approved art, so the simplification isn't read as a
+    proposal;
 - judge each option at the full content (the longest text, the most items) and for the real input
   devices;
 - if an option overturns an earlier design, find out why that design was chosen first;
