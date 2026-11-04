@@ -3,6 +3,43 @@
 What changed in each version of the `game-sdlc` and `game-sdlc-godot` plugins, newest first. Both
 plugins are released together under one version.
 
+## 0.10.0 — 2026-11-04
+
+Hands-off rules that hold on smaller models. An adherence test ran both hands-off planning skills
+on three model tiers and found two kinds of miss: rules that were unclear, contradictory or silent,
+which every model tripped on, and clear rules buried in trailing clauses, which smaller models
+skipped. The first kind got clearer text; the second, where a script can check the result, got a
+script.
+
+- **feature-planning-core, feature-planning-handsoff, gdd-core, gdd-handsoff:** 18 unclear or silent
+  rules fixed, among them what an invented decision becomes, saving rulings before stopping at the
+  plan, the housekeeping baseline when the GDD has none, a stopping rule for the builder's read, and
+  worked examples with exact values. Rules buried in clauses became their own bullets or steps. The
+  ledger has a Dissent column; the runner-up is always the answer not taken.
+- **codex_review.py:** `--round plan|gdd` adds the round reviewer's reply format (the GDD one with
+  the kill list), splits the reply at the owner-only explanation line and retries once. Exit 4 means
+  there was no usable reply. The session only ever opens the answers: the raw reply waits in a
+  separate file until it's split, and a failed or timed-out round never prints it. `--print-format`
+  and `--split` give a Claude reviewer, or any taste-profile judge, the same handling.
+- **check_gdd.py:** also checks for missing or empty sections, unfilled template placeholders,
+  mechanics without a `*Check:*` line, and `[OPEN]` items that don't point at an open question.
+  `--handsoff` checks the Provisional line, an appendix that lists only assumed decisions (numbered
+  A1, A2…) with runner-ups, the identity decisions, and pillars without profile additions.
+  `--summary` checks `GDD-summary.md`. The labels it reads stay in English in a GDD of any language.
+- **check_ledger.py:** a hands-off ledger's labels, Dissent cells, assumed list and runner-ups, and
+  its open questions.
+- **Shorter where scripts took over:** `feature-planning-handsoff` lost the reply format and the
+  steps for reading it. `gdd-handsoff` carries its own reviewer steps, so a GDD run no longer loads
+  `feature-planning-handsoff`.
+- **taste-profile:** split into a short `SKILL.md` (the command that reads the profile, who sees
+  what, the offer) and `references/interview.md` and `references/updates.md`, which only the
+  interview and updates read. Every skill that uses the profile says, where it first needs it, to
+  run the command rather than open `taste.md`. A judge on a session below mid-size, with no other
+  vendor's model, uses the same model and says so.
+- **gdd-handsoff:** the camera count lists viewpoints only, the default engine is Godot, the price
+  model is always researched, and picking a concept settles its pitch, hook, pillars, camera and
+  medium.
+
 ## 0.9.0 — 2026-11-03
 
 Fewer agents where they didn't see anything different, and rules that hold on any model. An audit
