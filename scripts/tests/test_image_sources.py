@@ -61,7 +61,7 @@ class ImageSourcesTests(unittest.TestCase):
         self.assertEqual([c["name"] for c in inv["clis"]], ["codex"])
 
     def test_keys_are_reported_by_name_and_never_by_value(self) -> None:
-        secret = "sk-not-a-real-key-123"
+        secret = "placeholder-value"
         inv = image_sources.inventory(env={"OPENAI_API_KEY": secret, "FAL_KEY": "  "}, which=nothing, ping=down)
         self.assertEqual([k["name"] for k in inv["keys"]], ["OPENAI_API_KEY"])
         self.assertNotIn(secret, image_sources.render(inv))
