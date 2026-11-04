@@ -27,7 +27,7 @@ Ask for all of it at once, in one message or one multiple-choice call, with defa
    about taste as the favourites.
 3. **Scope**: game jam, prototype, small release, or commercial. Default: small release. It also
    decides the housekeeping baseline (gdd-core §2), so nothing more is asked about it.
-4. *(Optional)* platform. Default: desktop and web, through itch.io.
+4. *(Optional)* platform. Default: desktop and web, through itch.io, built in Godot.
 
 **The taste profile, now.** Read it by gdd-core, "The owner's taste profile": **never open
 `taste.md`; run `taste-profile` §1's command**, which prints only the Never lines.
@@ -44,7 +44,7 @@ Ask for all of it at once, in one message or one multiple-choice call, with defa
 **Count the loved games' camera and medium**, not only their mechanics: they carry the user's taste.
 Count the two separately:
 
-- camera: fixed 2D board, top-down, side view, isometric, third-person, first-person;
+- camera: top-down, side view, isometric, third-person, first-person;
 - medium: pixel art, vector, painted 2D, low-poly 3D, realistic 3D, text.
 
 When most of the loved games share one camera (three first-person games out of four, say), at least
@@ -78,7 +78,7 @@ showing the concepts; the round reviewer that may help you pick later doesn't re
 **The pick.** Ask the user to **pick one**, or to say "you pick". Picking a concept picks its pillars
 too.
 
-- If they pick, record the concept and the pillars as `owner`.
+- If they pick, record the concept as `owner`: its pitch, hook, pillars, camera and medium.
 - If they don't, you pick with the round reviewer (§3). Record the concept and its pillars as
   `panel — assumed`, with the runner-up concept.
 
@@ -94,21 +94,26 @@ Two kinds of question go to what measures them better than an opinion:
 
 - **The market.** When a question turns on comparables, prices or what sells in this niche,
   dispatch a research agent on it (gdd-core §3) and recommend from its findings: decisions, never
-  facts.
+  facts. The price model is always one of these.
 - **The first-time player.** Clarity, fun and frustration are measured by the blind playtesters of
   §5, not guessed; what a round can't settle without them goes to the prototype as a question.
 
 Then **one round reviewer**, a fresh agent per round, answers it.
 
-- Brief it as `feature-planning-handsoff` §2 describes, reply format included: a skeptic (what fails,
-  what's too big, what's a copy) and the profile judge, reading the whole taste profile itself.
+- Its brief: the round, the GDD so far, and two roles. As a skeptic: what fails, what's too big,
+  what's a copy. As the profile judge (`taste-profile` §3): it reads the whole taste profile itself.
 - It agrees with each recommendation or gives a different answer with one line of reason.
-- Read its reply only up to the `=== EXPLANATION (owner only) ===` line. Ask for its kill list
-  (§4) above that line.
-- **Its model:** another vendor's model when one is available, run with
-  `team-lead/scripts/codex_review.py`; otherwise a Claude model chosen as
-  `feature-planning-handsoff` §2 says. A Claude subagent is never above the session's model; another
-  vendor's model may be stronger.
+- **Run it** with `team-lead/scripts/codex_review.py --probe`, then `--round gdd --repo <folder>
+  --prompt-file <round> --out <file>`. The script adds the reply format, kill list included (§4).
+- **Exit 0:** read `<file>`, which holds only the answers. Never open `<file stem>.owner.md`; the
+  report to the user links it.
+- **Exit 4:** no usable reply, even after a retry. Decide the round yourself, record its answers as
+  `panel — assumed`, and say so in the summary.
+- **Exit 2 or 3:** no other vendor's model. Use a Claude model a tier below the session's (the same
+  model when there's none below, or the one below is smaller than mid-size, and say so). End its
+  brief with `--print-format gdd`'s output and "Write your reply to `<reply file>` and return only
+  the word `written`", then run `codex_review.py --split <reply file> --need-verdict --out <file>`.
+  On exit 4, ask it once more with the format before deciding the round yourself.
 
 **Resolve each question:**
 
@@ -121,11 +126,11 @@ Then **one round reviewer**, a fresh agent per round, answers it.
 
 **Identity decisions** are recorded as `panel — assumed` even when the reviewer agrees. They are:
 
-- the pillars;
+- the pillars, the hook, and the camera and medium, unless the user picked the concept that carries
+  them;
 - tone;
-- art style, camera and medium;
+- the art style beyond the camera and medium;
 - the interface choices (gdd-core's interface branch);
-- the hook;
 - anything the intake left open.
 
 Each identity decision has a **runner-up**: the answer you didn't take. When the reviewer disagreed,
@@ -181,30 +186,34 @@ throw the prototypes away.
 
 ## 6. Output
 
-**First, the builder's read** (gdd-core §6) on the written GDD. The panel settles what it finds on
+**First, the builder's read** (gdd-core §6) on the written GDD, with `--handsoff` added to its
+mechanical check (and `--owner-picked` when the user picked the concept). The panel settles what it finds on
 the first playable's path. Record every such settlement as `panel — assumed` (§3's exceptions), with
 a runner-up, so it reaches the appendix.
 
 1. **The GDD** (gdd-core §5).
    - Under the title, the template's Provisional line: "**Provisional** — written by agents from a
      short intake; the decisions marked *assumed* in the appendix are the owner's to confirm."
-   - The template's appendix, **Appendix: Assumed by the panel**, lists every `panel — assumed` and
-     `panel — assumed (profile)` decision, each with its runner-up.
+   - The template's appendix, **Appendix: Assumed by the panel**, lists only the `panel — assumed`
+     and `panel — assumed (profile)` decisions, numbered **A1**, **A2**…, each with its runner-up.
 2. **A one-page summary**, `GDD-summary.md` next to the GDD, for a user who won't read the GDD.
    In this order:
    1. the pitch;
    2. **the three pillars**, each with its test question, since every later skill judges work
-      against them;
+      against them. Here and below, an assumed decision cites its appendix id, `(A<n>)`;
    3. **the camera and medium**. When they depart from what most of the loved games share, say why,
       and what the alternative would cost, so a one-word swap is still possible;
-   4. **the five other assumed decisions that shape the game most**, each with its runner-up
-      alternative;
+   4. **the five other assumed decisions that shape the game most**, each citing its appendix id
+      `(A<n>)`, with its runner-up. Fewer only when the appendix has no more;
    5. **the housekeeping baseline** the scope gave (gdd-core §2), with its one-word swap: "backlog"
       or "build" after a jam or prototype, "strike <item>" after a release;
    6. the playtesters' verdict in two lines (including any failed bar);
    7. the reviewer's kill list, one line each;
    8. the closing question, word for word: *"Change any of these, or continue to `setup-godot` with
       every recommendation (the project will run hands-off)?"*
+
+**Then check both:** `python <gdd-core>/scripts/check_gdd.py <GDD> --summary GDD-summary.md`, adding
+`--owner-picked` when the user picked the concept. Fix what it lists until it exits 0.
 
 **In the conversation only, never in a file:**
 
