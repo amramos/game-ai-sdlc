@@ -1,6 +1,6 @@
 ---
 name: art-direction
-description: Set a game's visual style once — generate two or three style directions as style frames from the GDD's art references (differing in medium, such as pixel art, vector or low-poly 3D, when the GDD's style was only assumed), let the user pick one (or, in a hands-off project, have a critic agent pick and record the choice as assumed, with the runners-up kept for a one-word swap), and save the chosen frames, palette, size rules and prompt core in the repository so every later asset is generated against the same reference. Use after setup when a game has no style guide yet, or when the user asks for concept art, a style guide, art direction or a look for the game.
+description: Set a game's visual style once — start from the style catalog when an entry fits the game (one set of frames made the game's own), otherwise generate two or three style directions as style frames from the GDD's art references (differing in medium, such as pixel art, vector or low-poly 3D, when the GDD's style was only assumed), let the user pick one (or, in a hands-off project, have a critic agent pick and record the choice as assumed, with the runners-up kept for a one-word swap), and save the chosen frames, palette, size rules and prompt core in the repository so every later asset is generated against the same reference. Use after setup when a game has no style guide yet, or when the user asks for concept art, a style guide, art direction or a look for the game.
 argument-hint: "Optional: a style direction to start from"
 ---
 
@@ -41,6 +41,26 @@ or an art style: those come from the GDD.
 Note **whose decision the style is**. It is **assumed** when the GDD lists it in its "Assumed by the
 panel" appendix (as `gdd-handsoff` does) or leaves it `[OPEN]`; it is **the owner's** when the owner
 chose it, as in the interactive `gdd`. That decides how far apart the directions go (§3).
+
+### Check the style catalog first
+
+The `style-catalog` skill (`game-sdlc:style-catalog` when installed as a plugin) holds looks that
+were already worked out. Building a look from scratch is for games no entry fits.
+
+- **The GDD names an entry** (`Style: catalog <id> v<version>`): go to §3a after §2.
+- **Otherwise** run `style-catalog` §1's match on the GDD, unless the owner already said they want
+  a look built from scratch.
+  - **Interactive:** ask the one question in `style-catalog` §1 "Asking the owner": the
+    recommended entry first, up to two more, "Create a new look", and the link to the whole
+    catalog. The owner picks an entry (§3a), one from the catalog themselves (§3a, recorded as
+    their call), or a new look (§3). Offer a near miss as the match file describes.
+  - **Hands-off:** the critic (§3's critic, with the same inputs) reads the shortlist's `style.md`
+    files and picks the entry that fits best, or rejects them all with one line each. A picked
+    entry goes to §3a, recorded as assumed; with none picked, §3 runs as before.
+  - **Nothing fits:** hands-off, §3 as before; interactive, the same question recommends "Create a
+    new look" and keeps the catalog link.
+
+Keep the match record for the style guide (§5).
 
 ## 2. Pick the generator
 
@@ -153,6 +173,34 @@ resembles.
   the run's report says the seed picks had no independent critic. A same-model seed critic adds
   little here: the cross-direction critic sees every pick.
 
+## 3a. From the catalog
+
+Replaces §3 when the look comes from a catalog entry. One direction, made the game's own:
+
+1. **Read the entry:** its `style.md`, `recipe.md` and the framing file for the GDD's camera. Check
+   its `requires` against §2's stock-take; when something is missing, offer its setup as §2 does,
+   or go back and build a look (§3).
+2. **Make the palette** from the entry's colour roles, under its colour rules, for this game's
+   tone: the owner's palette when they named one; otherwise derived from the GDD's tone and
+   references; for pixel art with a fixed colour count, optionally starting from a published
+   palette of that size whose colours you assign to roles. Never the entry's example palette as is.
+   Check every colour rule and write the measured values beside the palette.
+3. **Make it your own.** Settle each item the entry's "Make it your own" section lists (palette,
+   fonts, interface material, setting and cast, whatever it names) for this game, in one short
+   list.
+4. **Generate the four style frames** (§3's set) for this game: the entry's prompt core with the
+   game's palette and subject, the entry's frames as image references where the generator accepts
+   them (downloaded from the catalog site, `style-catalog` §3), one seed round. Where the entry's look is drawn in code (its demo page needs no image
+   model), build the frames in the engine or a page from the recipe instead, with this game's
+   subject and palette.
+5. **Check against the entry:** its pitfalls, and its `dont` frame as what not to ship.
+   - **Interactive:** show the frames; the owner approves or asks for one change.
+   - **Hands-off:** the critic checks fit with the GDD, readability at 1:1, and that every "Make it
+     your own" item differs from the entry's examples, with at most one adjustment round.
+
+Then §4 as usual. The runners-up are the shortlist's other entries, **by name only**: no frames are
+made for them, so swapping to one (§7) costs a §3a run then, not now.
+
 ## 4. Approve one before multiplying
 
 Before saving the guide, take the chosen direction one step further:
@@ -213,7 +261,16 @@ Into `docs/art/` (outside the build: add a `.gdignore` there for Godot, or the e
   the player and why; this decides how it looks. The `game-ui` skill holds the defaults, including
   where to find a licence-safe font when the project has too few;
 - hands-off only: `runners-up/<direction>/` — each other direction's frames and prompt core, kept
-  until the user confirms the pick (§7), then deleted.
+  until the user confirms the pick (§7), then deleted. After a catalog pick (§3a) there are no
+  runner-up frames: the guide names the runner-up entries instead;
+- from the catalog only: `style/`, a **copy** of the entry's `style.md`, `recipe.md`, the chosen
+  framing file and the project engine's file, and nothing else. The style guide records the entry's id and version,
+  the match record (`style-catalog` §1) and the "Make it your own" list from §3a. A copy, not a
+  link: a plugin update must never change the game's look. Agents building the game read the
+  pitfalls and engine notes from there.
+
+Every style guide also keeps the catalog match record, including "built from scratch (closest: …)"
+when no entry fitted: those records tune the catalog.
 
 For pixel art, configure the project's palette linter (e.g. `pixelforge`, installed with
 `pip install git+https://github.com/amramos/pixelforge`) to the saved palette and canvases, so a
@@ -242,11 +299,14 @@ End a hands-off run by showing, in the conversation (and as images where the cli
 
 - **the chosen direction**: its key scene and character, and the critic's two-line reason;
 - **each runner-up**: its key scene and one line of why it lost;
+- **the catalog**, for a first-time owner: one sentence on what it is, then the pick or why no
+  entry fitted, and the link to the gallery (`style-catalog` §1, the hands-off paragraph);
 - one line: *"This is assumed. Reply with another direction's name to swap; otherwise nothing to do."*
 
 If the user names another direction, **swap**: promote its folder from `runners-up/`, redo §4 (one
 extra asset at game scale, and the medium switch if the medium changes) and §5 with it, and record it
-as the user's choice. If they confirm, or
+as the user's choice. A catalog runner-up has no folder: swapping to it runs §3a for that entry,
+then §4 and §5. If they confirm, or
 the next skill starts without a swap, mark the choice confirmed and delete `runners-up/`.
 
 ## 8. Next

@@ -2,6 +2,17 @@
 
 **Chosen:** <date>, direction "<name>". **Frames:** `frames/`. **Palette:** `palette.gpl`.
 **Chosen by:** the owner | the critic agent — *assumed*; runners-up in `runners-up/` until the owner confirms.
+**From the catalog:** entry `<id>` v<version>, framing `<framing>`; copy in `style/` | no: built from scratch.
+
+## Catalog match
+
+<The style-catalog match record: each entry considered, its score or the filter it failed, and the
+outcome. Kept even when the look was built from scratch.>
+
+## Made our own
+
+<From the catalog only: each item the entry's "Make it your own" section lists, and what this game
+chose for it.>
 
 ## The style in one paragraph
 

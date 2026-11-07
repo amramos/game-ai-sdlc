@@ -174,6 +174,14 @@ offers its next step in that style: after `gdd-handsoff`, the next feature is of
 
 **4. Set the look — `/game-sdlc:art-direction`** *(optional)*
 
+It looks in the style catalog first (`/game-sdlc:style-catalog` lists it): ten ready-made looks, from
+chunky pixel art and neon vector to an ink graphic novel, a paper theatre and a tabletop diorama,
+each with rules, a recipe and Godot code tested against it. Browse them, with demos you can play, in
+the [style catalog](https://amramos.github.io/game-sdlc-styles/); the plugin itself ships only the
+text agents read and a small preview of each. When an entry fits your game, you get one set of frames in that look, made
+your own with your palette, fonts and setting, instead of a search across directions. When none
+fits, it says which came closest and why, and builds a look from scratch, as follows.
+
 It generates two or three style directions as style frames (a scene, a character, a prop, a UI panel)
 and you pick one. Directions differ in more than colour: if the GDD's style was only assumed (as
 `gdd-handsoff` does), they're in different media — say pixel art, vector and low-poly 3D, with one
@@ -253,6 +261,7 @@ a fix agent opens a pull request that starts from a failing test.
 | `prototype` | game-sdlc | you | 2–3 web prototypes, played and compared |
 | `setup-godot` | game-sdlc-godot | you | A Godot repo with rules, ADRs, hooks, GUT, CI, release |
 | `art-direction` | game-sdlc | you | A style guide every asset is generated against |
+| `style-catalog` | game-sdlc | art-direction, or you to browse | Ready-made looks to start from, matched to your game |
 | `comfyui-art` | game-sdlc | you or agents | Local image generation, cleaned onto the palette |
 | `feature-planning` | game-sdlc | you | A plan and a decisions ledger you approve |
 | `feature-planning-handsoff` | game-sdlc | you | The same, decided by the lead and an outside reviewer while you're away |

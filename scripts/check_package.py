@@ -7,6 +7,7 @@ Exits 1 with a list of problems, 0 when clean. Standard library only.
 
 from __future__ import annotations
 
+import importlib.util
 import json
 from pathlib import Path
 import re
@@ -109,6 +110,16 @@ def main() -> int:
             problems.append(f"{rel}: unknown frontmatter key {key!r}")
         problems += [f"{rel}: {p}" for p in strict_yaml_problems(fields)]
 
+    # The style catalog ships entries that every user's agent reads and whose demo pages run in
+    # users' browsers; its own checker holds the rules, so the skill and reviewers use the same ones.
+    catalog = PACKAGE / "plugins/game-sdlc/skills/style-catalog"
+    if catalog.is_dir():
+        spec = importlib.util.spec_from_file_location("check_entries", catalog / "scripts" / "check_entries.py")
+        check_entries = importlib.util.module_from_spec(spec)
+        assert spec.loader is not None
+        spec.loader.exec_module(check_entries)
+        problems += [f"style-catalog/styles/{p}" for p in check_entries.check_catalog(catalog / "styles", plugin=True)]
+
     for agent in sorted(PACKAGE.glob("plugins/*/agents/*.md")):
         fields = frontmatter(agent.read_text(encoding="utf-8"))
         if not fields or fields.get("name") != agent.stem or not fields.get("description"):
@@ -131,7 +142,10 @@ def main() -> int:
             if "template" not in path.name and "agent-merges/" not in rel:
                 problems.append(f"{rel}: unfilled {{{{placeholder}}}} outside the project template")
         if path.suffix == ".md" and TEMPLATE_MARK not in path.parts:
-            for target in LINK.findall(text):
+            # Code blocks and inline code aren't links: shader code such as `float[16](0., 8.)` would
+            # otherwise read as one.
+            prose = re.sub(r"`[^`\n]*`", "", re.sub(r"^```.*?^```", "", text, flags=re.M | re.S))
+            for target in LINK.findall(prose):
                 if "://" in target or target.startswith("mailto:"):
                     continue
                 if not (path.parent / target).exists():
