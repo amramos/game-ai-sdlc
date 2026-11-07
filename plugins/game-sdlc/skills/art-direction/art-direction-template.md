@@ -45,7 +45,7 @@ How the interface looks. What reaches the player, and why, is in the GDD's inter
 
 The exact text and settings that produced the chosen frames. Every generation starts from these.
 
-- **Generator and model:** <the tool and model that made the frames, e.g. ComfyUI + model, an agent's built-in image tool, an image API through MCP; later assets use the same one>
+- **Generator and model:** <the tool and model that made the frames, e.g. ComfyUI with its comfyui-art profile name and model files, an agent's built-in image tool, an image API through MCP; later assets use the same one>
 - **Settings:** <steps, cfg, sampler, size, seeds used>
 - **Prompt core:** <the shared opening of every prompt>
 - **Per-kind additions:** character: <…> · prop: <…> · scene: <…> · UI: <…>
