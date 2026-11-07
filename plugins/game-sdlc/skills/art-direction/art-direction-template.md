@@ -35,7 +35,7 @@ How the interface looks. What reaches the player, and why, is in the GDD's inter
 - **Type roles:** display <face, size, treatment> · body <face, size> · caption <…> · at most two or
   three treatments · source and licence <for each font>
 - **Colour jobs:** accent <colour> = <its one job> · <signal colour> = <meaning> · frames and titles
-  mid-tone
+  mid-tone · none of `game-ui`'s banned looks unless the user asked for one
 - **Smallest readable size:** <px at native resolution>
 - **Motion:** <how things enter, leave and answer a press; durations; the reduced-motion end state>
 - **Loudest moment:** <where it happens, and the space kept for it>

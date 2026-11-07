@@ -22,6 +22,20 @@ the GDD or `AGENTS.md`. If the game has none, say so, recommend settling them (t
 skill only reads pillars: never write or reword them here, and never put interface rules in them;
 interface rules belong in the project's interface style sheet.
 
+## Banned looks
+
+Some looks are such sure signs of an agent-built interface that they are banned outright. Only the
+user can lift a ban, by asking for that look in their own words. "The project wins" doesn't lift
+it: a GDD, a style sheet, an assumed decision, a reference game or a critic's pick never counts as
+the user asking. Hands-off agents never propose a banned look, pick it or record it as assumed.
+Bans cover the interface, not the world's art.
+
+- **Dark shapes with yellow or gold borders or text.** No dark box, panel, button, badge, circle,
+  square, triangle or any other shape with a yellow or gold border, outline or text. A gold coin in
+  the scene is fine.
+
+Other skills refer to this list and never restate it.
+
 ## The ten commandments
 
 ### 1. Intentional
@@ -135,7 +149,7 @@ device; after rebinding an action, every prompt for it shows the new binding.
 - In-world wording for flavour actions; plain verbs where a mistake costs the player.
 
 *Check:* beside a reference game of the same genre, does it read as a game or an app? Every accent
-colour's job is listed.
+colour's job is listed. No banned look appears unless the user asked for it.
 
 ### 8. Show before telling
 
@@ -238,3 +252,4 @@ The procedure when asked to review a screen, scene or capture, and the one the l
 - A new line of text where a visible change would do.
 - A font or size chosen per scene instead of a type role.
 - The previous mode's panels left on screen.
+- Any of the banned looks, unless the user asked for it.

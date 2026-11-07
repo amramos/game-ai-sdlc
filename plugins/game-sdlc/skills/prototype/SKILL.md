@@ -73,6 +73,7 @@ needed, and report it in §4. That's a finding about the mechanic, not a page to
 - Every action answers with feedback where it happened: something moves, flashes or changes.
 - Words follow `game-ui`'s "show before telling": a label names and doesn't explain, and each
   screen has a word budget.
+- None of `game-ui`'s banned looks, unless the user asked for one.
 
 **The rules, and a text interface for AI playtesters.**
 

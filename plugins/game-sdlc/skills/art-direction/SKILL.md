@@ -124,6 +124,9 @@ For each direction, generate the same four **style frames**:
   items), as the player will read it, following the GDD's interface section. Sample content flatters
   a frame that the real build then can't match.
 
+No direction's frames use any of `game-ui`'s banned looks unless the user asked for that look in
+their own words. A frame that has one anyway is regenerated, never shown or picked.
+
 Keep a direction's frames consistent with each other (same prompt core, same seed family). Show the
 directions side by side, each with two lines of *for* and *against*, and with a reference game it
 resembles.
