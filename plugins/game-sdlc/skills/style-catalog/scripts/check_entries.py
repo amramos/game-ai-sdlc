@@ -4,7 +4,7 @@
 
 A catalog has two layouts. The **site** (the hosted catalog, or an owner's personal catalog) holds
 whole entries: frames, demo pages and their assets. The **plugin** ships only what agents read: the
-index and each entry's text, plus one small `preview.jpg` (made by export_plugin.py), under a size
+index and each entry's text, plus one small `preview.webp` (made by export_plugin.py), under a size
 budget, so installing the SDLC stays light. With no folder given, this checks the plugin's own
 catalog (../styles next to this script) in plugin mode.
 
@@ -39,7 +39,7 @@ FRAME_LONG_SIDE = 1280
 FRAME_BYTES = 300 * 1024
 STYLE_SECTIONS = ["## Pitfalls", "## Make it your own", "## Evidence"]
 PREVIEW_WIDTH = 640
-PREVIEW_BYTES = 80 * 1024
+PREVIEW_BYTES = 40 * 1024     # WebP: about half a JPEG of the same quality
 PLUGIN_BYTES = 1536 * 1024      # the whole shipped catalog; demos, art and frames live on the site
 SITE_ONLY = ["frames", "assets", "cast", "demo.html"]
 GODOT_STAMP = re.compile(r"<!--\s*matched-web-frame:\s*([0-9a-f]{12})\s*-->")
@@ -238,14 +238,14 @@ def check_godot(folder: Path, text: str, rel: str, plugin: bool = False) -> list
 
 
 def check_preview(folder: Path, rel: str) -> list[str]:
-    preview = folder / "preview.jpg"
+    preview = folder / "preview.webp"
     if not preview.is_file():
-        return [f"{rel}: missing preview.jpg; run export_plugin.py"]
+        return [f"{rel}: missing preview.webp; run export_plugin.py"]
     size = image_size(preview)
-    if size is None or size[0] > PREVIEW_WIDTH:
-        return [f"{rel}: preview.jpg must be a JPEG at most {PREVIEW_WIDTH} px wide"]
+    if size is None or preview.read_bytes()[8:12] != b"WEBP" or size[0] > PREVIEW_WIDTH:
+        return [f"{rel}: preview.webp must be a WebP at most {PREVIEW_WIDTH} px wide"]
     if preview.stat().st_size > PREVIEW_BYTES:
-        return [f"{rel}: preview.jpg is {preview.stat().st_size // 1024} KB; over {PREVIEW_BYTES // 1024} KB"]
+        return [f"{rel}: preview.webp is {preview.stat().st_size // 1024} KB; over {PREVIEW_BYTES // 1024} KB"]
     return []
 
 
@@ -305,7 +305,7 @@ def check_entry(folder: Path, entry: dict, plugin: bool = False) -> list[str]:
         problems += check_preview(folder, rel)
         for name in SITE_ONLY:
             if (folder / name).exists():
-                problems.append(f"{rel}: {name} belongs on the catalog site; the plugin ships text and preview.jpg")
+                problems.append(f"{rel}: {name} belongs on the catalog site; the plugin ships text and preview.webp")
     else:
         problems += check_frames(folder, rel)
         problems += check_demo(folder / "demo.html", rel)

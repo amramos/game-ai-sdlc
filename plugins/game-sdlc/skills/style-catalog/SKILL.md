@@ -37,13 +37,15 @@ In the plugin:
     Read after the pick.
   - `web.md` / `godot.md`: engine snippets. Read only the project's engine, while building.
   - `example-palette.gpl`: one instance of the colour roles. An example, never the default.
-  - `preview.jpg`: the key scene, 640 px wide, to show with the look question.
+  - `preview.webp`: the key scene, 640 px wide, to show with the look question.
 - [references/matching.md](references/matching.md): the match, its thresholds and its record.
 
 On the site, each entry also has `frames/` (`key-scene`, `character`, `prop`, `text-heavy`, `dont`
 for the look broken, and `godot-key-scene`, all 1280×720: `.png` for pixel art, vector and dithered
-looks, `.jpg` for the rest), `demo.html` (`?frame=<name>` draws each frame) and the demo's example
-art in `assets/`.
+looks, `.jpg` for the rest), `demo.html` (`?frame=<name>` draws each frame), the demo's example
+art in `assets/`, and `godot-port/`: the Godot project that rendered `godot-key-scene`, including
+the code that rebuilds the demo exactly. `godot.md` keeps only what a game needs from it; re-render
+from `godot-port/` after changing a port.
 
 **The owner's personal catalog** is `styles/` in the taste profile's folder (`$GAME_SDLC_TASTE`,
 or `.game-sdlc` in the home folder). When it has an `index.md`, read it after the shipped one and
@@ -86,7 +88,7 @@ this project, or says they know it.
 4. **Create a new look**: art-direction builds one from scratch, as before;
 5. **Other**: "I'll pick from the catalog myself", or anything else the owner types.
 
-- Show each offered entry's `preview.jpg` with the question where the client can show images.
+- Show each offered entry's `preview.webp` with the question where the client can show images.
 - **Fewer than three pass:** offer only those. **None passes:** still introduce the catalog, then
   say plainly what was checked and why nothing fits, in the owner's terms, not the filter's
   ("None of the <n> catalog styles fits a realistic 3D game; the closest, cel-shaded 3D, is
@@ -124,7 +126,7 @@ wherever an entry is used:
   image references, download only `character`, `prop`, `text-heavy` and `dont` from
   `<site>/<id>/frames/<name>.jpg` (`.png` when that's missing) into the game's art working folder,
   and delete them once the game's own frames are approved. Without a connection, work from
-  `preview.jpg` and the text. Never download a demo or its `assets/`.
+  `preview.webp` and the text. Never download a demo or its `assets/`.
 - **Make it your own.** Every game changes what the entry's "Make it your own" section lists. The
   example palette, setting, frames, art and models are never shipped as the game's. Where
   `godot.md` or `web.md` loads a file from `assets/`, that is how the port was tested against the

@@ -52,13 +52,13 @@ the catalog site (its own repository, published with GitHub Pages)   ← the sou
     demo.html, assets/     ← the look running in a browser with its example art and models
 
 plugins/game-sdlc/skills/style-catalog/styles/   ← exported from the site (export_plugin.py)
-  index.md, <id>/ with the text files above and preview.jpg (the key scene, 640 px wide)
+  index.md, <id>/ with the text files above and preview.webp (the key scene, 640 px wide)
 ```
 
 **Why two places.** An entry's frames, demo, art and models weigh about 1.8 MB; ten entries came to
 18 MB, against 433 KB for the whole SDLC before the catalog. Agents read none of it: they read the
 index, then one entry's text. Everything an installation downloads must earn its place, so the
-plugin ships the text and a 640 px preview for the look question (about 1 MB for ten entries, held
+plugin ships the text and a 640 px WebP preview for the look question (about 0.8 MB for ten entries, held
 to a budget by the checker), and the rest is a website people browse. Art-direction downloads only
 the picked entry's four reference frames, once per game.
 
@@ -69,7 +69,7 @@ whole catalog to choose spends most of the savings. So:
 |---|---|---|---|
 | `index.md` | gdd, gdd-handsoff, art-direction | while choosing | ~60 tokens per entry |
 | `style.md` | the chooser, then the critic | after a shortlist of ≤3 | ≤1,200 words |
-| `preview.jpg` | the owner; the critic | when showing the shortlist | 640 px, ≤80 KB |
+| `preview.webp` | the owner; the critic | when showing the shortlist | 640 px, ≤40 KB |
 | `frames/` (site) | art-direction §3a | after the pick, as image references | 4 images, ≤300 KB each |
 | `recipe.md` + one `framings/` file | art-direction §3a | after the pick | — |
 | `web.md` / `godot.md` | prototype / developers | while building | only the project's engine |
