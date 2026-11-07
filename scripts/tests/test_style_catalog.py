@@ -67,8 +67,8 @@ Not yet built in a game.
 """
 
 
-# The smallest JPEG the size reader accepts: SOI, then a baseline frame header for 640×360.
-JPEG_640 = bytes.fromhex("ffd8" "ffc0000b0801680280" "01011100" "ffd9")
+# The smallest WebP the size reader accepts: a RIFF header and a lossy frame header for 640×360.
+WEBP_640 = b"RIFF" + bytes(4) + b"WEBPVP8 " + bytes(4) + bytes.fromhex("000000" "9d012a") + (640).to_bytes(2, "little") + (360).to_bytes(2, "little")
 
 
 def png(width: int, height: int) -> bytes:
@@ -128,7 +128,7 @@ class StyleCatalogTests(unittest.TestCase):
         (plugin / "index.md").write_text(INDEX, encoding="utf-8")
         for name in ["style.md", "recipe.md", "web.md", "example-palette.gpl", "framings/top-down.md", "framings/side.md"]:
             (plugin / "sample-look" / name).write_bytes((self.entry / name).read_bytes())
-        (plugin / "sample-look" / "preview.jpg").write_bytes(JPEG_640)
+        (plugin / "sample-look" / "preview.webp").write_bytes(WEBP_640)
         return plugin
 
     def test_the_plugin_ships_only_text_and_a_preview(self) -> None:
@@ -144,10 +144,10 @@ class StyleCatalogTests(unittest.TestCase):
 
     def test_the_plugin_has_a_size_budget(self) -> None:
         plugin = self.plugin_copy()
-        (plugin / "sample-look" / "preview.jpg").unlink()
+        (plugin / "sample-look" / "preview.webp").unlink()
         (plugin / "sample-look" / "recipe.md").write_text("x" * (check_entries.PLUGIN_BYTES + 1), encoding="utf-8")
         found = "\n".join(check_entries.check_catalog(plugin, plugin=True))
-        self.assertIn("missing preview.jpg", found)
+        self.assertIn("missing preview.webp", found)
         self.assertIn("the budget is", found)
 
     @unittest.skipUnless(importlib.util.find_spec("PIL"), "export needs Pillow")
@@ -163,9 +163,9 @@ class StyleCatalogTests(unittest.TestCase):
         self.assertEqual(export_plugin.export(self.styles, plugin), [])
         shipped = sorted(p.relative_to(plugin).as_posix() for p in plugin.rglob("*") if p.is_file())
         self.assertEqual(shipped, ["index.md", "sample-look/example-palette.gpl", "sample-look/framings/side.md",
-                                   "sample-look/framings/top-down.md", "sample-look/preview.jpg",
+                                   "sample-look/framings/top-down.md", "sample-look/preview.webp",
                                    "sample-look/recipe.md", "sample-look/style.md", "sample-look/web.md"])
-        self.assertEqual(check_entries.image_size(plugin / "sample-look" / "preview.jpg"), (640, 360))
+        self.assertEqual(check_entries.image_size(plugin / "sample-look" / "preview.webp"), (640, 360))
 
     def test_lists_keep_commas_inside_parentheses(self) -> None:
         self.assertEqual(check_entries.split_list("[a, b (c, d), e]"), ["a", "b (c, d)", "e"])

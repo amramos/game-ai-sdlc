@@ -6,7 +6,7 @@ what agents read while choosing and building, so installing the SDLC stays light
     python export_plugin.py <site catalog folder> [plugin styles folder]
 
 (default plugin folder: ../styles next to this script). It replaces the plugin folder's entries with
-the site's, writes each `preview.jpg` (640 px wide) from the entry's key-scene frame, and then runs
+the site's, writes each `preview.webp` (640 px wide) from the entry's key-scene frame, and then runs
 check_entries.py in plugin mode. Needs Pillow for the preview; the checks themselves don't.
 """
 
@@ -30,8 +30,8 @@ def preview(source: Path, target: Path) -> None:
     # Pixel art keeps its hard edges when it shrinks by a whole factor; everything else is smoothed.
     pixel = image.width % PREVIEW_WIDTH == 0 and len(image.getcolors(1 << 16) or []) <= 64
     image = image.resize((PREVIEW_WIDTH, height), Image.NEAREST if pixel else Image.LANCZOS)
-    for quality in (82, 75, 68, 60):
-        image.save(target, "JPEG", quality=quality, optimize=True)
+    for quality in (65, 58, 50, 42):
+        image.save(target, "WEBP", quality=quality, method=6)
         if target.stat().st_size <= PREVIEW_BYTES:
             return
 
@@ -55,7 +55,7 @@ def export(site: Path, plugin: Path) -> list[str]:
             shutil.copytree(source / "framings", target / "framings")
         key = frame_file(source, "key-scene")
         if key is not None:
-            preview(key, target / "preview.jpg")
+            preview(key, target / "preview.webp")
     return check_catalog(plugin, plugin=True)
 
 
