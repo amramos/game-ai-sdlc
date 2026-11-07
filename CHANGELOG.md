@@ -3,6 +3,43 @@
 What changed in each version of the `game-sdlc` and `game-sdlc-godot` plugins, newest first. Both
 plugins are released together under one version.
 
+## 0.13.0 — 2026-11-07
+
+Start from a tested look. Art direction used to invent every game's look from scratch, and image
+generation assumed a graphics card with about 11 GB of video memory. Now a game can pick one of ten
+ready-made looks, each with a web demo and a Godot port rendered to match, and ComfyUI picks a model
+that fits the user's card.
+
+- **style-catalog (new):** ten looks across pixel art, low-poly and cel-shaded 3D, ink, paper and
+  neon vector. Each has a style sheet, a recipe, framings, an example palette, and engine files for
+  web and Godot. `art-direction` matches the GDD against the catalog before building a look. With
+  the owner present it asks one question: a recommendation, two more looks, "create a new look" or
+  something else, with previews and a link to the catalog site. Hands-off, the critic picks from the
+  shortlist. The chosen entry is copied into the game's style guide and made the game's own
+  (palette, fonts, setting, cast). A new look is built from scratch only when nothing fits.
+- **Catalog site:** the whole entries (gallery, frames, demos with their example art and models, and
+  each Godot port's full project) live at the catalog's GitHub Pages site. The plugin ships only the
+  text and a 640 px WebP preview per look, 740 KB in all. Reference frames are downloaded once, when
+  a look is picked.
+- **Checks:** `check_entries.py` checks entries, frames and demo safety, and that each Godot port was
+  matched against the current web frame. A web demo changed after its Godot render fails the check.
+  `--plugin` checks the shipped text and previews against a 1.5 MB budget. `export_plugin.py` writes
+  the plugin's catalog from the site's.
+- **comfyui-art:** model profiles by video memory: `zimage-bf16` (16 GB+), `zimage-int8` (12 GB+, the
+  default and the only one tested), `zimage-gguf` (6–11 GB) and `sdxl-fast` (4 GB+). `comfy.py
+  hardware` lists the profiles that fit the user's cards and RAM, with the files each still needs. A
+  project records its profile in its style guide and never switches by itself, since another model
+  draws another look. Released profiles never change; a better one is added beside them.
+- **game-ui:** a list of banned looks, starting with dark boxes, panels and buttons with yellow or
+  gold borders or text. Only the user can lift a ban by asking for that look in their own words.
+  Hands-off agents never propose or pick one. `art-direction` regenerates frames that show one, and
+  its style-guide template carries the ban.
+
+**Existing projects:** nothing to change. A game with a style guide keeps its look; the catalog is
+offered only when there's no style guide yet. A style guide without a ComfyUI profile is offered one
+the next time art is made with the owner there. Codex users re-run `python scripts/install_codex.py`
+to get the new skill and scripts.
+
 ## 0.12.0 — 2026-11-04
 
 Design each moment of the loop, not one screen for all of them. In a planning run, the sketches of a
