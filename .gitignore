@@ -4,3 +4,7 @@ __pycache__/
 Thumbs.db
 # Private words the package checker refuses to publish (see scripts/check_package.py)
 scripts/leftovers.local.txt
+
+# Local Claude Code state; .claude/skills/ is tracked
+.claude/worktrees/
+.claude/settings.local.json

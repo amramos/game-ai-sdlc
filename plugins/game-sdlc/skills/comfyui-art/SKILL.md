@@ -1,17 +1,19 @@
 ---
 name: comfyui-art
-description: Generate game art locally with ComfyUI and Z-Image Turbo — concept paintings, character portraits, pixel-art sprites and sprite sheets, props, placeholder art — then clean it onto a project's palette and canvas. Use when ComfyUI is the generator — the project's style guide (docs/art/art-direction.md) names it, art-direction picked it, or the user asks for ComfyUI — and they want images or art created, drawn, iterated on or explored ("make a portrait for the old sailor", "we need a sprite for the cook", "try some style variations"). With no generator chosen yet, art-direction §2 first checks what is already set up. Handles starting ComfyUI, the concept → pixel-art → palette pipeline, and both guided iteration (the user picks each round) and unattended iteration (a critic agent picks); its palette cleanup also works on images from other generators.
+description: Generate game art locally with ComfyUI, using the model profile that fits the user's graphics card (Z-Image Turbo by default, smaller builds or SDXL for cards with less video memory) — concept paintings, character portraits, pixel-art sprites and sprite sheets, props, placeholder art — then clean it onto a project's palette and canvas. Use when ComfyUI is the generator — the project's style guide (docs/art/art-direction.md) names it, art-direction picked it, or the user asks for ComfyUI — and they want images or art created, drawn, iterated on or explored ("make a portrait for the old sailor", "we need a sprite for the cook", "try some style variations"). With no generator chosen yet, art-direction §2 first checks what is already set up. Handles starting ComfyUI, the concept → pixel-art → palette pipeline, and both guided iteration (the user picks each round) and unattended iteration (a critic agent picks); its palette cleanup also works on images from other generators.
 ---
 
 # ComfyUI art
 
-Local image generation with ComfyUI and Z-Image Turbo. Everything is driven by two scripts in this
-skill's `scripts/` folder — call them with the absolute path of this skill:
+Local image generation with ComfyUI. Everything is driven by scripts in this skill's `scripts/`
+folder — call them with the absolute path of this skill:
 
-- `comfy.py` — `status`, `start`, `free`, `txt2img`, `img2img` (crop, scale, denoise). Talks to
-  ComfyUI's HTTP API. Do not drive the ComfyUI web page by clicking: its Run button opens a menu,
-  and typed text lands in the node search, which cost several retries in the session this skill
-  came from.
+- `comfy.py` — `hardware`, `status`, `start`, `free`, `txt2img`, `img2img` (crop, scale, denoise).
+  Talks to ComfyUI's HTTP API. Do not drive the ComfyUI web page by clicking: its Run button opens
+  a menu, and typed text lands in the node search, which cost several retries in the session this
+  skill came from.
+- `profiles.py` — the model profiles `comfy.py` can run. A profile is one complete setup: model
+  files, the nodes that load them, sampler settings and its prompting notes.
 - `pixel_post.py` — `key` (background removal), `report` (palette usage and a letter grid),
   `remap` (colour fixes by meaning), `holes`, `sheet` (review sheets), `frames`, `anim`.
 
@@ -27,13 +29,37 @@ nothing already set up that fits.
 
 - ComfyUI **portable** installed; `COMFYUI_ROOT` set to its folder (the one holding
   `python_embeded/` and `ComfyUI/`). `COMFYUI_URL` defaults to `http://127.0.0.1:8188`.
-- Z-Image Turbo model files in ComfyUI's model folders: `z_image_turbo_int8_convrot.safetensors`
-  (`diffusion_models`), `qwen_3_4b_fp8_mixed.safetensors` (`text_encoders`), `ae.safetensors`
-  (`vae`). Other files work through `comfy.py`'s `--unet/--clip/--vae` flags.
-- A GPU with about 12 GB of video memory for those files; less works with smaller models, slower.
+- The model files of **one profile**, chosen for this machine. Run `comfy.py hardware` first: it
+  reads the graphics card and system RAM and lists the profiles that fit, best first, with which
+  of their files are in place.
 
-If any of this is missing, list what's missing with its source and size, and ask the user before
+| Profile | Video memory | What it is | Prompting notes |
+|---|---|---|---|
+| `zimage-bf16` (untested) | 16 GB or more | The same model as `zimage-int8` at full precision, `z_image_turbo_bf16.safetensors` (12.3 GB, `diffusion_models`), with the same text encoder and VAE; about 17 GB to download | `references/prompting.md` |
+| `zimage-int8` (default, tested) | 12 GB or more | Z-Image Turbo int8 (`z_image_turbo_int8_convrot.safetensors` in `diffusion_models`), `qwen_3_4b_fp8_mixed.safetensors` (`text_encoders`), `ae.safetensors` (`vae`); about 12 GB to download | `references/prompting.md` |
+| `zimage-gguf` (untested) | 6–11 GB | The same model as a GGUF build, Q5_K_M (or Q4_K_M on 6 GB), plus a Qwen3-4B GGUF text encoder and the same `ae.safetensors`; needs the ComfyUI-GGUF custom nodes; about 8 GB | `references/prompting.md` |
+| `sdxl-fast` (untested) | 4 GB or more | An SDXL checkpoint suited to the art direction, plus the DMD2 4-step LoRA; about 7 GB | `references/prompting-sdxl.md` |
+
+Suggest the first profile `hardware` lists, say in one line why (the card, its memory), and say
+plainly when a profile is untested: the first round with it is also a test of the profile. Below
+4 GB, or with no NVIDIA card, suggest another image source instead (`art-direction` §2); ComfyUI
+does run on AMD cards and Apple chips, but no profile here has been tried there.
+
+`profiles.py` gives each profile's download source. The list is kept current by the SDLC's
+maintainers: a profile never changes once released, newer ones are added beside it, and an old one
+marked `superseded_by` is no longer suggested but keeps working for projects that use it.
+
+**A model that isn't a profile.** If the user asks for one, check its family. A different file of
+a profile's family (another SDXL checkpoint, another Z-Image build) works through `--ckpt`,
+`--unet`, `--clip` and `--vae`; record the exact files in the style guide next to the profile
+name. A family `comfy.py` can't build a graph for isn't supported here: say so, and suggest asking
+the SDLC's maintainers for a profile. Never edit this skill's scripts from inside a project; the
+installed plugin is replaced on every update.
+
+If anything is missing, list what's missing with its source and size, and ask the user before
 downloading anything (`art-direction`'s `scripts/image_sources.py` lists the missing model files).
+For an untested profile, find the current files on Hugging Face and give their exact names and
+sizes before asking.
 If the user doesn't want a local install, go back to the sources `art-direction` §2 found. In
 hands-off mode never install: use another source that is set up, or stop and say what's missing.
 
@@ -58,7 +84,14 @@ python <skill>/scripts/comfy.py status   # UP with free VRAM, or DOWN
 python <skill>/scripts/comfy.py start    # only if DOWN; ~25 s, detached, log in COMFYUI_ROOT
 ```
 
-- The int8 model plus the fp8 text encoder need ~11 GB of video memory. `status` splits usage
+- **Use the project's profile.** The style guide (`docs/art/art-direction.md`) names the profile
+  its frames were made with; pass it as `--profile` on every `txt2img` and `img2img`. With no
+  style guide yet, use the profile §0 chose. If this machine can't run the project's profile, say
+  so and stop rather than switching: a different model draws a different look, so changing
+  profile is a style-guide change (`art-direction` §2).
+- `start` passes unknown flags on to ComfyUI: `--cuda-device N` when `hardware` says the largest
+  card isn't the first, `--fp32-vae` on cards that return black images.
+- The default profile needs ~11 GB of video memory. `status` splits usage
   into what ComfyUI itself holds (its models stay loaded between jobs — that is fine) and what
   other apps use. Only if **other apps** hold several GB (browsers, Electron apps, games) is there
   a problem: generation spills into system RAM and slows down. Tell the user which kinds of apps
@@ -105,8 +138,9 @@ sets about generated art.
 | Icons / UI marks under ~32×32 | don't generate — have a code-writing agent place the pixels |
 | Opaque backdrops | generate at an exact multiple, downscale by nearest, snap without keying |
 
-Before writing prompts, read `references/prompting.md` — its table of "wrote X, got Y" is the
-difference between one round and four.
+Before writing prompts, read the profile's prompting notes (§0's table): `references/prompting.md`
+for the Z-Image profiles, whose table of "wrote X, got Y" is the difference between one round and
+four, or `references/prompting-sdxl.md` for `sdxl-fast`.
 
 ## 6. Guided rounds
 
@@ -132,9 +166,11 @@ is choosing, not auditing. Change one or two things per round and say which.
 
 ## Troubleshooting
 
-- `rejected:` from `comfy.py` — a model filename is wrong; check `models/diffusion_models`,
-  `text_encoders`, `vae` under the ComfyUI folder.
-- All-black or mush output — width/height below 512, or VRAM exhausted (`free`, close apps).
+- `no ... file matching` or `has no ... node` from `comfy.py` — the profile's files or custom
+  nodes aren't installed; `comfy.py hardware` lists what each fitting profile still needs.
+- `rejected:` from `comfy.py` — ComfyUI refused the graph; its message names the node and input.
+- All-black or mush output — width/height below 512, VRAM exhausted (`free`, close apps), or a
+  card that overflows in half precision (GTX 16-series): restart with `comfy.py start --fp32-vae`.
 - The model ignores the background colour — regenerate; see `prompting.md`, "Backgrounds".
-- A pixel-art LoRA exists in `models/loras`; it was tested and rejected (finer, not chunkier
+- A pixel-art LoRA for Z-Image exists in `models/loras`; it was tested and rejected (finer, not chunkier
   pixels; anime drift). Only use it if the user asks.

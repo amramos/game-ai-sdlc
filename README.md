@@ -299,7 +299,7 @@ Agents: `team-developer` and `adversarial-reviewer` (in `game-sdlc`); `setup-god
 | [Codex CLI](https://github.com/openai/codex) and its Claude Code plugin | adversarial review, the round reviewer in hands-off planning, image generation | a different Claude model reviews instead, and says so |
 | [GitHub CLI](https://cli.github.com/) | PRs, releases, bug intake | the skills tell you the manual steps |
 | Linear connector | issue-tracking, bug intake | GitHub Issues, or the plan in the repo |
-| [ComfyUI](https://github.com/comfyanonymous/ComfyUI) + Z-Image Turbo: a free app that runs image models on your own GPU | comfyui-art, art-direction | whatever else is set up: the agent's own image tool, the Codex CLI, an image API through MCP, Meshy |
+| [ComfyUI](https://github.com/comfyanonymous/ComfyUI): a free app that runs image models on your own GPU, with a model picked for your card from a maintained list (Z-Image Turbo builds from 6 GB of video memory, SDXL from 4 GB) | comfyui-art, art-direction | whatever else is set up: the agent's own image tool, the Codex CLI, an image API through MCP, Meshy |
 | [Meshy](https://www.meshy.ai/) (paid) | 3D art | 2D only; every paid call is confirmed first |
 | [pixelforge](https://github.com/amramos/pixelforge) | palette and canvas lint for pixel art | no automatic palette check |
 | [butler](https://itch.io/docs/butler/) | release (in CI, installed automatically) | — |

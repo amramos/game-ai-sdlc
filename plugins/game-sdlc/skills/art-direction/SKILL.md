@@ -54,9 +54,10 @@ image, not real models, at this stage.
    model's API, or an image tool inside another service). Note each one's name and whether it is
    paid per call; its description or its server's instructions usually say.
 2. **The machine.** Run `python <this skill>/scripts/image_sources.py`. Without installing or
-   starting anything, it reports ComfyUI (running, installed but stopped, or absent, with any
-   missing model files), agent CLIs on PATH that make images, and which image-service API keys are
-   set, by name only.
+   starting anything, it reports ComfyUI (running, installed but stopped, or absent), the
+   graphics card and the `comfyui-art` model profile it can run (with that profile's missing model
+   files), agent CLIs on PATH that make images, and which image-service API keys are set, by name
+   only.
 3. **Say what you found** in one short block: each source, what it's good at, what it costs. In
    hands-off mode it goes in the run's report.
 
@@ -78,9 +79,11 @@ which:
 plain words, with what it costs, and ask which the user wants, if any:
 
 - **ComfyUI**: a free app that runs open image models on your own computer, so images are private
-  and cost nothing per picture. It needs a graphics card with about 12 GB of video memory (less
-  works, slower) and roughly 15 GB of downloads for the app and models. `comfyui-art` §0 has the
-  steps.
+  and cost nothing per picture. It needs an NVIDIA graphics card with at least 4 GB of video
+  memory, and roughly 10–20 GB of downloads for the app and models. The model depends on the card:
+  name the profile `image_sources.py` suggested, and say whether it is tested. An untested profile
+  means the first round is also a test of it, so expect it to be slower or rougher.
+  `comfyui-art` §0 has the steps.
 - **An agent with built-in image generation**, such as the Codex CLI on a plan that includes it.
 - **An image service connected to this agent** through an MCP server: no local hardware, paid per
   image.
@@ -88,7 +91,9 @@ plain words, with what it costs, and ask which the user wants, if any:
 In hands-off mode never install or connect anything: use what's set up.
 
 **Record the choice.** The generator and model go into the style guide's prompt core (§5), and every
-later asset uses the same one: a different generator draws a different look. Changing generator
+later asset uses the same one: a different generator draws a different look. For ComfyUI that is
+the profile name and the exact model files it resolved to (`comfy.py` prints the profile with
+every batch), so another machine knows what it needs to match. Changing generator
 later is a style-guide change, so make the frames again with the new one and compare them first.
 
 **The generator never chooses the medium.** If nothing available renders a direction well, show it
