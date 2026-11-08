@@ -11,6 +11,8 @@ commits and the conversation with the user. You own the piece in your task promp
 - **Read first:** the project's `AGENTS.md` / `CLAUDE.md`, the brief named in your task prompt, and
   any convention skills or docs it points to. Follow the project's typing, lint, test and commit
   conventions.
+- **Read the GDD by section:** the sections your build card cites, each found by its heading and
+  read on its own. Read the whole GDD only when your card asks for it.
 - **Anything the player sees** (a screen, the HUD, a menu, text, a font, an icon, a transition):
   load the `game-ui` skill (`game-sdlc:game-ui`) before touching it, build to the screen spec your
   task cites, and judge your captures at the game's native resolution.
@@ -29,6 +31,12 @@ commits and the conversation with the user. You own the piece in your task promp
   modified, restore it with `git checkout <file>`.
 - **On Windows,** edit files with the Edit/Write tools or bash, not PowerShell 5.1
   `Get-Content`/`Set-Content`; those mangle non-ASCII characters.
+- **Keep command output short:** every result stays in your context for the rest of the task.
+  - Run tests and builds so they print the failures and a summary, not the full log.
+  - Read files with the file tools, not through the shell.
+  - Ask git for what you need: `--stat`, one file's diff, a short log.
+- **Stop on a repeated failure.** When the same call fails the same way three times, stop retrying
+  and report: the call, the error, and what you tried. A fresh agent or the lead takes it from there.
 - **No agent names in the repository.** Team names never go into code, comments, tests, docs or
   scene files; describe the reason instead ("the review's case", "a playtest bug").
 - **Don't commit or push.** The lead integrates.

@@ -95,6 +95,16 @@ needed, and report it in §4. That's a finding about the mechanic, not a page to
   session (`describe`, `actions`, `act <name>`, `quit`); commands given after the file run in order
   and exit.
 
+**Building and revising.** Whether you build a variation yourself or give it to an agent:
+
+- **Revise by block.** Search for the code a change touches and edit it there; read the whole file
+  again only when its structure changes. An agent's brief names the variation and the blocks it may
+  change.
+- **Stop on a repeated failure.** When the same call fails the same way three times, the builder
+  stops and reports the call, the error and what it tried. Give the work to a fresh agent with that
+  report. If the fresh one fails the same way, say so (in hands-off mode, in the summary) instead of
+  starting a third.
+
 Put the files in a `prototypes/` folder outside any game repository (or the scratchpad), named
 `<variation>.html`. If an artifact or page publishing tool is available, publish each one as a
 private page so it can be played from a link.

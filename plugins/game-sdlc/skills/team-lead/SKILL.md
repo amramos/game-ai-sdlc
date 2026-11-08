@@ -98,8 +98,8 @@ the fallback), and any role that ran below its floor.
      the results (§4.6).
    - Write one **build card** per work package: the ledger rows it implements, quoted verbatim; the
      files each piece owns; the interfaces, including the **scene hooks** each piece wires itself
-     into; the screen specs it builds; the tests to run. Agents read the brief and their card, not the
-     whole ledger and plan.
+     into; the screen specs it builds; the GDD sections it builds on, by number; the tests to run.
+     Agents read the brief, their card and those sections, not the whole ledger, plan and GDD.
 3. **Split and spawn.**
    - Split by responsibility so developers rarely touch the same file.
    - **Agree the interfaces and scene hooks up front**: the exact signature one agent provides and
@@ -116,6 +116,10 @@ the fallback), and any role that ran below its floor.
      Run at most two or three writers at once, on disjoint files; read-only agents (review, critic,
      research) can run beside them. Windowed game runs go one at a time, through the project's lock
      if it has one.
+   - **An agent stuck on a repeated failure is retired,** whether it reports one or its progress
+     shows the same call failing again and again. Give the work to a fresh agent, with the failing
+     call and its error in the prompt. If the fresh one fails the same way, it's a blocker: record it
+     in `STATE.md` with the call, the error and the model, and put it in the report.
 4. **Review as each piece lands**, not at the end. Start the adversarial review of a finished piece
    while others are still working; scope it to that piece; tell the reviewer what the feature must
    guarantee and ask for concrete failure scenarios, no style nits.

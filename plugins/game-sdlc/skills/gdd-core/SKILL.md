@@ -217,6 +217,10 @@ unanswered becomes an `[OPEN]` item with the options and the recommendation, nev
 Use [gdd-template.md](gdd-template.md). Put it at `docs/GDD.md` if a repository exists, otherwise
 `GDD.md` in the current folder (`setup-godot` moves it into place).
 
+**Revise by section.** Find the section a change touches by its heading, read and edit that section
+on its own, and read the whole document again only for a whole-document check: the sweep after a
+change, the builder's read (§6), a round reviewer's brief.
+
 - **The current design, with its reasons.** Rules and values as they stand, with one sentence of why
   for any rule a builder might "simplify" away. How the design got here (the rounds, prototype
   history, tester quotes, research findings) stays in its own reports: comparables appear as the one

@@ -39,7 +39,8 @@ of a design conversation.
 
 - The code wins when documentation disagrees about what exists; fix the documentation in the same commit.
 - `docs/GDD.md` is the single source of truth for design and scope. Read the relevant section before
-  building a game system. Markers: `[BUILT]` shipped, `[DESIGNED]` specified but unbuilt, `[OPEN]`
+  building a game system: find it by its heading and read that section on its own; read the whole
+  GDD only for work on the whole design. Markers: `[BUILT]` shipped, `[DESIGNED]` specified but unbuilt, `[OPEN]`
   needs an owner decision — ask, never invent. A value a rule needs that the GDD neither states nor
   marks is reported the same way.
 - Where the GDD conflicts with an older ADR, the GDD wins and the ADR gets a superseded note.
