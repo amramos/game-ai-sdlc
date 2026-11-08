@@ -123,9 +123,9 @@ with their first real file, never empty in advance (ADR-0001).
 
 ## UI and text
 
-Anything the player sees follows the `game-ui` skill (`game-sdlc:game-ui`) and the Interface section
-of `docs/art/art-direction.md` (once `art-direction` has written it); the project's rulings win over
-the skill's defaults.
+Anything the player sees follows the `game-ui` skill (`game-sdlc:game-ui` in Claude Code) and the
+Interface section of `docs/art/art-direction.md` (once `art-direction` has written it); the
+project's rulings win over the skill's defaults.
 
 - **Text takes its look from a type role**: `theme_type_variation` set to `Display`, `Body` or
   `Caption`, from the project theme (`assets/themes/ui_theme.tres`). Faces and sizes live only

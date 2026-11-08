@@ -17,7 +17,7 @@ Either way, decisions are made by whoever answers the round. Facts are looked up
 never asked.
 
 **The owner's taste profile.** Before the first round, read it by `taste-profile` §1
-(`game-sdlc:taste-profile` when installed as a plugin):
+(`game-sdlc:taste-profile` in Claude Code):
 
 - **Never open `taste.md` yourself; run §1's command**, which prints only the Never lines. Do this
   before reading anything else about the profile.

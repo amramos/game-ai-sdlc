@@ -13,8 +13,8 @@ the user's instructions override it wherever they differ.
 Templates for the brief, the build card, the developer, fix and reviewer prompts, the art-direction
 prompt and the final report are in [templates.md](templates.md). The story page is
 [story_template.html](story_template.html). The agents are this plugin's `team-developer` and
-`adversarial-reviewer` (`game-sdlc:team-developer`, `game-sdlc:adversarial-reviewer` when installed
-as a plugin). The Codex runner for reviews is `scripts/codex_review.py` in this skill's folder
+`adversarial-reviewer` (`game-sdlc:team-developer`, `game-sdlc:adversarial-reviewer` in Claude
+Code). The Codex runner for reviews is `scripts/codex_review.py` in this skill's folder
 (`<skill>` below).
 
 ## 1. Settle the ask
