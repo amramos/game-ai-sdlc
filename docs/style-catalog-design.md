@@ -423,7 +423,10 @@ The owner's draft library (outside this repository) has five entries. Before any
   lists `engines: [web]`, and §3a tells a Godot project that the recipe must be ported, using §3's
   list of what re-tunes. `godot.md` records the hash of the web frame it matched, so a web demo
   remade later fails the checker until the port catches up. Three ports went stale exactly that way
-  when their web demos were remade after the first Godot round.
+  when their web demos were remade after the first Godot round. The Compatibility traps the ports
+  share (where colour is decoded and encoded, lights, mipmaps, 2D antialiasing, text) live once in
+  `references/godot-compatibility.md`, numbered; each `godot.md` cites them and keeps only its own.
+  A Godot game copies that reference beside its `godot.md`.
 - **Frames.** While the catalog is being built, captures from the owner's prototypes may stand in
   as frames, but only from games not meant for release. This is an exception to AGENTS.md's rule
   against carrying a game's art into the SDLC, so it ends before release: every shipped entry gets
