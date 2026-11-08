@@ -6,7 +6,7 @@ argument-hint: "The epic, feature or plan to build and merge"
 
 # Team lead, hands-off
 
-Load the **`team-lead`** skill (`game-sdlc:team-lead` when installed as a plugin) and follow it, with
+Load the **`team-lead`** skill (`game-sdlc:team-lead` in Claude Code) and follow it, with
 the differences below. The owner chose to let reviewed work reach `main` without them; this skill's
 job is to make that safe enough to undo, **without stopping to ask** about anything the owner's
 invocation already decided.

@@ -6,7 +6,7 @@ argument-hint: "A one-line game idea, or \"surprise me\""
 
 # GDD (hands-off)
 
-Load the **`gdd-core`** skill (`game-sdlc:gdd-core` when installed as a plugin) and follow it in
+Load the **`gdd-core`** skill (`game-sdlc:gdd-core` in Claude Code) and follow it in
 **hands-off mode**: you and one round reviewer answer the rounds instead of the user.
 
 The risk of a design nobody steered is the *average* game: competent and forgettable. Agents write

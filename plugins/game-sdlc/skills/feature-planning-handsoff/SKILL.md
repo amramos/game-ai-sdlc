@@ -6,8 +6,8 @@ argument-hint: "The feature or change to plan"
 
 # Feature planning (hands-off)
 
-Load the **`feature-planning-core`** skill (`game-sdlc:feature-planning-core` when installed as a
-plugin) and follow it in **hands-off mode**: you and one round reviewer answer the rounds instead
+Load the **`feature-planning-core`** skill (`game-sdlc:feature-planning-core` in Claude Code)
+and follow it in **hands-off mode**: you and one round reviewer answer the rounds instead
 of the owner. The ledger still calls the two of you "the panel".
 
 ## 1. The one question asked up front

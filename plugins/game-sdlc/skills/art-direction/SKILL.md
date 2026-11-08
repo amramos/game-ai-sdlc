@@ -30,8 +30,8 @@ each contributes), palette mood and tone. If the references are thin, run one ro
 In hands-off mode the critic answers that round from the GDD instead, and each answer is recorded as
 assumed.
 
-Look for the owner's **taste profile** too, by `taste-profile` §1 (`game-sdlc:taste-profile` when
-installed as a plugin): **never open `taste.md` yourself; run §1's command**, which prints only the
+Look for the owner's **taste profile** too, by `taste-profile` §1 (`game-sdlc:taste-profile` in
+Claude Code): **never open `taste.md` yourself; run §1's command**, which prints only the
 Never lines. Offer the profile if it's missing and the owner is there (its §5). Use it by its §3.
 You, choosing the directions, keep only its Never lines. Image generators get nothing from it,
 and neither do saved prompts or the style guide. Only the judge reads it whole: the critic in
@@ -44,7 +44,7 @@ chose it, as in the interactive `gdd`. That decides how far apart the directions
 
 ### Check the style catalog first
 
-The `style-catalog` skill (`game-sdlc:style-catalog` when installed as a plugin) holds looks that
+The `style-catalog` skill (`game-sdlc:style-catalog` in Claude Code) holds looks that
 were already worked out. Building a look from scratch is for games no entry fits.
 
 - **The GDD names an entry** (`Style: catalog <id> v<version>`): go to §3a after §2.

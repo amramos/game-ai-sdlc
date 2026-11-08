@@ -24,7 +24,7 @@ Two documents come out of it, for two readers:
 - the **plan** — long, for agents: requirements, architecture, work packages, traceability.
 
 **The owner's taste profile.** Before the first round, read it by `taste-profile` §1
-(`game-sdlc:taste-profile` when installed as a plugin):
+(`game-sdlc:taste-profile` in Claude Code):
 
 - **Never open `taste.md` yourself; run §1's command**, which prints only the Never lines. You write
   the rounds, so the Never lines are all you keep.

@@ -17,7 +17,7 @@ Either way, decisions are made by whoever answers the round. Facts are looked up
 never asked.
 
 **The owner's taste profile.** Before the first round, read it by `taste-profile` §1
-(`game-sdlc:taste-profile` when installed as a plugin):
+(`game-sdlc:taste-profile` in Claude Code):
 
 - **Never open `taste.md` yourself; run §1's command**, which prints only the Never lines. Do this
   before reading anything else about the profile.
@@ -216,6 +216,10 @@ unanswered becomes an `[OPEN]` item with the options and the recommendation, nev
 
 Use [gdd-template.md](gdd-template.md). Put it at `docs/GDD.md` if a repository exists, otherwise
 `GDD.md` in the current folder (`setup-godot` moves it into place).
+
+**Revise by section.** Find the section a change touches by its heading, read and edit that section
+on its own, and read the whole document again only for a whole-document check: the sweep after a
+change, the builder's read (§6), a round reviewer's brief.
 
 - **The current design, with its reasons.** Rules and values as they stand, with one sentence of why
   for any rule a builder might "simplify" away. How the design got here (the rounds, prototype

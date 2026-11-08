@@ -42,6 +42,7 @@ decisions only for the kinds it doesn't cover; or "no new art".>
 **Shared scene:** `<scene>`, owned by <owner>, who builds its placeholder nodes first.
 **Interfaces and scene hooks:** <signature or node path> — provided by <piece>, used by <piece>.
 **Screen specs:** <links, or "none">.
+**GDD sections:** §<n> <heading>, … (read these, not the whole GDD).
 **Tests:** each piece runs <its own test files>; the full suite runs at the gate.
 ```
 
@@ -52,8 +53,8 @@ You are **<Name>**, a developer on a small team led by <Lead> (the main session)
 <One line on what the game/feature is.> Your job: **<the piece>**.
 
 Checkout: `<path>` (run everything from here). Read first: AGENTS.md / CLAUDE.md, <docs>, the brief
-`<scratchpad>/BRIEF.md` and your build card `<scratchpad>/CARD-<n>.md`. You don't need the whole
-ledger or plan; the card quotes the rows you implement.
+`<scratchpad>/BRIEF.md`, your build card `<scratchpad>/CARD-<n>.md` and the GDD sections it cites.
+You don't need the whole ledger, plan or GDD; the card quotes the rows you implement.
 
 ## Decisions already made (by the owner — don't change)
 <numbered list, citing ledger ids>

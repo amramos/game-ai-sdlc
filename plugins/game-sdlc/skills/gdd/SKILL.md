@@ -6,7 +6,7 @@ argument-hint: "A one-line game idea, or nothing to start from scratch"
 
 # GDD (interactive)
 
-Load the **`gdd-core`** skill (`game-sdlc:gdd-core` when installed as a plugin) and follow it in
+Load the **`gdd-core`** skill (`game-sdlc:gdd-core` in Claude Code) and follow it in
 **interactive mode**: you run the design interview, research agents look things up while it runs,
 and **the user makes every design decision**. Your job is to make each decision easy to make.
 

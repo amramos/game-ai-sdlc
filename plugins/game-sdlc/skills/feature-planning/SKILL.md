@@ -6,8 +6,8 @@ argument-hint: "The feature or change to plan"
 
 # Feature planning (interactive)
 
-Load the **`feature-planning-core`** skill (`game-sdlc:feature-planning-core` when installed as a
-plugin) and follow it in **interactive mode**: the owner answers every round.
+Load the **`feature-planning-core`** skill (`game-sdlc:feature-planning-core` in Claude Code)
+and follow it in **interactive mode**: the owner answers every round.
 
 What this mode adds to the core:
 

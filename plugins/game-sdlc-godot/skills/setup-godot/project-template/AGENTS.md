@@ -39,7 +39,8 @@ of a design conversation.
 
 - The code wins when documentation disagrees about what exists; fix the documentation in the same commit.
 - `docs/GDD.md` is the single source of truth for design and scope. Read the relevant section before
-  building a game system. Markers: `[BUILT]` shipped, `[DESIGNED]` specified but unbuilt, `[OPEN]`
+  building a game system: find it by its heading and read that section on its own; read the whole
+  GDD only for work on the whole design. Markers: `[BUILT]` shipped, `[DESIGNED]` specified but unbuilt, `[OPEN]`
   needs an owner decision — ask, never invent. A value a rule needs that the GDD neither states nor
   marks is reported the same way.
 - Where the GDD conflicts with an older ADR, the GDD wins and the ADR gets a superseded note.
@@ -122,9 +123,9 @@ with their first real file, never empty in advance (ADR-0001).
 
 ## UI and text
 
-Anything the player sees follows the `game-ui` skill (`game-sdlc:game-ui`) and the Interface section
-of `docs/art/art-direction.md` (once `art-direction` has written it); the project's rulings win over
-the skill's defaults.
+Anything the player sees follows the `game-ui` skill (`game-sdlc:game-ui` in Claude Code) and the
+Interface section of `docs/art/art-direction.md` (once `art-direction` has written it); the
+project's rulings win over the skill's defaults.
 
 - **Text takes its look from a type role**: `theme_type_variation` set to `Display`, `Body` or
   `Caption`, from the project theme (`assets/themes/ui_theme.tres`). Faces and sizes live only

@@ -84,7 +84,9 @@ copilot plugin install game-sdlc@game-ai-sdlc
 copilot plugin install game-sdlc-godot@game-ai-sdlc
 ```
 
-It reads the skills, the two agents and a project's `AGENTS.md`. It doesn't run the hooks that
+It reads the skills, the two agents and a project's `AGENTS.md`. It names skills by their plain
+names (`gdd`, `team-lead`): the `game-sdlc:` prefix in the commands below is Claude Code's, and
+Copilot doesn't resolve it. It doesn't run the hooks that
 `setup-godot` registers for Claude Code and Codex, the merge guard included, so keep hands-off builds
 that merge (`team-lead-handsoff`) on those two.
 
