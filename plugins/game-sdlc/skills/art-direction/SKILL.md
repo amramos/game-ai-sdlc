@@ -234,7 +234,8 @@ the switch part of this run, so the project never disagrees with its own style g
   - *to pixel art:* a small base (e.g. 640×360), stretch mode `viewport`, integer scaling, nearest
     filtering;
   - *to 3D:* check the renderer — Compatibility for web builds, Forward+ for desktop only — and say
-    whether it changes.
+    whether it changes. In Compatibility, build the look with `style-catalog`'s
+    `references/godot-compatibility.md` at hand: colours are decoded and encoded in other places.
 - **Tooling:** the pixel palette linter (`pixelforge`) applies to pixel art only; add or remove its
   configuration, and say which.
 - **Validate** as setup does: import, the test suite, and a headless boot with no errors.
@@ -264,7 +265,8 @@ Into `docs/art/` (outside the build: add a `.gdignore` there for Godot, or the e
   until the user confirms the pick (§7), then deleted. After a catalog pick (§3a) there are no
   runner-up frames: the guide names the runner-up entries instead;
 - from the catalog only: `style/`, a **copy** of the entry's `style.md`, `recipe.md`, the chosen
-  framing file and the project engine's file, and nothing else. The style guide records the entry's id and version,
+  framing file and the project engine's file (for Godot, with `style-catalog`'s
+  `references/godot-compatibility.md` beside it), and nothing else. The style guide records the entry's id and version,
   the match record (`style-catalog` §1) and the "Make it your own" list from §3a. A copy, not a
   link: a plugin update must never change the game's look. Agents building the game read the
   pitfalls and engine notes from there.

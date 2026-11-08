@@ -39,6 +39,8 @@ In the plugin:
   - `example-palette.gpl`: one instance of the colour roles. An example, never the default.
   - `preview.webp`: the key scene, 640 px wide, to show with the look question.
 - [references/matching.md](references/matching.md): the match, its thresholds and its record.
+- [references/godot-compatibility.md](references/godot-compatibility.md): the colour and drawing
+  traps of Godot's Compatibility renderer, numbered. Every `godot.md` cites them by number.
 
 On the site, each entry also has `frames/` (`key-scene`, `character`, `prop`, `text-heavy`, `dont`
 for the look broken, and `godot-key-scene`, all 1280×720: `.png` for pixel art, vector and dithered
@@ -121,7 +123,7 @@ wherever an entry is used:
 
 - **Copy, don't link.** The style guide copies the entry's `style.md`, `recipe.md`, the chosen
   framing file and the project engine's file into `docs/art/style/`, with the entry's id and
-  version. A plugin update must never change a game's look.
+  version. For Godot, also copy `references/godot-compatibility.md`, which `godot.md` cites. A plugin update must never change a game's look.
 - **Reference frames come from the site, once.** When art-direction uses the entry's frames as
   image references, download only `character`, `prop`, `text-heavy` and `dont` from
   `<site>/<id>/frames/<name>.jpg` (`.png` when that's missing) into the game's art working folder,
@@ -133,7 +135,8 @@ wherever an entry is used:
   site's demo: load the game's own art, made the same way, instead.
 
 An entry whose `engines` lacks the project's engine still works: say the recipe must be ported, and
-port it from `recipe.md`, re-tuning what its engine notes say re-tunes.
+port it from `recipe.md`, re-tuning what its engine notes say re-tunes. A port to Godot starts from
+`references/godot-compatibility.md`.
 
 ## 4. Checking entries
 
