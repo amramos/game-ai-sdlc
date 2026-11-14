@@ -3,6 +3,41 @@
 What changed in each version of the `game-sdlc` and `game-sdlc-godot` plugins, newest first. Both
 plugins are released together under one version.
 
+## 0.14.0 — 2026-11-14
+
+Make guided moments read as guided. Playtesters took prototype tutorials for real play: the board
+looked live, only one input worked, and a wrong input did nothing, so they hunted for choices that
+weren't there. This release also cuts wasted agent turns in long runs, names skills so every agent
+tool can load them, and gathers the catalog's Godot traps into one list.
+
+- **prototype:** the player always knows they're in the tutorial. A frame names and counts it
+  ("Tutorial · 2 of 4") with a skip. Each step is an instruction aimed at one highlighted target,
+  with the rest of the board visibly held back. An input outside the step is answered, pointing back
+  to the target. One beat hands over to free play. `describe()` starts with the mode. Tutorial
+  playtesters report when they knew they were being guided, and a step mistaken for a real choice
+  is a framing failure to fix first.
+- **playtest:** playtesters report whether they could tell guided moments (tutorials, scripted
+  sequences, forced moves) from free play.
+- **game-ui:** commandment 2 treats a guided moment as a mode the player can see: named while it
+  lasts, pointing at its one input, and marking where control comes back.
+- **feature-planning:** the first-time-player checklist and the list of ways a build can pass and
+  still fail cover guided moments.
+- **Fewer wasted turns:** `team-developer` reads the GDD sections its build card cites, keeps
+  command output short, and stops after the same call fails the same way three times. `team-lead`
+  retires a stuck agent, retries once with a fresh one, then records a blocker. `prototype` and
+  `gdd-core` revise by block or section instead of rereading whole files.
+- **Skill names:** references give the plain name first and the `game-sdlc:` prefix as Claude
+  Code's, since GitHub Copilot CLI loads plugin skills only by their plain names.
+- **style-catalog:** `references/godot-compatibility.md` lists the colour and drawing traps the
+  Godot ports found, numbered; each look's `godot.md` cites them and keeps only its own. A Godot
+  game copies the list beside its `godot.md`. The demos bundle their fonts, and the Godot snippets
+  load the same files.
+
+**Existing projects:** optionally bring two lines of the project `AGENTS.md` in line with the
+template: read a GDD section by its heading rather than the whole GDD, and write the UI skill as
+`game-sdlc:game-ui` "in Claude Code". Nothing else to change. Codex users re-run
+`python scripts/install_codex.py`.
+
 ## 0.13.0 — 2026-11-07
 
 Start from a tested look. Art direction used to invent every game's look from scratch, and image
