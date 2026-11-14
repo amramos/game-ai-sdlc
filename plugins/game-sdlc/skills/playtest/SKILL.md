@@ -72,6 +72,8 @@ Each reports:
 - what they think the goal is, and the strategy they ended up using;
 - the most and least interesting decision;
 - where they got stuck or confused, with the screenshot or state at that moment;
+- where the game guided them (a tutorial, a scripted sequence, a forced move): whether they knew
+  they were being guided, and any guided moment they took for a free choice;
 - bugs (anything that looked broken);
 - what they skipped reading;
 - what they understood without reading;

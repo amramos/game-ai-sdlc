@@ -38,7 +38,9 @@ GDD sections and docs, and this brief:
   does, one line each:
   - what a player meeting this for the first time *sees*;
   - what they could *misread*;
-  - what would *frustrate* them.
+  - what would *frustrate* them;
+  - where the game guides them (a tutorial, a scripted sequence, a forced move), whether they can
+    tell they're being guided.
 - **As the profile judge** (`taste-profile` §3): it reads the whole taste profile itself, in its own
   context, and returns its decisions under that section's rules.
 - For every question: **agree**, or **a different answer** with one line of reason. It never sees

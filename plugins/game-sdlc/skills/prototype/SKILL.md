@@ -58,6 +58,23 @@ scripted first deal, so every step is sure to work.
 - Then a full round with no coach. A `?` key shows the step texts again; the restart key starts a
   round without the tutorial. `?tutorial=off` in the URL starts without it too.
 
+**The player always knows they're in the tutorial.** A guided step has one right input. A player who
+takes it for real play searches the board for a choice that isn't there. So the page shows which
+mode it's in:
+
+- While the tutorial runs, a frame names it and counts it ("Tutorial · 2 of 4") and offers a skip.
+  The coach's words are set apart from the game's own (their own place, voice or style), so an
+  instruction never reads as game content. How it looks follows `game-ui`, like any other screen.
+- Each step's text is an instruction aimed at one visible thing ("Drag the highlighted piece to the
+  empty slot"), never an open prompt or a question that sounds like a choice. Its target is
+  highlighted and the rest of the board is visibly held back (dimmed or locked), not merely inert.
+- An input outside the step gets an answer where it landed, pointing back to the target ("Not yet:
+  try the highlighted one"). It never does nothing.
+- The tutorial ends on one beat that hands over ("Tutorial done: this round is yours"). Then the
+  frame, the hold-back and the coach go, so the free round looks different from the guided part.
+- `describe()` starts with the mode ("Tutorial step 2 of 4: …" or "Free play"), so headless
+  playtesters can tell the two apart as well.
+
 If the core can't be taught in five steps, don't add a sixth: note how many steps and terms it
 needed, and report it in §4. That's a finding about the mechanic, not a page to fix.
 
@@ -80,7 +97,8 @@ needed, and report it in §4. That's a finding about the mechanic, not a page to
 - Plain JavaScript; tuning numbers grouped at the top so they're easy to change.
 - The same session length and the same win/loss framing across variations, so they compare fairly.
 - `window.proto` gives the text interface:
-  - `describe()` returns the visible state as plain text, with the current tutorial step's text;
+  - `describe()` returns the visible state as plain text, starting with the mode and the current
+    tutorial step's text;
   - `actions()` returns the actions legal right now;
   - `act(name)` performs one and returns what happened;
   - `restart({ tutorial })` starts again, with or without the tutorial.
@@ -151,6 +169,8 @@ went unplayed. Ask each one to play until the session ends, then report:
 - what they think the goal is and what the best strategy was;
 - the most and least interesting decision they made;
 - where they got stuck or confused, and where the screen misled them;
+- the tutorial arms only: when they knew they were being guided and when they were playing freely,
+  and any step they took for a real choice;
 - how much they'd want another round (1–10), with one line of why.
 
 Run playtesters for different variations in parallel. Quote them in the comparison; don't summarise
@@ -164,6 +184,8 @@ away disagreement.
 - The tutorial arm gets it wrong: the tutorial fails, or the core is too complex to teach in five
   steps. That's a finding about the mechanic as much as the page.
 - The cold one enjoys it more: the tutorial gives away the discovery. Cut it to the goal and verbs.
+- A tutorial playtester took a guided step for a real choice, or didn't notice the handover: the
+  tutorial doesn't read as one. Fix the page's framing before reading anything else from that arm.
 
 One playtester per arm is a pointer, not a measurement; say so when quoting them.
 
