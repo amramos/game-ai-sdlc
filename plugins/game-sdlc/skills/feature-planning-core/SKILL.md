@@ -195,6 +195,7 @@ List the most plausible ways the build could meet every written requirement and 
 - familiar mechanics redone in a different interaction language;
 - feedback that exists but isn't perceptible in play;
 - tutorials covering for unclear affordances;
+- a guided step the player takes for a free choice;
 - timing that starts before the player can act;
 - prose explaining what the interface should show;
 - a screen that tells the player what the pillars want withheld;

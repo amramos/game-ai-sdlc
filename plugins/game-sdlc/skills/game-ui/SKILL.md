@@ -72,12 +72,18 @@ precision it needs.
   patterns consistent across screens; let layout differ.
 - When the mode changes, the previous mode's live data and controls go; a dimmed, inert backdrop may
   stay for a sense of place. What matters only sometimes appears only then.
+- A guided moment (a tutorial step, a scripted sequence, a forced move) is a mode too, and the
+  player sees that it is one. It has one right input. A player who takes it for free play hunts for
+  a choice that isn't there. Name the guidance while it lasts, point at the one input, hold the rest
+  back visibly, answer an input outside it, and mark the moment control comes back. How each is
+  shown is the screen's own design; diegetic is fine if it still reads.
 - A view that serves several moments of the loop is designed per moment: each element is shown only
   in the moments that need it, and the sketch shows each moment that looks different.
 - Exact numbers where the player compares or calculates; meters or words where they should feel.
 
 *Check:* the spec names the activity and its moments; each element names the moments it's shown in;
 each number names the comparison it serves; no live data or control survives from a previous mode.
+Every guided moment shows that it is guided, where it starts and where it ends.
 
 ### 3. Designed with the mechanic
 
