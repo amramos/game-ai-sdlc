@@ -71,7 +71,7 @@ python scripts/install_codex.py --check  # are they up to date?
 python scripts/install_codex.py --remove # uninstall (only what this script installed)
 ```
 
-The projects `setup-godot` creates work with both clients: one shared `AGENTS.md`, the same hooks
+The projects `setup-godot` creates work with both clients (and with omp, below): one shared `AGENTS.md`, the same hooks
 registered for each, and the same three agent roles.
 
 ### GitHub Copilot CLI
@@ -87,8 +87,27 @@ copilot plugin install game-sdlc-godot@game-ai-sdlc
 It reads the skills, the two agents and a project's `AGENTS.md`. It names skills by their plain
 names (`gdd`, `team-lead`): the `game-sdlc:` prefix in the commands below is Claude Code's, and
 Copilot doesn't resolve it. It doesn't run the hooks that
-`setup-godot` registers for Claude Code and Codex, the merge guard included, so keep hands-off builds
-that merge (`team-lead-handsoff`) on those two.
+`setup-godot` registers for Claude Code, Codex and omp, the merge guard included, so keep hands-off builds
+that merge (`team-lead-handsoff`) on those clients.
+
+### omp (oh-my-pi) and its desktop apps
+
+omp installs from this marketplace too:
+
+```bash
+omp plugin marketplace add amramos/game-ai-sdlc
+omp plugin install game-sdlc@game-ai-sdlc game-sdlc-godot@game-ai-sdlc
+```
+
+omp doesn't auto-update plugins: run `omp plugin upgrade` after each release. A desktop app that
+runs the `omp` binary uses the same install.
+
+Projects that `setup-godot` creates with omp chosen work in omp as they do in Claude Code: omp reads
+`AGENTS.md`, `CLAUDE.md`, `.mcp.json` and `.claude/skills/`, and the project's `.omp/` folder adds
+the rest. That folder has a hook bridge that runs the same safeguards (the merge guard included),
+the three agent roles, and a setting that keeps the Codex skill mirrors from showing up twice. A
+session doesn't need to check compatibility again. The agents set no model, so they run on the
+session's model unless your omp config routes them.
 
 ### Updating
 

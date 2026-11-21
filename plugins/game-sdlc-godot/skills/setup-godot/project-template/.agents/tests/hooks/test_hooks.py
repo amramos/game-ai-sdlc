@@ -70,6 +70,8 @@ class ProtectionTests(unittest.TestCase):
             ".claude/settings.json",
             ".codex/hooks.json",
             ".codex/config.toml",
+            ".omp/config.yml",
+            ".omp/hooks/pre/project-safeguards.ts",
             ".agents/skills/godot-debug/SKILL.md",
             ".godot/editor/state",
             "assets/image.png.import",
@@ -675,6 +677,14 @@ class RegistrationTests(unittest.TestCase):
             self.assertEqual(hook["shell"], "bash")
             self.assertIn('$CLAUDE_PROJECT_DIR/.agents/hooks/run.sh', hook["command"])
 
+    def test_omp_bridge_runs_the_shared_entrypoints(self) -> None:
+        text = (REPO_ROOT / ".omp" / "hooks" / "pre" / "project-safeguards.ts").read_text(encoding="utf-8")
+        self.assertIn('".agents", "hooks", "run.sh"', text)
+        for entrypoint in ("protect_paths.py", "guard_bash.py", "pre_commit_lint.py", "validate_gdscript.py"):
+            self.assertIn(f'"{entrypoint}"', text)
+        config = (REPO_ROOT / ".omp" / "config.yml").read_text(encoding="utf-8")
+        self.assertIn("enableAgentsProject: false", config)
+
     def test_legacy_claude_hook_scripts_are_removed(self) -> None:
         legacy_root = REPO_ROOT / ".claude" / "hooks"
         for name in ("protect_paths.py", "guard_bash.py", "pre_commit_lint.py", "validate_gdscript.py"):
@@ -699,6 +709,17 @@ class RegistrationTests(unittest.TestCase):
             text = (REPO_ROOT / ".codex" / "agents" / filename).read_text(encoding="utf-8")
             self.assertIn(f'sandbox_mode = "{expected}"', text)
             self.assertNotIn("model =", text)
+
+        omp_tools = {
+            "godot-developer.md": "tools: read, write, edit, grep, glob, find, bash",
+            "godot-debugger.md": "tools: read, edit, grep, glob, find, bash",
+            "godot-reviewer.md": "tools: read, grep, glob, find, bash",
+        }
+        for filename, expected in omp_tools.items():
+            text = (REPO_ROOT / ".omp" / "agents" / filename).read_text(encoding="utf-8")
+            self.assertIn(expected, text)
+            # Model roles are personal omp settings; an agent without one runs on the session's model.
+            self.assertNotRegex(text, r"(?m)^model:")
 
 
 if __name__ == "__main__":

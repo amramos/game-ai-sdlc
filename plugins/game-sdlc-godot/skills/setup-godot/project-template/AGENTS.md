@@ -1,8 +1,8 @@
 # {{GAME_TITLE}} — shared agent instructions
 
 These instructions apply to every coding agent working in this repository. Read this file and
-`docs/current-status.md` before any non-trivial change. Client adapters (`CLAUDE.md`, `.codex/`) may
-add capabilities but must not contradict this contract.
+`docs/current-status.md` before any non-trivial change. Client adapters (`CLAUDE.md`, `.codex/`,
+`.omp/`) may add capabilities but must not contradict this contract.
 
 {{PITCH}}
 
@@ -70,6 +70,7 @@ Use these words exactly, in code, docs and conversation. One meaning each.
 .agents/    shared hooks, role workflows, generated Codex skill mirrors, hook tests
 .claude/    Claude Code adapters, project skills, settings
 .codex/     Codex hooks, config, agent definitions
+.omp/       omp hook bridge, config, agent definitions
 .github/    CI, release and (optionally) bug-intake workflows; Dependabot for action versions
 addons/     third-party Godot plugins, vendored and never edited
 core/       pure logic independent of the scene tree
@@ -178,7 +179,9 @@ The current baseline (test count, known failures) is in `docs/current-status.md`
 - Process skills come from the `game-sdlc` plugin, Godot skills from `game-sdlc-godot`. Project-specific
   skills go in `.claude/skills/`; their Codex mirrors in `.agents/skills/` are generated
   (`python3 .agents/scripts/sync_skills.py --write`), never hand-edited.
-- Roles: `.agents/roles/` (shared), `.claude/agents/` (Claude), `.codex/agents/` (Codex).
-- Hooks: `.agents/hooks/`, registered in `.claude/settings.json` and `.codex/hooks.json`.
-  `.claude/settings.json` is owner-managed: agents prepare a change and ask.
+- Roles: `.agents/roles/` (shared), `.claude/agents/` (Claude), `.codex/agents/` (Codex),
+  `.omp/agents/` (omp).
+- Hooks: `.agents/hooks/`, registered in `.claude/settings.json`, `.codex/hooks.json` and
+  `.omp/hooks/pre/project-safeguards.ts`. Those registrations and `.omp/config.yml` are
+  owner-managed: agents prepare a change and ask.
 - Details, reload and recovery: `docs/agent-tooling.md`.

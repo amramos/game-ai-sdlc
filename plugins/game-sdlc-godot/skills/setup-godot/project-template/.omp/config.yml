@@ -1,0 +1,5 @@
+# omp project settings. Owner-managed: agents prepare the exact change and ask (docs/agent-tooling.md).
+skills:
+  # Project skills live in .claude/skills/, which omp reads. .agents/skills/ holds generated Codex
+  # mirrors of the same skills; loading both would list every project skill twice.
+  enableAgentsProject: false

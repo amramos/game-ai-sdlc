@@ -1,6 +1,6 @@
 # Shared agent hooks
 
-These four stdlib-only Python entry points implement the same policies for Claude Code and Codex:
+These four stdlib-only Python entry points implement the same policies for Claude Code, Codex and omp (through `.omp/hooks/pre/project-safeguards.ts`):
 
 | Entry point | Event | Policy |
 |---|---|---|
@@ -32,6 +32,7 @@ Recursive deletion is allowed only for the exact repository `.godot`, `build`, o
 - `addons/**`, except exactly `addons/README.md`
 - exact `.claude/settings.json`
 - `.codex/hooks.json` and `.codex/config.toml` after bootstrap
+- `.omp/config.yml` and `.omp/hooks/**`
 - generated `.agents/skills/**`
 - `*.import` and `.godot/**`
 

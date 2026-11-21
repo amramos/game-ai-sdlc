@@ -43,6 +43,11 @@ files; a comma list selects nothing useful. Run one file per invocation and read
 
 **A wide tolerance swallows the bug it points at.** Assert exact equality where a value is exact.
 
+**On Windows, a bare `bash` can be WSL's.** `C:\Windows\System32\bash.exe` and the `WindowsApps`
+alias start WSL, which can't see `C:/…` paths, so the `run.sh` tests in `.agents/tests` fail with
+"No such file or directory". Put Git's `bin` first on `PATH` for that run. The omp hook bridge finds Git's
+`bash.exe` by itself.
+
 ## Assets and UIDs
 
 **Moving assets invalidates every `uid=` that referenced them.** Strip the stale `uid=` and let Godot

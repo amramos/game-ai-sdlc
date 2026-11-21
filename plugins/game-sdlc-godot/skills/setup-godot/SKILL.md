@@ -1,6 +1,6 @@
 ---
 name: setup-godot
-description: Turn a GDD into a Godot 4 repository that agents can work in safely, with as little for the user to do as possible — one round of questions (or "use every recommendation"), one approval, and then it installs the tools, creates the project with its agent contract, day-one ADRs, docs, GUT, shared Claude and Codex hooks and agents, CI and an itch.io release workflow, proves the export presets with a real export, merges the scaffold and creates the GitHub repository. Use after gdd or gdd-handsoff (and the optional prototype), or when the user asks to set up, bootstrap or scaffold a Godot project or repo.
+description: Turn a GDD into a Godot 4 repository that agents can work in safely, with as little for the user to do as possible — one round of questions (or "use every recommendation"), one approval, and then it installs the tools, creates the project with its agent contract, day-one ADRs, docs, GUT, shared Claude, Codex and omp hooks and agents, CI and an itch.io release workflow, proves the export presets with a real export, merges the scaffold and creates the GitHub repository. Use after gdd or gdd-handsoff (and the optional prototype), or when the user asks to set up, bootstrap or scaffold a Godot project or repo.
 argument-hint: "Optional: the folder for the new project"
 ---
 
@@ -43,7 +43,9 @@ recommendation"** as the first answer. Recommend that fast path when the GDD is 
 5. **Input rule** for `AGENTS.md`: mouse and keyboard; or mouse, keyboard and gamepad (then:
    "everything clickable also takes focus and answers `ui_accept` through the same method its click
    calls").
-6. **Clients:** Claude Code and Codex (recommended), or Claude only.
+6. **Clients:** any of Claude Code, Codex and omp. Recommend Claude Code and Codex, plus omp when
+   the user runs it (`omp` on `PATH`, or the request says so). Each client's files are in the
+   template already and tested (`docs/agent-tooling.md`); don't re-check a client's compatibility.
 7. **Working style:** hands-off (recommended when the GDD came from `gdd-handsoff`) or interactive.
    It's written into `AGENTS.md`, and every later skill offers its next step in that style.
 8. **Agent merges:** may agents merge reviewed pull requests into `main` on their own
@@ -81,7 +83,10 @@ Show **one list** and ask once. It has two parts.
   and the CI `test` job) — when the account's plan allows it;
 - if the GDD's housekeeping baseline says build or backlog and an issue board is connected: create
   its epic, one feature per item that applies (`issue-tracking`); without a board, say it's owed;
-- for Codex: copy the plugin skills into `~/.codex/skills/` with the package's `scripts/install_codex.py`.
+- for Codex: copy the plugin skills into `~/.codex/skills/` with the package's `scripts/install_codex.py`;
+- for omp: install or upgrade the two plugins from this marketplace (`omp plugin marketplace add
+  amramos/game-ai-sdlc` if `omp plugin marketplace list` doesn't show it, then `omp plugin install
+  game-sdlc@game-ai-sdlc game-sdlc-godot@game-ai-sdlc`, or `omp plugin upgrade` when installed).
 
 **Only you** — whatever the agent can't do on this machine, usually just: install Git or Python if
 either is missing, and `gh auth login` if GitHub CLI isn't signed in. Give the exact command or link.
@@ -134,7 +139,9 @@ folder, commit the GDD alone (`docs: add the GDD`), then `git checkout -b setup/
    at setup, with the owner working hands-off."), copy
    [agent-merges/merge-policy.json](agent-merges/merge-policy.json) to `.agents/merge-policy.json`
    (`ADR_FILE`: that file name), and add the ADR's row to `docs/adr/README.md`.
-9. If Claude only: delete `.codex/` and the Codex parts of `docs/agent-tooling.md`.
+9. Delete the files of each client not chosen, and its parts of `docs/agent-tooling.md`, `AGENTS.md`
+   and `docs/getting-started.md`: `.codex/` for Codex, `.omp/` for omp. Claude Code's files stay
+   whatever is chosen, since `CLAUDE.md`, `.claude/skills/` and `.mcp.json` are what omp reads too.
 10. Run `python .agents/scripts/sync_skills.py --write` once so the Codex mirrors exist.
 
 ## 4. Validate, including a real export
@@ -178,6 +185,7 @@ problem — say which. Delete `build/` afterwards. Write the real GUT count into
    private repositories only on paid plans: if the call is refused for that reason, say in one line
    that the project's merge guard covers agents' merges instead, and move on.
 4. **Codex**: run `scripts/install_codex.py` from the package if the user kept that line.
+   **omp**: install or upgrade its plugins if the user kept that line.
 5. **Housekeeping baseline**: create its epic as `issue-tracking` describes, if the GDD's line says
    build or backlog. With no board connected, list the epic and its features in the final report so
    the first session with a board creates them.

@@ -41,6 +41,10 @@ the export templates for {{GODOT_VERSION}} (Editor → Manage Export Templates).
   approve the `godot` MCP server when asked, and check `/hooks` lists four hooks.
 - **Codex:** run the package's `scripts/install_codex.py` once to copy the skills into
   `~/.codex/skills/`. Codex reads `AGENTS.md` and `.codex/` from the project.
+- **omp:** `omp plugin marketplace add amramos/game-ai-sdlc`, then
+  `omp plugin install game-sdlc@game-ai-sdlc` and `game-sdlc-godot@game-ai-sdlc`. omp reads
+  `AGENTS.md`, `CLAUDE.md`, `.mcp.json`, `.claude/skills/` and `.omp/` from the project. It doesn't
+  auto-update plugins: run `omp plugin upgrade` after a new release.
 
 ## 4. Releases
 
