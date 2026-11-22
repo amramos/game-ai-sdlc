@@ -3,6 +3,26 @@
 What changed in each version of the `game-sdlc` and `game-sdlc-godot` plugins, newest first. Both
 plugins are released together under one version.
 
+## 0.15.0 — 2026-11-22
+
+Projects work in omp (oh-my-pi) too. omp installs these plugins and reads `AGENTS.md`, `CLAUDE.md`,
+`.mcp.json` and `.claude/skills/`, but skipped the project's hooks and agents, so each omp session
+worked out compatibility by itself and ran with the safeguards off.
+
+- **setup-godot:** omp is a client next to Claude Code and Codex. The template's `.omp/` folder has a
+  hook bridge that runs the same four safeguards (the merge guard included) on omp's edits and shell
+  commands, the three agent roles with no model set, and a config that keeps the Codex skill mirrors
+  from being listed twice. Setup installs or upgrades the omp plugins, and deletes the files of any
+  client not chosen.
+- **Safeguards:** `.omp/config.yml` and `.omp/hooks/` are owner-managed, like `.claude/settings.json`.
+- **README:** installing with omp, and updating with `omp plugin upgrade`, since omp doesn't
+  auto-update plugins.
+- **gotchas:** on Windows a bare `bash` can be WSL's, which breaks the `run.sh` tests.
+
+**Existing projects:** to use one in omp, copy `.omp/` from the setup-godot template and add its two
+lines to `.agents/hooks/protect_paths.py`. omp users run `omp plugin upgrade`; Codex users re-run
+`python scripts/install_codex.py`.
+
 ## 0.14.0 — 2026-11-14
 
 Make guided moments read as guided. Playtesters took prototype tutorials for real play: the board
