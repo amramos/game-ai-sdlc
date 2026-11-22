@@ -76,7 +76,7 @@ rather than by imagining them, before any repository exists to be wasted.
 - **Hooks before code.** No commits to `main`, protected vendor and config files, every script
   checked as it's edited. A rule that depends on remembering it gets forgotten; a hook that runs on
   every edit doesn't.
-- **Two clients, one contract.** Claude Code and Codex share `AGENTS.md`, the hooks and the roles,
+- **Several clients, one contract.** Claude Code, Codex and omp share `AGENTS.md`, the hooks and the roles,
   so switching tools never means switching rules.
 
 ## 4. Look — `art-direction` (optional)

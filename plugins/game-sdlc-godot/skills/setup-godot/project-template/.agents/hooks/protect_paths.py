@@ -21,6 +21,8 @@ def protection_reason(path: str) -> str | None:
         return ".claude/settings.json is owner-managed. Prepare the exact patch for the owner."
     if normalized == ".codex/hooks.json" or normalized == ".codex/config.toml":
         return "Codex project hook/config registration is protected after bootstrap."
+    if normalized == ".omp/config.yml" or normalized == ".omp/hooks" or normalized.startswith(".omp/hooks/"):
+        return "omp project hook/config registration is owner-managed. Prepare the exact patch for the owner."
     if normalized == ".agents/skills" or normalized.startswith(".agents/skills/"):
         return "Codex skill mirrors are generated; edit .claude/skills and run the synchronizer."
     if normalized == ".godot" or normalized.startswith(".godot/"):
