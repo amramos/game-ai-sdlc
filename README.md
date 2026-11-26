@@ -124,7 +124,8 @@ For one project only, add `--target <project>/.agents/skills`. Skills are named 
 the hooks or agents that `setup-godot` registers for other clients, so keep hands-off builds that merge
 (`team-lead-handsoff`) on Claude Code, Codex or omp. If a skill doesn't show up, check the Customizations
 panel or run `agy plugin list`, and re-run the script: Antigravity's folder layout has changed between
-releases.
+releases. The install was checked on `agy` 1.5.18. Skills marked manual-only (`bug-intake`,
+`design-change`, `release`) don't appear in the model's list of skills; type `/<name>` to run them.
 
 ### Updating
 
