@@ -3,6 +3,25 @@
 What changed in each version of the `game-sdlc` and `game-sdlc-godot` plugins, newest first. Both
 plugins are released together under one version.
 
+## 0.16.0 — 2026-11-27
+
+Antigravity (`agy`, its desktop app and its IDE) can use the skills. It doesn't read this package's
+marketplace, and its plugin install expects a manifest at the repository root, so it had no install path.
+
+- **Install:** `scripts/install_antigravity.py` copies every skill into Antigravity's global skill folder
+  (`~/.gemini/config/skills/`), with `--check`, `--remove`, `--dry-run` and `--target` (use
+  `<project>/.agents/skills` for one project). It only touches folders it created. Checked on `agy` 1.5.18:
+  all 28 skills install and load; the three marked manual-only (`bug-intake`, `design-change`, `release`)
+  run by typing `/<name>`.
+- **install_codex.py:** takes the target and script name as parameters, so both installers share one
+  implementation. Its behavior is unchanged.
+- **README:** installing with Antigravity, and re-running the installer after each release.
+- **Not carried over:** the hooks and agents `setup-godot` registers don't run in Antigravity, so keep
+  hands-off builds that merge (`team-lead-handsoff`) on Claude Code, Codex or omp.
+
+**Existing projects:** nothing to change. Antigravity users run `python scripts/install_antigravity.py`;
+Codex users re-run `python scripts/install_codex.py`.
+
 ## 0.15.0 — 2026-11-22
 
 Projects work in omp (oh-my-pi) too. omp installs these plugins and reads `AGENTS.md`, `CLAUDE.md`,
