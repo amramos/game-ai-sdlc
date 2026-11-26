@@ -87,6 +87,23 @@ class InstallCodexTests(unittest.TestCase):
             self.assertEqual(sorted(p.name for p in Path(target).iterdir()), ["someone-elses-skill"])
 
 
+class InstallAntigravityTests(unittest.TestCase):
+    def test_install_check_and_remove_round_trip_names_its_own_script(self) -> None:
+        script = PACKAGE / "scripts" / "install_antigravity.py"
+        with tempfile.TemporaryDirectory() as target:
+            run = lambda *extra: subprocess.run(  # noqa: E731
+                [sys.executable, str(script), "--target", target, *extra], capture_output=True, text=True
+            )
+            self.assertEqual(run("--check").returncode, 1)
+            self.assertEqual(run().returncode, 0)
+            self.assertEqual(run("--check").returncode, 0)
+            text = (Path(target) / "gdd" / "SKILL.md").read_text(encoding="utf-8")
+            self.assertIn("scripts/install_antigravity.py", text)
+            self.assertNotIn("install_codex.py", text)
+            self.assertEqual(run("--remove").returncode, 0)
+            self.assertEqual(list(Path(target).iterdir()), [])
+
+
 class InstantiateTests(unittest.TestCase):
     def test_refuses_to_write_when_a_value_is_missing(self) -> None:
         with tempfile.TemporaryDirectory() as work:

@@ -21,10 +21,10 @@ import sys
 
 PACKAGE = Path(__file__).resolve().parents[1]
 MARKER = ".installed-by-game-sdlc"
-BANNER = "> Installed from the game-sdlc package (`{source}`); re-run `scripts/install_codex.py` to update.\n\n"
+BANNER = "> Installed from the game-sdlc package (`{source}`); re-run `scripts/{script}` to update.\n\n"
 
 
-def with_banner(text: str, source: str) -> str:
+def with_banner(text: str, source: str, script: str = "install_codex.py") -> str:
     text = text.replace("\r\n", "\n")
     if not text.startswith("---\n"):
         raise ValueError(f"{source}: SKILL.md must begin with YAML frontmatter")
@@ -32,7 +32,7 @@ def with_banner(text: str, source: str) -> str:
     if closing < 0:
         raise ValueError(f"{source}: no closing frontmatter delimiter")
     cut = closing + len("\n---\n")
-    return text[:cut] + "\n" + BANNER.format(source=source) + text[cut:].lstrip("\n")
+    return text[:cut] + "\n" + BANNER.format(source=source, script=script) + text[cut:].lstrip("\n")
 
 
 def skill_sources() -> dict[str, Path]:
@@ -45,22 +45,24 @@ def skill_sources() -> dict[str, Path]:
     return sources
 
 
-def expected_files(name: str, folder: Path) -> dict[Path, bytes]:
+def expected_files(name: str, folder: Path, script: str = "install_codex.py") -> dict[Path, bytes]:
     files: dict[Path, bytes] = {}
     for path in sorted(p for p in folder.rglob("*") if p.is_file() and "__pycache__" not in p.parts):
         relative = path.relative_to(folder)
         if path.name == "SKILL.md" and len(relative.parts) == 1:
             source = path.relative_to(PACKAGE).as_posix()
-            files[relative] = with_banner(path.read_text(encoding="utf-8"), source).encode("utf-8")
+            files[relative] = with_banner(path.read_text(encoding="utf-8"), source, script).encode("utf-8")
         else:
             files[relative] = path.read_bytes()
     files[Path(MARKER)] = f"{name}\n".encode("utf-8")
     return files
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--target", type=Path, default=Path.home() / ".codex" / "skills")
+def main(
+    default_target: Path | None = None, script: str = "install_codex.py", description: str | None = __doc__
+) -> int:
+    parser = argparse.ArgumentParser(description=description, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--target", type=Path, default=default_target or Path.home() / ".codex" / "skills")
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--check", action="store_true")
     mode.add_argument("--remove", action="store_true")
@@ -80,7 +82,7 @@ def main() -> int:
                 if not args.dry_run:
                     shutil.rmtree(destination)
             continue
-        wanted = expected_files(name, folder)
+        wanted = expected_files(name, folder, script)
         stale = [rel for rel, data in wanted.items() if not (destination / rel).is_file() or (destination / rel).read_bytes() != data]
         extra = []
         if destination.exists():

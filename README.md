@@ -109,6 +109,23 @@ the three agent roles, and a setting that keeps the Codex skill mirrors from sho
 session doesn't need to check compatibility again. The agents set no model, so they run on the
 session's model unless your omp config routes them.
 
+### Antigravity (`agy`, its desktop app and its IDE)
+
+Antigravity doesn't read this marketplace, so copy the skills into its global skill folder, as for Codex:
+
+```bash
+python scripts/install_antigravity.py          # installs into ~/.gemini/config/skills/
+python scripts/install_antigravity.py --check  # are they up to date?
+python scripts/install_antigravity.py --remove # uninstall (only what this script installed)
+```
+
+For one project only, add `--target <project>/.agents/skills`. Skills are named by their plain names
+(`gdd`, `team-lead`), without the `game-sdlc:` prefix, which is Claude Code's. Antigravity doesn't run
+the hooks or agents that `setup-godot` registers for other clients, so keep hands-off builds that merge
+(`team-lead-handsoff`) on Claude Code, Codex or omp. If a skill doesn't show up, check the Customizations
+panel or run `agy plugin list`, and re-run the script: Antigravity's folder layout has changed between
+releases.
+
 ### Updating
 
 **With auto-update on**, Claude Code checks this marketplace in the background a few minutes into a
@@ -124,8 +141,9 @@ claude plugin update game-sdlc-godot@game-ai-sdlc
 ```
 
 **To hear about new versions**, watch this repository on GitHub (*Watch → Custom → Releases*): every
-version gets a release, with what changed in [CHANGELOG.md](CHANGELOG.md). Codex users re-run
-`python scripts/install_codex.py` after updating their copy of the repository.
+version gets a release, with what changed in [CHANGELOG.md](CHANGELOG.md). Codex and Antigravity users
+re-run `python scripts/install_codex.py` or `python scripts/install_antigravity.py` after updating their
+copy of the repository.
 
 ---
 
@@ -343,6 +361,7 @@ Agents: `team-developer` and `adversarial-reviewer` (in `game-sdlc`); `setup-god
 plugins/game-sdlc/                the process plugin (skills/, agents/)
 plugins/game-sdlc-godot/          the Godot pack (setup-godot and its project-template/, godot-* skills)
 scripts/install_codex.py          copy the skills into Codex
+scripts/install_antigravity.py    copy the skills into Antigravity
 scripts/check_package.py          lint the package: manifests, frontmatter, links, leftovers
 scripts/test_template.py          instantiate the Godot template and run its hook tests
 scripts/tests/                    unit tests for the scripts
